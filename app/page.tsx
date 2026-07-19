@@ -28,7 +28,7 @@ const copy = {
     howTitle: "Fast when it can be. Honest when it can’t.",
     steps: [
       ["01", "Open a conversation", "Use ChatGPT, Claude, Gemini, Copilot or Perplexity as normal."],
-      ["02", "Check completeness", "Chat Exporter loads earlier messages and tells you whether the result is complete, partial or unverified."],
+      ["02", "Export now or verify", "Export loaded messages immediately, or ask Chat Exporter to load earlier messages and verify completeness."],
       ["03", "Download or copy", "Choose Markdown or plain text, include the details you need, then save locally."]
     ],
     controlTitle: "A small tool with serious controls",
@@ -95,10 +95,10 @@ const copy = {
     platforms: "מותאם לכלי ה-AI שכבר נמצאים בשימוש שלך",
     platformsBody: "חמש פלטפורמות נבדקות כאינטגרציות מלאות. Grok ו-Mistral נשארים מסומנים בבירור כבטא עד שיעברו את אותו שער איכות.",
     howEyebrow: "שלושה צעדים מדויקים",
-    howTitle: "מהיר כשאפשר. כן כשאי אפשר.",
+    howTitle: "מהיר כשאפשר. כנה כשאי אפשר.",
     steps: [
       ["01", "פותחים שיחה", "משתמשים ב-ChatGPT, Claude, Gemini, Copilot או Perplexity כרגיל."],
-      ["02", "בודקים שלמות", "התוסף טוען הודעות קודמות ומציין אם התוצאה מלאה, חלקית או לא מאומתת."],
+      ["02", "מייצאים או מאמתים", "מייצאים מיד את ההודעות שנטענו, או מבקשים מהתוסף לטעון הודעות קודמות ולבדוק שלמות."],
       ["03", "מורידים או מעתיקים", "בוחרים Markdown או טקסט, מסמנים את הפרטים הרצויים ושומרים מקומית."]
     ],
     controlTitle: "כלי קטן עם שליטה רצינית",

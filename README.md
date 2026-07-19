@@ -11,6 +11,7 @@ Version `1.0.0` is a release candidate, not yet published in a browser store.
 - Verified launch targets: ChatGPT, Claude, Gemini, Microsoft Copilot and Perplexity.
 - Beta targets: Grok and Mistral.
 - Export options: Markdown, plain text and copy to clipboard.
+- Scan options: instant export of loaded messages or an optional full-conversation completeness check.
 - Data handling: local only; no analytics, account, server or remote executable code.
 - Permissions: `activeTab`, `scripting`, `storage`.
 

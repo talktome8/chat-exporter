@@ -19,6 +19,7 @@ Run each verified platform in current stable Chrome, Microsoft Edge and Firefox 
 | Scenario | Chrome | Edge | Firefox |
 |---|---|---|---|
 | Short conversation | Pending | Pending | Pending |
+| Instant export of loaded messages | Pending | Pending | Pending |
 | Long conversation / earlier-message loading | Pending | Pending | Pending |
 | Complete status | Pending | Pending | Pending |
 | Partial status on timeout/block | Pending | Pending | Pending |

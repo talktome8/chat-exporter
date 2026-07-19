@@ -6,6 +6,8 @@
     result: document.getElementById("result-view"),
     empty: document.getElementById("empty-view"),
     progress: document.getElementById("progress-bar"),
+    loadingTitle: document.querySelector('[data-i18n="loadingTitle"]'),
+    loadingBody: document.querySelector('[data-i18n="loadingBody"]'),
     cancel: document.getElementById("cancel-button"),
     retry: document.getElementById("retry-button"),
     scan: document.getElementById("scan-button"),
@@ -100,10 +102,13 @@
     showEmpty("cancelled", "noConversationBody");
   }
 
-  async function scanConversation() {
+  async function scanConversation(mode = "quick") {
     const token = ++scanToken;
     extraction = null;
     showOnly("loading");
+    elements.loadingTitle.textContent = translate(mode === "full" ? "loadingTitle" : "quickLoadingTitle");
+    elements.loadingBody.textContent = translate(mode === "full" ? "loadingBody" : "quickLoadingBody");
+    elements.cancel.hidden = mode !== "full";
     startProgress();
 
     try {
@@ -111,6 +116,12 @@
       if (!activeTab?.id || !/^https?:/i.test(activeTab.url || "")) {
         throw new Error("access_error");
       }
+
+      await chrome.scripting.executeScript({
+        target: { tabId: activeTab.id },
+        func: (requestedMode) => { globalThis.__CHAT_EXPORTER_MODE__ = requestedMode; },
+        args: [mode]
+      });
 
       const injected = await chrome.scripting.executeScript({
         target: { tabId: activeTab.id },
@@ -161,10 +172,14 @@
 
     const warningKeys = [];
     if (result.warnings?.includes("partial")) warningKeys.push("partialWarning");
+    if (result.warnings?.includes("quick")) warningKeys.push("quickWarning");
     if (result.warnings?.includes("beta")) warningKeys.push("betaWarning");
     if (result.warnings?.includes("fallback")) warningKeys.push("fallbackWarning");
     elements.warning.textContent = warningKeys.map(translate).join(" ");
     elements.warning.hidden = warningKeys.length === 0;
+    elements.scan.textContent = result.scanMode === "quick" && completeness !== "complete"
+      ? translate("checkFull")
+      : translate("scanAgain");
   }
 
   function selectedFormat() {
@@ -228,11 +243,14 @@
     try { await chrome.storage.local.set({ language: next }); } catch { /* Preference remains session-only. */ }
   });
   elements.cancel.addEventListener("click", cancelActiveExtraction);
-  elements.retry.addEventListener("click", scanConversation);
-  elements.scan.addEventListener("click", scanConversation);
+  elements.retry.addEventListener("click", () => scanConversation("quick"));
+  elements.scan.addEventListener("click", () => {
+    const mode = extraction?.scanMode === "quick" && extraction?.completeness !== "complete" ? "full" : (extraction?.scanMode || "quick");
+    scanConversation(mode);
+  });
   elements.download.addEventListener("click", downloadExport);
   elements.copy.addEventListener("click", copyExport);
 
   await loadLanguage();
-  await scanConversation();
+  await scanConversation("quick");
 })();

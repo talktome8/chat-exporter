@@ -12,7 +12,7 @@ Export AI conversations to Markdown or text, locally in your browser.
 
 Chat Exporter helps you keep a clean local copy of an AI conversation without repetitive copy-paste.
 
-Open a supported conversation, click the extension, review its completeness status, choose the content and format, then download or copy the result.
+Open a supported conversation and click the extension to export the messages already loaded. When completeness matters, run the optional full-conversation check before downloading or copying the result.
 
 Verified launch support:
 
@@ -33,7 +33,8 @@ Features:
 - Copy to clipboard
 - Optional user/assistant message filters
 - Optional title, model, date and conversation URL
-- Controlled loading of earlier messages
+- Instant export of messages already loaded
+- Optional controlled loading of earlier messages
 - Complete, partial or unverified status instead of a silent completeness claim
 - English and Hebrew interface
 - Local processing with no account, analytics or remote executable code
@@ -54,8 +55,8 @@ Export the AI conversation in the active tab to a local text-based format.
 
 1. Open a conversation on one of the verified platforms.
 2. Click the toolbar icon.
-3. Wait while earlier messages are checked.
-4. Confirm that the popup reports Complete, Partial or Unverified.
+3. Confirm that the loaded messages appear immediately.
+4. When needed, select Check full conversation and confirm that the popup reports Complete, Partial or Unverified.
 5. Select Markdown or plain text and press Download, or press Copy.
 
 No login is implemented by the extension. Reviewers may use their own account on the supported AI service. The package makes no extension-originated network requests.

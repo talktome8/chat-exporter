@@ -6,6 +6,7 @@
   const FORWARD_STEP_LIMIT = 80;
   const STABLE_PASSES_REQUIRED = 3;
   const STEP_DELAY_MS = 260;
+  const extractionMode = globalThis.__CHAT_EXPORTER_MODE__ === "full" ? "full" : "quick";
 
   globalThis.__CHAT_EXPORTER_CANCEL__ = false;
 
@@ -174,8 +175,14 @@
 
     return tagged
       .filter(({ element }, index, list) => !list.some((other, otherIndex) => otherIndex !== index && other.element.contains(element)))
-      .map(({ role, element }) => ({ role, text: toMarkdown(element), element }))
+      .map(({ role, element }) => ({ role, text: normalizeMessageText(adapter, role, toMarkdown(element)), element }))
       .filter((message) => message.text.length > 0);
+  }
+
+  function normalizeMessageText(adapter, role, value) {
+    if (adapter.id !== "gemini") return value;
+    const label = role === "user" ? "You said" : "Gemini said";
+    return value.replace(new RegExp(`^${label}\\s*`, "i"), "").trim();
   }
 
   function safeHref(value) {
@@ -298,6 +305,14 @@
     const range = scrollRange(container);
     if (range < 32) return { messages: initial.map(stripElement), completeness: "complete", warnings: [] };
 
+    if (extractionMode === "quick") {
+      return {
+        messages: initial.map(stripElement),
+        completeness: "unknown",
+        warnings: ["quick"]
+      };
+    }
+
     const savedBottomDistance = range - getScrollTop(container);
     let stablePasses = 0;
     let previousKey = "";
@@ -399,6 +414,7 @@
       title: cleanTitle(document.title) || `${adapter.platform} conversation`,
       messages: extraction.messages,
       completeness: extraction.completeness,
+      scanMode: extractionMode,
       warnings: Array.from(new Set(warnings))
     };
   } catch (error) {
