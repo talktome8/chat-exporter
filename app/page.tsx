@@ -67,7 +67,7 @@ const copy = {
       ["Will every long conversation be complete?", "The extension tries to load earlier messages and reports a completeness status. If a platform prevents full loading, the export is marked partial instead of silently claiming success."],
       ["Which formats are supported?", "Version 1 supports Markdown, plain text and copy to clipboard. PDF and JSON are not advertised."],
       ["Why are Grok and Mistral marked beta?", "Their interfaces change frequently and have not yet passed the full three-browser release matrix."],
-      ["Where can I report a problem?", "Public issue tracking and the repository link will appear here when the source repository opens at launch."]
+      ["Where can I report a problem?", "Use the public GitHub Issues tracker for non-sensitive bugs. Security reports should use GitHub's private security advisory form."]
     ],
     ctaTitle: "A trustworthy export starts with a trustworthy release.",
     ctaBody: "Chrome, Edge and Firefox packages are being validated now. Store buttons will activate only after each reviewed listing is live.",
@@ -273,7 +273,7 @@ export default function Home() {
       <footer className="site-footer">
         <div className="shell footer-inner">
           <div className="site-brand"><Image src="/icon128.png" width={30} height={30} alt="" /><span><strong>Chat Exporter</strong><small>{t.by}</small></span></div>
-          <div className="footer-links"><Link href="/privacy">{t.privacyLink}</Link><Link href="/changelog">{t.changelog}</Link><a href="#faq">{t.support}</a></div>
+          <div className="footer-links"><Link href="/privacy">{t.privacyLink}</Link><Link href="/changelog">{t.changelog}</Link><a href="https://github.com/talktome8/chat-exporter/issues">{t.support}</a></div>
           <small>{t.version}</small>
         </div>
       </footer>

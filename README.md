@@ -2,6 +2,8 @@
 
 Chat Exporter is a local-first Manifest V3 browser extension for exporting AI conversations to Markdown or plain text. It is prepared for Chrome, Microsoft Edge and Firefox.
 
+[Report an issue](https://github.com/talktome8/chat-exporter/issues) · [View the source](https://github.com/talktome8/chat-exporter)
+
 ## Release status
 
 Version `1.0.0` is a release candidate, not yet published in a browser store.

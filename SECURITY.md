@@ -15,4 +15,4 @@ Security fixes are provided for the latest published version. Version `1.0.0` is
 
 ## Reporting
 
-Use the GitHub security advisory form after the public repository opens. Do not include private conversation content, credentials or access tokens in a public issue. Before launch, security reports remain part of the private release review.
+Report vulnerabilities privately through the repository's [Security advisories](https://github.com/talktome8/chat-exporter/security/advisories/new). Use [GitHub Issues](https://github.com/talktome8/chat-exporter/issues) only for non-sensitive bugs, and never include private conversation content, credentials or access tokens.

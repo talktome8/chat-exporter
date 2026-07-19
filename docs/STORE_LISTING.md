@@ -72,7 +72,5 @@ No login is implemented by the extension. Reviewers may use their own account on
 
 - Product: `https://raztom.com/chat-exporter`
 - Privacy: `https://raztom.com/chat-exporter/privacy`
-- Support: insert the public GitHub Issues or support URL after the repository opens.
-- Source: insert the public repository URL after it opens.
-
-Do not submit while either required URL is a placeholder.
+- Support: `https://github.com/talktome8/chat-exporter/issues`
+- Source: `https://github.com/talktome8/chat-exporter`

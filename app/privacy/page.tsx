@@ -25,7 +25,7 @@ export default function PrivacyPage() {
         <section><h2>Sharing, sale and advertising</h2><p>Because Chat Exporter does not receive user data, it does not sell, rent, share or use conversation data for advertising, profiling, credit decisions or purposes unrelated to the export feature.</p></section>
         <section><h2>Children and sensitive content</h2><p>The extension is a general productivity tool and is not directed to children. Users control which conversations they export and are responsible for handling exported files appropriately, especially when conversations contain confidential or sensitive information.</p></section>
         <section><h2>Changes</h2><p>Material changes will be documented in the public changelog and reflected in the effective date above. The store privacy disclosures will be updated at the same time.</p></section>
-        <section><h2>Contact and support</h2><p>The public repository, issue tracker and direct support link will be published on the product page when the extension launches. Until then, the release candidate is not distributed through a browser store.</p></section>
+        <section><h2>Contact and support</h2><p>Non-sensitive bugs can be reported through <a href="https://github.com/talktome8/chat-exporter/issues">GitHub Issues</a>. Security reports must use the repository&apos;s private <a href="https://github.com/talktome8/chat-exporter/security/advisories/new">Security advisory form</a>. The release candidate is not yet distributed through a browser store.</p></section>
 
         <hr />
         <div lang="he" dir="rtl" className="hebrew-policy">
