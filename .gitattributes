@@ -1,0 +1,5 @@
+extension/**/*.css text eol=lf
+extension/**/*.html text eol=lf
+extension/**/*.js text eol=lf
+extension/**/*.json text eol=lf
+extension/**/*.png -text
