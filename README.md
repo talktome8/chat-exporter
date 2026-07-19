@@ -56,6 +56,8 @@ npm run build
 
 `npm run check` runs the complete automated release gate.
 
+`npm run assets:store` regenerates the localized store screenshots and promotional tiles with Remotion.
+
 ## Privacy and security
 
 Read [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md). Conversation content is read only after a user click, processed locally, and never transmitted by the extension.

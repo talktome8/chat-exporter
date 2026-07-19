@@ -6,7 +6,7 @@
 - [ ] Edge manual matrix signed by Tom Raz.
 - [ ] Firefox installed and manual matrix signed by Tom Raz.
 - [ ] Second review confirms all automated and manual evidence.
-- [ ] Store screenshots are captured from the verified build, not a mockup.
+- [ ] Generated store screenshots are compared with the verified build and accurately reflect its behavior.
 - [ ] Chrome, Edge and Firefox store descriptions match actual behavior.
 
 ## Privacy and policy
@@ -27,9 +27,9 @@
 
 ## Publication order
 
-1. Publish GitHub repository and product/privacy pages.
+1. Publish the GitHub repository and its privacy document.
 2. Submit Chrome listing.
 3. Submit Microsoft Edge listing.
 4. Submit Firefox AMO listing and source/build instructions if requested.
 5. Replace Coming soon controls with live, browser-specific store links.
-6. Add the product card to the raztom.com portfolio.
+6. Optionally add the product card to the raztom.com portfolio after launch.

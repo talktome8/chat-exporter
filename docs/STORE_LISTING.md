@@ -69,9 +69,10 @@ No login is implemented by the extension. Reviewers may use their own account on
 - Data transmission: no extension-originated transmission.
 - Data storage: only the interface language preference is stored locally.
 
-## Required URLs before submission
+## Public URLs for submission
 
-- Product: `https://raztom.com/chat-exporter`
-- Privacy: `https://raztom.com/chat-exporter/privacy`
+- Homepage/source: `https://github.com/talktome8/chat-exporter`
+- Privacy: `https://github.com/talktome8/chat-exporter/blob/main/PRIVACY.md`
 - Support: `https://github.com/talktome8/chat-exporter/issues`
-- Source: `https://github.com/talktome8/chat-exporter`
+
+The personal portfolio is intentionally not required for the initial store submission. It can be added later without changing the extension package.
