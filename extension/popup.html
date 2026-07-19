@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chat Exporter by Tom Raz</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand-lockup">
+        <img src="icons/icon48.png" width="36" height="36" alt="" />
+        <div>
+          <div class="title-row">
+            <h1 data-i18n="title">Chat Exporter</h1>
+            <span class="byline" data-i18n="byline">by Tom Raz</span>
+          </div>
+          <p data-i18n="subtitle">Private, local conversation export</p>
+        </div>
+      </div>
+      <button class="lang-button" id="lang-button" type="button" aria-label="Switch language">עב</button>
+    </header>
+
+    <main>
+      <section class="loading-view" id="loading-view" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <h2 data-i18n="loadingTitle">Preparing this conversation</h2>
+        <p data-i18n="loadingBody">Loading earlier messages and checking completeness…</p>
+        <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+        <button class="text-button" id="cancel-button" type="button" data-i18n="cancel">Cancel</button>
+      </section>
+
+      <section class="result-view" id="result-view" hidden>
+        <div class="conversation-summary">
+          <div>
+            <div class="summary-eyebrow"><span id="platform-name">AI chat</span><span id="beta-badge" class="beta-badge" hidden data-i18n="beta">Beta</span></div>
+            <strong id="conversation-title">Conversation</strong>
+            <span id="model-name" class="model-name"></span>
+          </div>
+          <span id="completeness-badge" class="completeness-badge unknown">Unverified</span>
+        </div>
+
+        <div id="warning" class="warning" role="status" hidden></div>
+
+        <fieldset>
+          <legend data-i18n="content">Content</legend>
+          <label class="option-row" for="include-user">
+            <span><input id="include-user" type="checkbox" checked /><span data-i18n="userMessages">User messages</span></span>
+            <span id="user-count" class="count-pill">0</span>
+          </label>
+          <label class="option-row" for="include-assistant">
+            <span><input id="include-assistant" type="checkbox" checked /><span data-i18n="aiMessages">AI responses</span></span>
+            <span id="assistant-count" class="count-pill">0</span>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="metadata">Metadata</legend>
+          <label class="option-row" for="include-meta">
+            <span><input id="include-meta" type="checkbox" checked /><span data-i18n="titleModelDate">Title, model &amp; date</span></span>
+          </label>
+          <label class="option-row" for="include-url">
+            <span><input id="include-url" type="checkbox" /><span data-i18n="conversationUrl">Conversation URL</span></span>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="format">Format</legend>
+          <div class="segmented-control">
+            <label><input type="radio" name="format" value="md" checked /><span data-i18n="markdown">Markdown (.md)</span></label>
+            <label><input type="radio" name="format" value="txt" /><span data-i18n="plainText">Plain text (.txt)</span></label>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button class="primary-button" id="download-button" type="button" data-i18n="download">Download</button>
+          <button class="secondary-button" id="copy-button" type="button" data-i18n="copy">Copy</button>
+        </div>
+        <button class="text-button scan-button" id="scan-button" type="button" data-i18n="scanAgain">Scan again</button>
+      </section>
+
+      <section class="empty-view" id="empty-view" hidden>
+        <div class="empty-icon" aria-hidden="true">!</div>
+        <h2 id="empty-title" data-i18n="noConversation">No supported conversation detected</h2>
+        <p id="empty-body" data-i18n="noConversationBody">Open a supported AI conversation and try again.</p>
+        <button class="secondary-button" id="retry-button" type="button" data-i18n="scanAgain">Scan again</button>
+      </section>
+    </main>
+
+    <footer>
+      <span class="privacy-dot" aria-hidden="true"></span>
+      <span data-i18n="locallyProcessed">Processed locally. Nothing is sent to Tom Raz.</span>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="src/i18n.js"></script>
+    <script src="src/format.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

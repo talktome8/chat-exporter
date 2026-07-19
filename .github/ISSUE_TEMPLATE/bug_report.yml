@@ -1,0 +1,39 @@
+name: Bug report
+description: Report an export or compatibility problem without sharing private chat content.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: dropdown
+    id: platform
+    attributes:
+      label: AI platform
+      options: [ChatGPT, Claude, Gemini, Copilot, Perplexity, Grok (Beta), Mistral (Beta), Other]
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options: [Chrome, Microsoft Edge, Firefox]
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Browser and extension versions
+      placeholder: "Edge 150, Chat Exporter 1.0.0"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Do not paste private conversation text, credentials or tokens.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true

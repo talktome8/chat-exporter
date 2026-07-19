@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "Chat Exporter by Tom Raz"
+  },
+  "extensionDescription": {
+    "message": "Export loaded AI conversations to Markdown or plain text, locally in your browser."
+  },
+  "actionTitle": {
+    "message": "Export this AI conversation"
+  }
+}

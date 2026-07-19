@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "Chat Exporter by Tom Raz"
+  },
+  "extensionDescription": {
+    "message": "ייצוא שיחות AI שנטענו ל-Markdown או לטקסט, באופן מקומי בדפדפן."
+  },
+  "actionTitle": {
+    "message": "ייצוא שיחת ה-AI הנוכחית"
+  }
+}

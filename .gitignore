@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.next/
+.vinext/
+.wrangler/
+.env
+.env.*
+!.env.example
+archive/
+*.log
+*.pem
+*.crx
+*.xpi
+coverage/
