@@ -22,6 +22,14 @@ test("ships every declared icon and locale", async () => {
   await access(new URL("_locales/he/messages.json", root));
 });
 
+test("uses clear completeness and recovery language", async () => {
+  const copy = await readFile(new URL("src/i18n.js", root), "utf8");
+  assert.match(copy, /loaded: "Loaded"/);
+  assert.match(copy, /Verify full conversation/);
+  assert.match(copy, /Open a supported chat to export it/);
+  assert.doesNotMatch(copy, /Unverified/);
+});
+
 test("contains no remote code or dangerous evaluation primitives", async () => {
   const files = ["popup.html", "popup.js", "src/extractor.js", "src/format.js", "src/i18n.js"];
   const source = (await Promise.all(files.map((file) => readFile(new URL(file, root), "utf8")))).join("\n");

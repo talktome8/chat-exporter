@@ -27,6 +27,6 @@
 ## Residual risks
 
 - AI sites can change their DOM without notice and break or degrade extraction.
-- Virtualized conversations may prevent a provably complete export; the extension reports Partial/Unverified.
+- Virtualized conversations may prevent a provably complete export; the extension reports Partial or Loaded with a clear verification option.
 - A user can open an exported Markdown link that originated in conversation content.
 - A compromised AI page can influence the content being exported, but cannot obtain broader extension permissions through the extractor.

@@ -99,7 +99,7 @@
         // Restricted pages cannot receive the cancellation flag.
       }
     }
-    showEmpty("cancelled", "noConversationBody");
+    showEmpty("cancelled", "cancelledBody");
   }
 
   async function scanConversation(mode = "quick") {
@@ -132,9 +132,9 @@
       finishProgress();
       const result = injected?.[0]?.result;
       if (!result?.ok) {
-        if (result?.code === "cancelled") showEmpty("cancelled", "noConversationBody");
+        if (result?.code === "cancelled") showEmpty("cancelled", "cancelledBody");
         else if (result?.code === "unsupported") showEmpty("noConversation", "noConversationBody");
-        else showEmpty("genericError", "noConversationBody");
+        else showEmpty("genericError", "genericErrorBody");
         return;
       }
 
@@ -145,7 +145,7 @@
       if (token !== scanToken) return;
       finishProgress();
       const restricted = error?.message === "access_error" || /cannot access|permission|chrome:\/\/|edge:\/\//i.test(String(error?.message));
-      showEmpty(restricted ? "accessError" : "genericError", "noConversationBody");
+      showEmpty(restricted ? "accessError" : "genericError", restricted ? "accessErrorBody" : "genericErrorBody");
     }
   }
 
@@ -163,8 +163,9 @@
     elements.beta.hidden = result.supportStatus !== "beta";
 
     const completeness = ["complete", "partial"].includes(result.completeness) ? result.completeness : "unknown";
-    elements.completeness.className = `completeness-badge ${completeness}`;
-    elements.completeness.textContent = translate(completeness);
+    const badgeState = completeness === "unknown" ? "loaded" : completeness;
+    elements.completeness.className = `completeness-badge ${badgeState}`;
+    elements.completeness.textContent = translate(badgeState);
 
     const messages = result.messages || [];
     elements.userCount.textContent = String(messages.filter((message) => message.role === "user").length);

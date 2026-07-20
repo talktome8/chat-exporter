@@ -23,10 +23,22 @@ mkdirSync(path.join(root, 'store-assets', 'he'), {recursive: true});
 const serveUrl = await bundle({entryPoint: entry});
 const compositions = await getCompositions(serveUrl);
 
+async function renderWithRetry(options) {
+  for (let attempt = 1; attempt <= 5; attempt += 1) {
+    try {
+      await renderStill(options);
+      return;
+    } catch (error) {
+      if (attempt === 5 || error?.code !== 'UNKNOWN') throw error;
+      await new Promise((resolve) => setTimeout(resolve, attempt * 750));
+    }
+  }
+}
+
 for (const [composition, output] of jobs) {
   const selected = compositions.find(({id}) => id === composition);
   if (!selected) throw new Error(`Missing Remotion composition: ${composition}`);
-  await renderStill({
+  await renderWithRetry({
     composition: selected,
     serveUrl,
     output: path.join(root, output),
@@ -34,3 +46,5 @@ for (const [composition, output] of jobs) {
   });
   console.log(`Rendered ${output}`);
 }
+
+process.exit(0);

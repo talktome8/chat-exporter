@@ -6,6 +6,7 @@
 - Added beta adapters for Grok and Mistral.
 - Added controlled long-conversation loading, cancellation and completeness reporting.
 - Added instant export for loaded messages with an optional full-conversation check.
+- Refined the popup language: loaded-message state, full-conversation verification and clearer recovery guidance.
 - Removed redundant Gemini speaker labels from exported text.
 - Reduced permissions to `activeTab`, `scripting` and `storage`.
 - Removed `<all_urls>`, web-accessible extractor resources and the downloads permission.

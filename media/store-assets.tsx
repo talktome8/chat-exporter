@@ -82,15 +82,15 @@ const Popup = ({locale, slide}: {locale: Locale; slide: Slide}) => {
     <div dir={rtl ? 'rtl' : 'ltr'} style={{position: 'absolute', width: 430, right: 28, top: 22, bottom: 22, borderRadius: 18, background: '#fff', boxShadow: '0 16px 45px #14213d33', overflow: 'hidden', fontFamily: font}}>
       <div style={{height: 70, display: 'flex', alignItems: 'center', gap: 12, padding: '0 19px', borderBottom: '1px solid #e5eaf1'}}>
         <Icon size={43} />
-        <div><div style={{fontWeight: 800, fontSize: 18, color: '#101828'}}>Chat Exporter <span style={{fontSize: 11, fontWeight: 500, color: '#667085'}}>by Tom Raz</span></div><div style={{fontSize: 12, color: '#667085', marginTop: 3}}>{t('Private, local conversation export', 'ייצוא שיחות פרטי ומקומי')}</div></div>
+        <div><div style={{fontWeight: 800, fontSize: 18, color: '#101828'}}>Chat Exporter <span style={{fontSize: 11, fontWeight: 500, color: '#667085'}}>by Tom Raz</span></div><div style={{fontSize: 12, color: '#667085', marginTop: 3}}>{t('Private, local AI chat export', 'ייצוא שיחות AI פרטי ומקומי')}</div></div>
       </div>
       <div style={{padding: 20}}>
         {slide === 1 && <>
-          <div style={{color: colors.green, fontSize: 13, fontWeight: 800, marginBottom: 7}}>● {t('READY TO EXPORT', 'מוכן לייצוא')}</div>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#667085', fontSize: 12, fontWeight: 800, marginBottom: 7}}><span>{t('CHATGPT', 'CHATGPT')}</span><span style={{padding: '3px 8px', borderRadius: 99, background: '#eef1f5', color: '#475467'}}>{t('Loaded', 'נטען')}</span></div>
           <h3 style={{margin: '0 0 4px', fontSize: 22, color: '#101828'}}>{t('24 messages found', 'נמצאו 24 הודעות')}</h3>
-          <p style={{margin: '0 0 18px', color: '#667085', fontSize: 13}}>{t('Loaded instantly · completeness unverified', 'נטען מיידית · השלמות טרם אומתה')}</p>
+          <p style={{margin: '0 0 18px', color: '#667085', fontSize: 13}}>{t('Messages already loaded · verify when needed', 'הודעות שכבר נטענו · אפשר לאמת לפי הצורך')}</p>
           <button style={button}>{rtl ? <span>ייצוא כקובץ <bdi>Markdown</bdi></span> : 'Export Markdown'}</button>
-          <button style={secondaryButton}>{t('Check full conversation', 'בדיקת השיחה המלאה')}</button>
+          <button style={secondaryButton}>{t('Verify full conversation', 'אימות השיחה המלאה')}</button>
         </>}
         {slide === 2 && <>
           <h3 style={popupTitle}>{t('Choose an export format', 'בחירת פורמט לייצוא')}</h3>
@@ -109,7 +109,7 @@ const Popup = ({locale, slide}: {locale: Locale; slide: Slide}) => {
           <button style={{...button, marginTop: 14}}>{rtl ? <span>ייצוא כקובץ <bdi>Markdown</bdi></span> : 'Export Markdown'}</button>
         </>}
         {slide === 4 && <>
-          <h3 style={popupTitle}>{t('Processed locally', 'העיבוד מתבצע מקומית')}</h3>
+          <h3 style={popupTitle}>{t('Processed on this device', 'העיבוד מתבצע במכשיר זה')}</h3>
           {[t('No account required', 'ללא צורך בחשבון'), t('No analytics or tracking', 'ללא אנליטיקה או מעקב'), t('No conversation uploads', 'ללא העלאת שיחות'), t('No remote code', 'ללא קוד מרוחק')].map((item) => (
             <div key={item} style={{display: 'flex', alignItems: 'center', gap: 11, padding: '12px 0', borderBottom: '1px solid #edf0f5', color: '#263247', fontSize: 15}}><span style={{color: colors.green, fontWeight: 900}}>✓</span>{item}</div>
           ))}
@@ -124,7 +124,7 @@ const Popup = ({locale, slide}: {locale: Locale; slide: Slide}) => {
           <p style={{fontSize: 12, color: '#7b8798', lineHeight: 1.5, marginTop: 18}}>{t('A clearly marked fallback handles other pages when possible.', 'מנגנון חלופי מסומן מטפל בעמודים נוספים כאשר הדבר אפשרי.')}</p>
         </>}
       </div>
-      <div style={{position: 'absolute', bottom: 0, left: 0, right: 0, height: 42, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc', borderTop: '1px solid #edf0f5', color: '#667085', fontSize: 11}}>● <span style={{color: colors.green, marginInlineStart: 5}}>{t('Local processing only', 'עיבוד מקומי בלבד')}</span></div>
+      <div style={{position: 'absolute', bottom: 0, left: 0, right: 0, height: 42, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc', borderTop: '1px solid #edf0f5', color: '#667085', fontSize: 11}}>● <span style={{color: colors.green, marginInlineStart: 5}}>{t('Processed on this device', 'העיבוד מתבצע במכשיר זה')}</span></div>
     </div>
   );
 };

@@ -15,7 +15,7 @@
             <h1 data-i18n="title">Chat Exporter</h1>
             <span class="byline" data-i18n="byline">by Tom Raz</span>
           </div>
-          <p data-i18n="subtitle">Private, local conversation export</p>
+          <p data-i18n="subtitle">Private, local AI chat export</p>
         </div>
       </div>
       <button class="lang-button" id="lang-button" type="button" aria-label="Switch language">עב</button>
@@ -37,7 +37,7 @@
             <strong id="conversation-title">Conversation</strong>
             <span id="model-name" class="model-name"></span>
           </div>
-          <span id="completeness-badge" class="completeness-badge unknown">Unverified</span>
+          <span id="completeness-badge" class="completeness-badge loaded">Loaded</span>
         </div>
 
         <div id="warning" class="warning" role="status" hidden></div>
@@ -81,15 +81,15 @@
 
       <section class="empty-view" id="empty-view" hidden>
         <div class="empty-icon" aria-hidden="true">!</div>
-        <h2 id="empty-title" data-i18n="noConversation">No supported conversation detected</h2>
-        <p id="empty-body" data-i18n="noConversationBody">Open a supported AI conversation and try again.</p>
-        <button class="secondary-button" id="retry-button" type="button" data-i18n="scanAgain">Scan again</button>
+        <h2 id="empty-title" data-i18n="noConversation">Open a supported chat to export it</h2>
+        <p id="empty-body" data-i18n="noConversationBody">Supported here: ChatGPT, Claude, Gemini, Copilot and Perplexity.</p>
+        <button class="secondary-button" id="retry-button" type="button" data-i18n="tryAgain">Try again</button>
       </section>
     </main>
 
     <footer>
       <span class="privacy-dot" aria-hidden="true"></span>
-      <span data-i18n="locallyProcessed">Processed locally. Nothing is sent to Tom Raz.</span>
+      <span data-i18n="locallyProcessed">Processed on this device. Nothing is sent to Tom Raz.</span>
     </footer>
     <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 

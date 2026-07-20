@@ -32,7 +32,7 @@ AMO does not impose a practical screenshot-count limit, but each image should de
 
 1. Instant export of already-loaded messages.
 2. Markdown, plain-text and clipboard formats.
-3. Optional full-conversation completeness check.
+3. Optional full-conversation verification.
 4. Local-only privacy model.
 5. Official and beta platform support.
 
