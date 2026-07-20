@@ -6,13 +6,12 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "dev": "vinext dev",
-    "build": "vinext build",
-    "start": "vinext start",
+    "dev": "next dev",
+    "build": "next build",
     "test": "node --test tests/manifest.test.mjs tests/format.test.mjs tests/extractor.test.mjs",
     "test:site": "npm run build && node --test tests/rendered-html.test.mjs",
     "test:rendered": "node --test tests/rendered-html.test.mjs",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern extension",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern out --ignore-pattern extension",
     "extension:lint": "web-ext lint --source-dir extension --warnings-as-errors",
     "extension:package": "node scripts/package-extension.mjs",
     "extension:verify": "node scripts/verify-package.mjs",
@@ -25,30 +24,20 @@
     "react-dom": "19.2.6"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.37.1",
     "@remotion/bundler": "4.0.494",
     "@remotion/cli": "4.0.494",
     "@remotion/renderer": "4.0.494",
-    "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "@vitejs/plugin-react": "6.0.2",
-    "@vitejs/plugin-rsc": "0.5.26",
     "adm-zip": "^0.6.0",
     "archiver": "^8.0.0",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.10",
     "happy-dom": "^20.11.0",
-    "react-server-dom-webpack": "19.2.6",
     "remotion": "4.0.494",
-    "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
-    "vinext": "0.0.50",
-    "vite": "8.0.13",
-    "web-ext": "^10.5.0",
-    "wrangler": "4.92.0",
-    "zod": "4.3.6"
+    "web-ext": "^10.5.0"
   },
   "overrides": {
     "postcss": "8.5.20"

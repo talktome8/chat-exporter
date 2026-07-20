@@ -8,7 +8,9 @@ Record browser, browser version, AI platform version/date, tester, result and ev
 |---|---|---|
 | Automated release gate | Pass | `docs/QA_EVIDENCE.md` |
 | Firefox temporary installation | Pass | `web-ext run`, 2026-07-20 |
-| Firefox live platform matrix | Waiting for test-account sign-in | No personal conversations used |
+| Firefox ChatGPT short conversation | Pass | Anonymous test; Markdown, TXT, Copy, filters, metadata and RTL confirmed |
+| Firefox Grok short conversation | Pass | Anonymous test; Complete status and clipboard copy confirmed, 2026-07-21 |
+| Remaining live matrix | Pending | No personal conversations used |
 
 ## Automated gate
 
@@ -41,7 +43,7 @@ Run each verified platform in current stable Chrome, Microsoft Edge and Firefox 
 | Restricted browser page | Pending | Pending | Pending |
 | Empty/unsupported page | Pending | Pending | Pending |
 
-Repeat the same matrix for ChatGPT, Claude, Gemini, Copilot and Perplexity. Grok and Mistral require smoke tests but remain Beta until all rows pass. Record live testing only with anonymous test conversations.
+Repeat the same matrix for ChatGPT, Claude, Gemini, Copilot and Perplexity. Grok and Mistral must pass every row before they are included in public support claims. Record live testing only with anonymous test conversations.
 
 ## Content fixtures
 

@@ -21,9 +21,8 @@ const copy = {
     reviewCode: "Open-source at launch",
     privacyNote: "Your conversation stays on your device.",
     coreLabel: "Verified launch support",
-    betaLabel: "Beta support",
     platforms: "Built for the AI tools you already use",
-    platformsBody: "Five platforms are tested as first-class integrations. Grok and Mistral remain clearly marked beta until they pass the same release gate.",
+    platformsBody: "Five platforms are tested as first-class integrations, with clear release criteria for every supported service.",
     howEyebrow: "Three deliberate steps",
     howTitle: "Fast when it can be. Honest when it can’t.",
     steps: [
@@ -66,7 +65,6 @@ const copy = {
       ["Does it send my chats anywhere?", "No. Conversation extraction and file creation happen locally in your browser. The extension contains no analytics or network client."],
       ["Will every long conversation be complete?", "The extension tries to load earlier messages and reports a completeness status. If a platform prevents full loading, the export is marked partial instead of silently claiming success."],
       ["Which formats are supported?", "Version 1 supports Markdown, plain text and copy to clipboard. PDF and JSON are not advertised."],
-      ["Why are Grok and Mistral marked beta?", "Their interfaces change frequently and have not yet passed the full three-browser release matrix."],
       ["Where can I report a problem?", "Use the public GitHub Issues tracker for non-sensitive bugs. Security reports should use GitHub's private security advisory form."]
     ],
     ctaTitle: "A trustworthy export starts with a trustworthy release.",
@@ -91,9 +89,8 @@ const copy = {
     reviewCode: "קוד פתוח בעת ההשקה",
     privacyNote: "השיחה נשארת במכשיר שלך.",
     coreLabel: "תמיכה מאומתת בהשקה",
-    betaLabel: "תמיכת בטא",
     platforms: "מותאם לכלי ה-AI שכבר נמצאים בשימוש שלך",
-    platformsBody: "חמש פלטפורמות נבדקות כאינטגרציות מלאות. Grok ו-Mistral נשארים מסומנים בבירור כבטא עד שיעברו את אותו שער איכות.",
+    platformsBody: "חמש פלטפורמות נבדקות כאינטגרציות מלאות, עם שער איכות ברור לכל שירות נתמך.",
     howEyebrow: "שלושה צעדים מדויקים",
     howTitle: "מהיר כשאפשר. כנה כשאי אפשר.",
     steps: [
@@ -136,7 +133,6 @@ const copy = {
       ["האם השיחות נשלחות למקום כלשהו?", "לא. החילוץ ויצירת הקובץ מתבצעים מקומית בדפדפן. אין בתוסף אנליטיקה או לקוח רשת."],
       ["האם כל שיחה ארוכה תיוצא במלואה?", "התוסף מנסה לטעון הודעות קודמות ומדווח על מצב השלמות. אם הפלטפורמה מונעת טעינה מלאה, הייצוא יסומן כחלקי."],
       ["אילו פורמטים נתמכים?", "גרסה 1 תומכת ב-Markdown, טקסט פשוט והעתקה ללוח. PDF ו-JSON אינם מפורסמים."],
-      ["מדוע Grok ו-Mistral מסומנים כבטא?", "הממשקים שלהם משתנים לעיתים קרובות והם טרם עברו את מטריצת הבדיקות המלאה בשלושת הדפדפנים."],
       ["היכן מדווחים על בעיה?", "קישור למאגר ולמעקב תקלות ציבורי יופיע כאן כשהמאגר ייפתח בעת ההשקה."]
     ],
     ctaTitle: "ייצוא אמין מתחיל בהשקה אמינה.",
@@ -215,7 +211,6 @@ export default function Home() {
             <div className="platform-heading"><div><p className="section-kicker">{t.coreLabel}</p><h2>{t.platforms}</h2></div><p>{t.platformsBody}</p></div>
             <div className="platform-grid">
               {["ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity"].map((name) => <div className="platform-card verified" key={name}><span>{name.slice(0, 1)}</span><strong>{name}</strong><small>Verified</small></div>)}
-              {["Grok", "Mistral"].map((name) => <div className="platform-card beta" key={name}><span>{name.slice(0, 1)}</span><strong>{name}</strong><small>{t.betaLabel}</small></div>)}
             </div>
           </div>
         </section>

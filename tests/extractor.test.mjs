@@ -9,7 +9,9 @@ const cases = [
   ["claude", "https://claude.ai/chat/test", "Claude"],
   ["gemini", "https://gemini.google.com/app/test", "Gemini"],
   ["copilot", "https://copilot.microsoft.com/chats/test", "Copilot"],
-  ["perplexity", "https://www.perplexity.ai/search/test", "Perplexity"]
+  ["perplexity", "https://www.perplexity.ai/search/test", "Perplexity"],
+  ["grok", "https://grok.com/c/test", "Grok"],
+  ["mistral", "https://chat.mistral.ai/chat/test", "Mistral"]
 ];
 
 async function extractFixture(name, url, mode = "quick") {
@@ -28,13 +30,22 @@ for (const [name, url, platform] of cases) {
     const result = await extractFixture(name, url);
     assert.equal(result.ok, true);
     assert.equal(result.platform, platform);
-    assert.equal(result.supportStatus, "supported");
+    assert.equal(result.supportStatus, ["Grok", "Mistral"].includes(platform) ? "beta" : "supported");
     assert.equal(result.completeness, "complete");
     assert.equal(result.scanMode, "quick");
     assert.equal(result.messages.length, 2);
     assert.deepEqual(Array.from(result.messages, (message) => String(message.role)), ["user", "assistant"]);
   });
 }
+
+test("marks beta adapters for manual review without changing message order", async () => {
+  const result = await extractFixture("grok", "https://grok.com/c/test");
+  assert.deepEqual(Array.from(result.messages, (message) => [String(message.role), String(message.text)]), [
+    ["user", "Export this Grok test."],
+    ["assistant", "The export stays local."]
+  ]);
+  assert.deepEqual(Array.from(result.warnings, String), ["beta"]);
+});
 
 test("preserves code and tables while removing unsafe link protocols", async () => {
   const result = await extractFixture("chatgpt", "https://chatgpt.com/c/test");

@@ -2,6 +2,8 @@
 
 Chat Exporter is a local-first Manifest V3 browser extension for exporting AI conversations to Markdown or plain text. It is prepared for Chrome, Microsoft Edge and Firefox.
 
+![Chat Exporter product preview](store-assets/promo-marquee-1400x560.png)
+
 [Report an issue](https://github.com/talktome8/chat-exporter/issues) · [View the source](https://github.com/talktome8/chat-exporter)
 
 ## Release status
@@ -9,7 +11,6 @@ Chat Exporter is a local-first Manifest V3 browser extension for exporting AI co
 Version `1.0.0` is a release candidate, not yet published in a browser store.
 
 - Verified launch targets: ChatGPT, Claude, Gemini, Microsoft Copilot and Perplexity.
-- Beta targets: Grok and Mistral.
 - Export options: Markdown, plain text and copy to clipboard.
 - Scan options: instant export of loaded messages or optional full-conversation verification.
 - Data handling: local only; no analytics, account, server or remote executable code.
@@ -18,9 +19,9 @@ Version `1.0.0` is a release candidate, not yet published in a browser store.
 ## Repository layout
 
 - `extension/` — store-ready extension source.
-- `app/` — bilingual product and privacy website.
+- `app/` — bilingual static product and privacy website.
 - `docs/` — review notes, store copy, test matrix and release checklist.
-- `scripts/` — deterministic icon and package generation plus package verification.
+- `scripts/` — deterministic asset and package generation plus package verification.
 - `tests/` — manifest, formatter, extractor and rendered-site checks.
 - `archive/` — ignored local backup of the original prototype.
 

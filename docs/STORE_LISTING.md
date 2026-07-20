@@ -22,11 +22,6 @@ Verified launch support:
 - Microsoft Copilot
 - Perplexity
 
-Beta support:
-
-- Grok
-- Mistral
-
 Features:
 
 - Markdown and plain-text export
@@ -75,4 +70,4 @@ No login is implemented by the extension. Reviewers may use their own account on
 - Privacy: `https://github.com/talktome8/chat-exporter/blob/main/PRIVACY.md`
 - Support: `https://github.com/talktome8/chat-exporter/issues`
 
-The personal portfolio is intentionally not required for the initial store submission. It can be added later without changing the extension package.
+No personal portfolio, advertising, donation or sponsorship link is included in the initial store submission.

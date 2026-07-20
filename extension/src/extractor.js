@@ -57,16 +57,32 @@
       platform: "Grok",
       hosts: ["grok.com", "x.ai"],
       status: "beta",
-      user: ['[data-message-author-role="user"]', '[data-role="user"]'],
-      assistant: ['[data-message-author-role="assistant"]', '[data-role="assistant"]']
+      user: [
+        '[data-testid="conversation-turn-user"]', '[data-testid="user-message"]',
+        '[data-testid*="user-message"]', '[data-message-author-role="user"]',
+        '[data-role="user"]', '[class*="user-message"]', '[class*="userMessage"]'
+      ],
+      assistant: [
+        '[data-testid="conversation-turn-assistant"]', '[data-testid="assistant-message"]',
+        '[data-testid*="assistant-message"]', '[data-message-author-role="assistant"]',
+        '[data-role="assistant"]', '[class*="assistant-message"]', '[class*="assistantMessage"]'
+      ]
     },
     {
       id: "mistral",
       platform: "Mistral",
       hosts: ["chat.mistral.ai"],
       status: "beta",
-      user: ['[class*="UserMessage"]', '[data-role="user"]'],
-      assistant: ['[class*="AssistantMessage"]', '[data-role="assistant"]']
+      user: [
+        '[data-testid="conversation-turn-user"]', '[data-testid="user-message"]',
+        '[data-testid*="user-message"]', '[class*="UserMessage"]',
+        '[class*="user-message"]', '[data-role="user"]'
+      ],
+      assistant: [
+        '[data-testid="conversation-turn-assistant"]', '[data-testid="assistant-message"]',
+        '[data-testid*="assistant-message"]', '[class*="AssistantMessage"]',
+        '[class*="assistant-message"]', '[data-role="assistant"]'
+      ]
     }
   ];
 

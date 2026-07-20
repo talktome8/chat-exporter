@@ -32,4 +32,3 @@
 3. Submit Microsoft Edge listing.
 4. Submit Firefox AMO listing and source/build instructions if requested.
 5. Replace Coming soon controls with live, browser-specific store links.
-6. Optionally add the product card to the raztom.com portfolio after launch.

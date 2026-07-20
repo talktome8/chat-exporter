@@ -3,7 +3,6 @@
 ## 1.0.0 — Release candidate
 
 - Added verified adapters for ChatGPT, Claude, Gemini, Copilot and Perplexity.
-- Added beta adapters for Grok and Mistral.
 - Added controlled long-conversation loading, cancellation and completeness reporting.
 - Added instant export for loaded messages with an optional full-conversation check.
 - Refined the popup language: loaded-message state, full-conversation verification and clearer recovery guidance.

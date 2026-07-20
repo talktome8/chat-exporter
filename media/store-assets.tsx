@@ -119,9 +119,8 @@ const Popup = ({locale, slide}: {locale: Locale; slide: Slide}) => {
           <h3 style={popupTitle}>{t('Supported platforms', 'פלטפורמות נתמכות')}</h3>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10}}>
             {['ChatGPT', 'Claude', 'Gemini', 'Copilot', 'Perplexity'].map((name) => <div key={name} style={{padding: '15px 10px', borderRadius: 12, background: '#f5f8fc', color: '#1c2940', fontWeight: 750, textAlign: 'center', border: '1px solid #e1e8f2'}}>{name}</div>)}
-            <div style={{padding: '15px 10px', borderRadius: 12, background: '#fff8e8', color: '#8b6210', fontWeight: 750, textAlign: 'center', border: '1px solid #f4dfa9'}}>{t('Grok + Mistral · Beta', 'Grok + Mistral · בטא')}</div>
           </div>
-          <p style={{fontSize: 12, color: '#7b8798', lineHeight: 1.5, marginTop: 18}}>{t('A clearly marked fallback handles other pages when possible.', 'מנגנון חלופי מסומן מטפל בעמודים נוספים כאשר הדבר אפשרי.')}</p>
+          <p style={{fontSize: 12, color: '#7b8798', lineHeight: 1.5, marginTop: 18}}>{t('If a page cannot be read, Chat Exporter tells you before you export.', 'אם לא ניתן לקרוא עמוד, Chat Exporter מציג זאת לפני הייצוא.')}</p>
         </>}
       </div>
       <div style={{position: 'absolute', bottom: 0, left: 0, right: 0, height: 42, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc', borderTop: '1px solid #edf0f5', color: '#667085', fontSize: 11}}>● <span style={{color: colors.green, marginInlineStart: 5}}>{t('Processed on this device', 'העיבוד מתבצע במכשיר זה')}</span></div>
