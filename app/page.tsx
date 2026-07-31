@@ -6,19 +6,25 @@ import Image from "next/image";
 
 type Language = "en" | "he";
 
+const stores = {
+  chrome: "https://chromewebstore.google.com/detail/chat-exporter-by-tom-raz/ljgpghdicijmjojfnhmpefjpipfakoen",
+  edge: "https://microsoftedge.microsoft.com/addons/detail/chat-exporter-by-tom-raz/nmmpfdnapkfklcbfgcmkahcjcclophhk",
+  firefox: "https://addons.mozilla.org/he/firefox/addon/chat-exporter-by-tom-raz/"
+} as const;
+
 const copy = {
   en: {
     skip: "Skip to content",
     navHow: "How it works",
     navSupport: "Compatibility",
     navPrivacy: "Privacy",
-    navStatus: "Store release pending",
+    navStatus: "Available now",
     eyebrow: "Local-first browser extension",
     headlineA: "Keep the conversation.",
     headlineB: "Lose the copy-paste.",
     hero: "Export AI conversations to clean Markdown or plain text—directly in your browser, with no account, analytics, or upload to our servers.",
-    comingSoon: "Coming soon to browser stores",
-    reviewCode: "Open-source at launch",
+    comingSoon: "Install from a browser store",
+    reviewCode: "View the source on GitHub",
     privacyNote: "Your conversation stays on your device.",
     coreLabel: "Verified launch support",
     platforms: "Built for the AI tools you already use",
@@ -67,8 +73,8 @@ const copy = {
       ["Which formats are supported?", "Version 1 supports Markdown, plain text and copy to clipboard. PDF and JSON are not advertised."],
       ["Where can I report a problem?", "Use the public GitHub Issues tracker for non-sensitive bugs. Security reports should use GitHub's private security advisory form."]
     ],
-    ctaTitle: "A trustworthy export starts with a trustworthy release.",
-    ctaBody: "Chrome, Edge and Firefox packages are being validated now. Store buttons will activate only after each reviewed listing is live.",
+    ctaTitle: "Available now for Chrome, Edge and Firefox.",
+    ctaBody: "Choose your browser to install Chat Exporter from its official store listing.",
     by: "Built and maintained by Tom Raz",
     privacyLink: "Privacy policy",
     changelog: "Changelog",
@@ -80,13 +86,13 @@ const copy = {
     navHow: "איך זה עובד",
     navSupport: "תאימות",
     navPrivacy: "פרטיות",
-    navStatus: "ההשקה בחנויות בהכנה",
+    navStatus: "זמין כעת",
     eyebrow: "תוסף דפדפן בגישה מקומית",
     headlineA: "שומרים את השיחה.",
     headlineB: "נפרדים מהעתק-הדבק.",
     hero: "ייצוא שיחות AI ל-Markdown נקי או לטקסט פשוט—ישירות בדפדפן, ללא חשבון, אנליטיקה או העלאה לשרתים שלנו.",
-    comingSoon: "בקרוב בחנויות הדפדפנים",
-    reviewCode: "קוד פתוח בעת ההשקה",
+    comingSoon: "התקנה מחנות הדפדפן",
+    reviewCode: "הקוד ב-GitHub",
     privacyNote: "השיחה נשארת במכשיר שלך.",
     coreLabel: "תמיכה מאומתת בהשקה",
     platforms: "מותאם לכלי ה-AI שכבר נמצאים בשימוש שלך",
@@ -136,12 +142,12 @@ const copy = {
       ["היכן מדווחים על בעיה?", "קישור למאגר ולמעקב תקלות ציבורי יופיע כאן כשהמאגר ייפתח בעת ההשקה."]
     ],
     ctaTitle: "ייצוא אמין מתחיל בהשקה אמינה.",
-    ctaBody: "חבילות Chrome, Edge ו-Firefox נמצאות כעת בבדיקה. כפתורי החנויות יופעלו רק לאחר שכל עמוד מאושר יהיה זמין.",
+    ctaBody: "בחרו את הדפדפן והתקינו את Chat Exporter מהחנות הרשמית שלו.",
     by: "פותח ומתוחזק על ידי Tom Raz",
     privacyLink: "מדיניות פרטיות",
     changelog: "יומן שינויים",
     support: "תמיכה",
-    version: "מועמדת להשקה · v1.0.0"
+    version: "פורסם · v1.0.0"
   }
 } as const;
 
@@ -168,6 +174,9 @@ export default function Home() {
     document.documentElement.dir = next === "he" ? "rtl" : "ltr";
   }
 
+  const launchTitle = language === "he" ? "זמין עכשיו ב-Chrome, Edge ו-Firefox." : t.ctaTitle;
+  const launchBody = language === "he" ? "בחרו את הדפדפן והתקינו את Chat Exporter מהחנות הרשמית שלו." : t.ctaBody;
+
   return (
     <>
       <a className="skip-link" href="#main">{t.skip}</a>
@@ -184,7 +193,7 @@ export default function Home() {
           </nav>
           <div className="nav-actions">
             <button className="language-switch" type="button" onClick={switchLanguage} aria-label={language === "en" ? "הצגת האתר בעברית" : "View site in English"}>{language === "en" ? "עב" : "EN"}</button>
-            <span className="release-chip"><i aria-hidden="true" />{t.navStatus}</span>
+            <span className="release-chip"><i aria-hidden="true" />{language === "he" ? "זמין כעת" : t.navStatus}</span>
           </div>
         </div>
       </header>
@@ -197,8 +206,8 @@ export default function Home() {
               <h1>{t.headlineA}<br /><em>{t.headlineB}</em></h1>
               <p className="hero-body">{t.hero}</p>
               <div className="hero-actions">
-                <span className="button button-primary" aria-disabled="true">{t.comingSoon}</span>
-                <span className="button button-secondary" aria-disabled="true">{t.reviewCode}</span>
+                <a className="button button-primary" href={stores.chrome} target="_blank" rel="noreferrer">Chrome Web Store</a>
+                <a className="button button-secondary" href="https://github.com/talktome8/chat-exporter" target="_blank" rel="noreferrer">{language === "he" ? "הקוד ב-GitHub" : t.reviewCode}</a>
               </div>
               <p className="hero-note"><span aria-hidden="true">✓</span>{t.privacyNote}</p>
             </div>
@@ -259,8 +268,8 @@ export default function Home() {
 
         <section className="launch-section">
           <div className="shell launch-card">
-            <div><p className="section-kicker light">Chrome · Edge · Firefox</p><h2>{t.ctaTitle}</h2><p>{t.ctaBody}</p></div>
-            <span className="button button-light" aria-disabled="true">{t.comingSoon}</span>
+            <div><p className="section-kicker light">Chrome · Edge · Firefox</p><h2>{launchTitle}</h2><p>{launchBody}</p></div>
+            <StoreInstallLinks />
           </div>
         </section>
       </main>
@@ -274,6 +283,14 @@ export default function Home() {
       </footer>
     </>
   );
+}
+
+function StoreInstallLinks() {
+  return <div className="store-links" aria-label="Install Chat Exporter">
+    <a className="store-link" href={stores.chrome} target="_blank" rel="noreferrer">Chrome</a>
+    <a className="store-link" href={stores.edge} target="_blank" rel="noreferrer">Edge</a>
+    <a className="store-link" href={stores.firefox} target="_blank" rel="noreferrer">Firefox</a>
+  </div>;
 }
 
 function ProductPreview({ t }: { t: typeof copy.en | typeof copy.he }) {

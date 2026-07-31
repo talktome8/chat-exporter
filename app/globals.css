@@ -37,7 +37,7 @@ nav a:hover, nav a:focus-visible { color: var(--blue); }
 .language-switch { width: 38px; height: 34px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: #344054; cursor: pointer; font-weight: 800; }
 .language-switch:hover { background: var(--wash); }
 .release-chip { display: inline-flex; min-height: 34px; align-items: center; gap: 7px; padding: 0 12px; border-radius: 99px; background: #f5f7fa; color: #536071; font-size: 10px; font-weight: 750; white-space: nowrap; }
-.release-chip i { width: 6px; height: 6px; border-radius: 50%; background: #f2a000; box-shadow: 0 0 0 4px #fff1ca; }
+.release-chip i { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px #e8f7ef; }
 
 .hero { position: relative; overflow: hidden; padding: 98px 0 104px; background: radial-gradient(circle at 86% 28%, #e8f1ff 0, rgba(232,241,255,0) 34%), linear-gradient(180deg, #fbfcfe 0%, #fff 100%); }
 .hero::before { position: absolute; width: 440px; height: 440px; border: 1px solid #dce9fb; border-radius: 50%; content: ""; inset-inline-end: -220px; top: -190px; }
@@ -158,6 +158,9 @@ html[dir="rtl"] .faq-list p { margin: -2px 0 22px 42px; }
 .launch-card h2 { max-width: 720px; font-size: clamp(36px, 4.6vw, 58px); }
 .launch-card p:last-child { max-width: 710px; margin: 18px 0 0; color: #dceafe; font-size: 14px; line-height: 1.7; }
 .button-light { flex: none; background: #fff; color: var(--blue-dark); }
+.store-links { display: flex; flex-wrap: wrap; gap: 8px; flex: none; }
+.store-link { display: inline-flex; min-height: 42px; align-items: center; justify-content: center; padding: 0 14px; border: 1px solid rgba(255,255,255,.54); border-radius: 9px; color: #fff; font-size: 12px; font-weight: 800; transition: background .2s ease, color .2s ease; }
+.store-link:hover, .store-link:focus-visible { background: #fff; color: var(--blue-dark); }
 
 .site-footer { border-top: 1px solid var(--line); background: #fbfcfd; }
 .footer-inner { display: grid; grid-template-columns: 1fr auto auto; min-height: 110px; align-items: center; gap: 42px; }
@@ -213,6 +216,8 @@ html[dir="rtl"] .faq-list p { margin: -2px 0 22px 42px; }
   .permission-list article { grid-template-columns: 1fr; gap: 10px; }
   .launch-section { padding-bottom: 60px; }
   .launch-card { min-height: 0; padding: 38px 28px; border-radius: 16px; }
+  .store-links { width: 100%; }
+  .store-link { flex: 1; }
   .footer-inner { grid-template-columns: 1fr; gap: 20px; padding: 30px 0; }
   .footer-links { flex-wrap: wrap; }
 }

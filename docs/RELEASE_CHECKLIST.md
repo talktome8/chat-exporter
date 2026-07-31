@@ -1,34 +1,21 @@
-# Release checklist
+# Release record and maintenance checklist
 
-## Product
+## v1.0.0 launch record
 
-- [ ] Chrome manual matrix signed by Tom Raz.
-- [ ] Edge manual matrix signed by Tom Raz.
-- [ ] Firefox installed and manual matrix signed by Tom Raz.
-- [ ] Second review confirms all automated and manual evidence.
-- [ ] Generated store screenshots are compared with the verified build and accurately reflect its behavior.
-- [ ] Chrome, Edge and Firefox store descriptions match actual behavior.
+Chat Exporter v1.0.0 is publicly available from the following stores:
 
-## Privacy and policy
+- [Chrome Web Store](https://chromewebstore.google.com/detail/chat-exporter-by-tom-raz/ljgpghdicijmjojfnhmpefjpipfakoen)
+- [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/chat-exporter-by-tom-raz/nmmpfdnapkfklcbfgcmkahcjcclophhk)
+- [Firefox Add-ons](https://addons.mozilla.org/he/firefox/addon/chat-exporter-by-tom-raz/)
 
-- [ ] Privacy URL is public and matches `PRIVACY.md`.
-- [ ] Support and source URLs are public and no longer placeholders.
-- [ ] Store privacy answers disclose local website-content processing.
-- [ ] Google account two-step verification is enabled.
-- [ ] Publisher independently confirms Trader or Non-trader status. Because the extension promotes a professional brand, do not rely on the existing Non-trader selection without reviewing the official definition.
-- [ ] No secrets, private chats, cookies, tokens, PEM files or personal screenshots are included.
+Historical QA material is retained in [QA_EVIDENCE.md](QA_EVIDENCE.md) and [TEST_MATRIX.md](TEST_MATRIX.md). It records the evidence available during the v1.0.0 launch process; it is not a promise that third-party AI sites will never change their page structure.
 
-## Artifact
+## For the next update
 
-- [ ] `npm run check` passes from a clean checkout.
-- [ ] `dist/chat-exporter-by-tom-raz-1.0.0.zip` is the reviewed artifact.
-- [ ] The SHA-256 printed by package verification is stored with the release notes.
-- [ ] Git tag `v1.0.0` is created only after both approvals.
+1. Update the extension version, changelog, and store-facing text as needed.
+2. Run `npm run check` from a clean working tree.
+3. Upload the resulting `dist/chat-exporter-by-tom-raz-<version>.zip` to each applicable store.
+4. Confirm the store listing, permissions, privacy disclosure, screenshots, and support links match the submitted build.
+5. Compute SHA-256 for the exact ZIP submitted, commit the release documentation, tag the release, then publish the corresponding GitHub Release.
 
-## Publication order
-
-1. Publish the GitHub repository and its privacy document.
-2. Submit Chrome listing.
-3. Submit Microsoft Edge listing.
-4. Submit Firefox AMO listing and source/build instructions if requested.
-5. Replace Coming soon controls with live, browser-specific store links.
+Do not claim universal compatibility or complete exports unless the current build can demonstrate it for the active conversation.

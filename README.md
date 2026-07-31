@@ -1,68 +1,74 @@
 # Chat Exporter by Tom Raz
 
-Chat Exporter is a local-first Manifest V3 browser extension for exporting AI conversations to Markdown or plain text. It is prepared for Chrome, Microsoft Edge and Firefox.
+**Export AI conversations to Markdown or plain text — locally in your browser.**
+
+[![Chrome Web Store](https://img.shields.io/badge/Chrome-Available-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/chat-exporter-by-tom-raz/ljgpghdicijmjojfnhmpefjpipfakoen)
+[![Microsoft Edge Add-ons](https://img.shields.io/badge/Edge-Available-0078D7?logo=microsoftedge&logoColor=white)](https://microsoftedge.microsoft.com/addons/detail/chat-exporter-by-tom-raz/nmmpfdnapkfklcbfgcmkahcjcclophhk)
+[![Firefox Add-ons](https://img.shields.io/badge/Firefox-Available-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/he/firefox/addon/chat-exporter-by-tom-raz/)
+[![Version](https://img.shields.io/badge/version-1.0.0-1769E0)](https://github.com/talktome8/chat-exporter/releases/tag/v1.0.0)
+[![License: MIT](https://img.shields.io/badge/license-MIT-087A4F.svg)](LICENSE)
+
+| Install | Browser |
+| --- | --- |
+| [Install from Chrome Web Store](https://chromewebstore.google.com/detail/chat-exporter-by-tom-raz/ljgpghdicijmjojfnhmpefjpipfakoen) | Chrome |
+| [Install from Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/chat-exporter-by-tom-raz/nmmpfdnapkfklcbfgcmkahcjcclophhk) | Microsoft Edge |
+| [Install from Firefox Add-ons](https://addons.mozilla.org/he/firefox/addon/chat-exporter-by-tom-raz/) | Firefox |
 
 ![Chat Exporter product preview](store-assets/promo-marquee-1400x560.png)
 
-[Report an issue](https://github.com/talktome8/chat-exporter/issues) · [View the source](https://github.com/talktome8/chat-exporter)
+## What it does
 
-## Release status
+Open a supported AI conversation, click the extension, choose the content and format, then download or copy the result. Chat Exporter can export messages that are already loaded on the page, or verify a full conversation when completeness matters.
 
-Version `1.0.0` is a release candidate, not yet published in a browser store.
+Everything is processed on the device. The extension has no account, analytics, server, remote executable code, advertising, or donation prompts.
 
-- Verified launch targets: ChatGPT, Claude, Gemini, Microsoft Copilot and Perplexity.
-- Export options: Markdown, plain text and copy to clipboard.
-- Scan options: instant export of loaded messages or optional full-conversation verification.
-- Data handling: local only; no analytics, account, server or remote executable code.
-- Permissions: `activeTab`, `scripting`, `storage`.
+## Support at a glance
 
-## Repository layout
+| Area | v1.0.0 support |
+| --- | --- |
+| Verified platforms | ChatGPT, Claude, Gemini, Microsoft Copilot, Perplexity |
+| Beta platforms | Grok, Mistral — review exports for accuracy |
+| Export formats | Markdown (`.md`), plain text (`.txt`), copy to clipboard |
+| Processing | Local only — conversation content is not sent to Tom Raz or a third party |
+| Languages | English and Hebrew (RTL) |
 
-- `extension/` — store-ready extension source.
-- `app/` — bilingual static product and privacy website.
-- `docs/` — review notes, store copy, test matrix and release checklist.
-- `scripts/` — deterministic asset and package generation plus package verification.
-- `tests/` — manifest, formatter, extractor and rendered-site checks.
-- `archive/` — ignored local backup of the original prototype.
+## Features
 
-## Local installation
+- Choose user messages, AI responses, or both.
+- Include optional title, model, date, and conversation URL metadata.
+- Export immediately from the messages already loaded on the page.
+- Use **Check full conversation** when you need the extension to load earlier messages and report a complete, partial, or unknown result.
+- Preserve readable Markdown, including code blocks, lists, links, and tables where they are available in the page.
 
-### Chrome
+## Privacy and permissions
 
-1. Open `chrome://extensions`.
-2. Enable Developer mode.
-3. Choose **Load unpacked** and select the `extension` directory.
+The extension requests only `activeTab`, `scripting`, and `storage`:
 
-### Microsoft Edge
+- `activeTab` reads the active conversation only after you click the extension.
+- `scripting` runs the packaged extractor in that tab.
+- `storage` remembers the English/Hebrew interface preference locally.
 
-1. Open `edge://extensions`.
-2. Enable Developer mode.
-3. Choose **Load unpacked** and select the `extension` directory.
+Read the full [Privacy Policy](PRIVACY.md) and [Security Policy](SECURITY.md).
 
-### Firefox
+## Development
 
-1. Open `about:debugging#/runtime/this-firefox`.
-2. Choose **Load Temporary Add-on**.
-3. Select `extension/manifest.json`.
-
-## Quality commands
-
-```text
-npm test
-npm run extension:lint
-npm run extension:package
-npm run extension:verify
-npm run build
+```bash
+npm install
+npm run check
 ```
 
-`npm run check` runs the complete automated release gate.
+`npm run check` runs linting, unit tests, extension linting, deterministic packaging, package verification, the static-site build, and rendered-page checks.
 
-`npm run assets:store` regenerates the localized store screenshots and promotional tiles with Remotion.
+To load the extension locally, use the `extension/` directory in Chromium browsers, or run `web-ext run --source-dir extension` for Firefox development.
 
-## Privacy and security
+## Release assets
 
-Read [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md). Conversation content is read only after a user click, processed locally, and never transmitted by the extension.
+The signed store builds are based on the `v1.0.0` package. The GitHub release contains the reviewed ZIP and its SHA-256 checksum for integrity verification.
 
-## License
+## Support and contributions
 
-MIT © 2026 Tom Raz. See [LICENSE](LICENSE).
+- Report a reproducible issue through [GitHub Issues](https://github.com/talktome8/chat-exporter/issues).
+- Review [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a change.
+- See [CHANGELOG.md](CHANGELOG.md) for release history.
+
+Chat Exporter is open source under the [MIT License](LICENSE).

@@ -12,7 +12,7 @@
 
 **שורת פרטיות:** השיחה מעובדת מקומית בדפדפן ואינה נשלחת ל־Tom Raz או לצד שלישי.
 
-**כפתור ראשי לפני פרסום בחנויות:** בקרוב
+**כפתורי התקנה:** Chrome Web Store, Microsoft Edge Add-ons, Firefox Add-ons
 
 **כפתור משני:** הסיפור
 
@@ -69,4 +69,4 @@ Chat Exporter הוא תוסף דפדפן מקומי לייצוא שיחות מ־
 
 ## הערת פרסום
 
-לפני אישור החנויות יש להציג "בקרוב" במקום כפתור התקנה. לאחר הפרסום יתווספו קישורים נפרדים ל־Chrome Web Store, ל־Microsoft Edge Add-ons ול־Firefox Add-ons.
+הציגו קישורי התקנה נפרדים ל־[Chrome Web Store](https://chromewebstore.google.com/detail/chat-exporter-by-tom-raz/ljgpghdicijmjojfnhmpefjpipfakoen), ל־[Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/chat-exporter-by-tom-raz/nmmpfdnapkfklcbfgcmkahcjcclophhk), ול־[Firefox Add-ons](https://addons.mozilla.org/he/firefox/addon/chat-exporter-by-tom-raz/).

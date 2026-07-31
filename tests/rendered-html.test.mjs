@@ -13,7 +13,10 @@ test("exports the product page with accurate launch content", async () => {
   assert.match(html, /Chrome/);
   assert.match(html, /Edge/);
   assert.match(html, /Firefox/);
-  assert.match(html, /Coming soon to browser stores/);
+  assert.match(html, /Available now for Chrome, Edge and Firefox/);
+  assert.match(html, /chromewebstore\.google\.com/);
+  assert.match(html, /microsoftedge\.microsoft\.com/);
+  assert.match(html, /addons\.mozilla\.org/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/);
   assert.doesNotMatch(html, /Grok and Mistral remain clearly marked beta/);
 });

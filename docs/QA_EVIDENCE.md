@@ -1,4 +1,4 @@
-# QA evidence — release candidate 1.0.0
+# QA evidence — v1.0.0 pre-release
 
 ## Automated evidence
 
