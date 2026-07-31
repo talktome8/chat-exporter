@@ -75,5 +75,5 @@ Chat Exporter הוא תוסף דפדפן מקומי לייצוא שיחות מ־
 
 ## תמיכה וקוד פתוח
 
-לשאלות, בעיות ורעיונות לשיפור: [GitHub Issues](https://github.com/talktome8/chat-exporter/issues).  
+לשאלות, בעיות ורעיונות לשיפור: [GitHub Issues](https://github.com/talktome8/chat-exporter/issues).
 הפרויקט פתוח תחת רישיון MIT: [צפייה בקוד המקור](https://github.com/talktome8/chat-exporter).
