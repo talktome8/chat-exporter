@@ -289,11 +289,12 @@ export default function Home() {
             <div>
               <p className="section-kicker">{language === "he" ? "נבנה כדי לעזור" : "Built to be useful"}</p>
               <h2 id="community-title">{language === "he" ? "שיחות שימושיות ראויות לדרך פשוטה יותר לשמור אותן." : "Useful conversations deserve an easier way to keep them."}</h2>
-              <p>{language === "he" ? "מכירים מישהו ששומר שיחות AI? שתפו איתו את Chat Exporter. אם התוסף עזר לכם, ביקורת כנה בחנות שבה התקנתם אותו תעזור לאחרים לבחור בצורה מושכלת." : "Know someone who saves AI conversations? Share Chat Exporter with them. If it has been useful to you, an honest review in the store where you installed it helps other people make an informed choice."}</p>
+              <p>{language === "he" ? "מכירים מישהו ששומר שיחות AI? שתפו איתו את Chat Exporter. אם משהו לא עובד או שיש רעיון לשיפור, דווחו ב־GitHub Issues עם צילום מסך או תיאור קצר. אם השירות עזר לכם, ביקורת כנה בחנות שבה התקנתם אותו תעזור לאחרים לבחור בצורה מושכלת." : "Know someone who saves AI conversations? Share Chat Exporter with them. If something does not work or you have an improvement idea, report it in GitHub Issues with a screenshot or short description. If the tool has helped you, an honest review in the store where you installed it helps others make an informed choice."}</p>
             </div>
             <div className="community-actions">
               <button className="button button-primary" type="button" onClick={shareProject}>{language === "he" ? "שיתוף Chat Exporter" : "Share Chat Exporter"}</button>
               <a className="button button-secondary" href="#get">{language === "he" ? "בחירת חנות לדירוג" : "Choose a store to review"}</a>
+              <a className="button button-secondary" href="https://github.com/talktome8/chat-exporter/issues" target="_blank" rel="noreferrer">{language === "he" ? "דיווח על בעיה" : "Report an issue"}</a>
               <p aria-live="polite">{shareStatus}</p>
             </div>
           </div>
