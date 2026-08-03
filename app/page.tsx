@@ -153,6 +153,7 @@ const copy = {
 
 export default function Home() {
   const [language, setLanguage] = useState<Language>("en");
+  const [shareStatus, setShareStatus] = useState("");
   const t = copy[language];
 
   useEffect(() => {
@@ -172,6 +173,23 @@ export default function Home() {
     window.localStorage.setItem("chat-exporter-site-language", next);
     document.documentElement.lang = next;
     document.documentElement.dir = next === "he" ? "rtl" : "ltr";
+  }
+
+  async function shareProject() {
+    const url = "https://chat-exporter.raztom.com";
+    const text = "Chat Exporter exports AI conversations locally to Markdown or plain text.";
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "Chat Exporter", text, url });
+        setShareStatus(language === "he" ? "תודה ששיתפתם." : "Thanks for sharing.");
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+      setShareStatus(language === "he" ? "הקישור הועתק" : "Link copied");
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+      setShareStatus(url);
+    }
   }
 
   const launchTitle = language === "he" ? "זמין עכשיו ב-Chrome, Edge ו-Firefox." : t.ctaTitle;
@@ -266,7 +284,22 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="launch-section">
+        <section className="section community-section" aria-labelledby="community-title">
+          <div className="shell community-card">
+            <div>
+              <p className="section-kicker">{language === "he" ? "נבנה כדי לעזור" : "Built to be useful"}</p>
+              <h2 id="community-title">{language === "he" ? "שיחות שימושיות ראויות לדרך פשוטה יותר לשמור אותן." : "Useful conversations deserve an easier way to keep them."}</h2>
+              <p>{language === "he" ? "מכירים מישהו ששומר שיחות AI? שתפו איתו את Chat Exporter. אם התוסף עזר לכם, ביקורת כנה בחנות שבה התקנתם אותו תעזור לאחרים לבחור בצורה מושכלת." : "Know someone who saves AI conversations? Share Chat Exporter with them. If it has been useful to you, an honest review in the store where you installed it helps other people make an informed choice."}</p>
+            </div>
+            <div className="community-actions">
+              <button className="button button-primary" type="button" onClick={shareProject}>{language === "he" ? "שיתוף Chat Exporter" : "Share Chat Exporter"}</button>
+              <a className="button button-secondary" href="#get">{language === "he" ? "בחירת חנות לדירוג" : "Choose a store to review"}</a>
+              <p aria-live="polite">{shareStatus}</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="launch-section" id="get">
           <div className="shell launch-card">
             <div><p className="section-kicker light">Chrome · Edge · Firefox</p><h2>{launchTitle}</h2><p>{launchBody}</p></div>
             <StoreInstallLinks />

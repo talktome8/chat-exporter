@@ -153,6 +153,13 @@ nav a:hover, nav a:focus-visible { color: var(--blue); }
 .faq-list p { margin: -2px 42px 22px 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
 html[dir="rtl"] .faq-list p { margin: -2px 0 22px 42px; }
 
+.community-section { padding-top: 24px; padding-bottom: 24px; background: #fbfcfd; }
+.community-card { display: grid; grid-template-columns: 1.25fr .75fr; gap: 72px; align-items: center; padding: 44px 52px; border: 1px solid var(--line); border-radius: 22px; background: #fff; box-shadow: 0 18px 48px rgba(17,24,39,.05); }
+.community-card h2 { max-width: 700px; margin: 0; font-size: clamp(30px, 3.4vw, 46px); line-height: 1.08; letter-spacing: -.045em; }
+.community-card > div > p:not(.section-kicker) { max-width: 690px; margin: 18px 0 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
+.community-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: flex-start; }
+.community-actions > p { width: 100%; min-height: 18px; margin: 2px 0 0; color: var(--muted); font-size: 12px; }
+
 .launch-section { padding: 22px 0 92px; }
 .launch-card { display: flex; min-height: 300px; align-items: center; justify-content: space-between; gap: 60px; padding: 54px 60px; border-radius: 22px; background: var(--blue); color: #fff; box-shadow: 0 28px 70px rgba(23,105,224,.2); }
 .launch-card h2 { max-width: 720px; font-size: clamp(36px, 4.6vw, 58px); }
@@ -192,6 +199,7 @@ html[dir="rtl"] .faq-list p { margin: -2px 0 22px 42px; }
   .hero-copy { max-width: 700px; }
   .preview-stage { width: min(100%, 620px); margin-inline: auto; }
   .platform-heading, .privacy-grid, .permissions-grid, .faq-grid { grid-template-columns: 1fr; gap: 42px; }
+  .community-card { grid-template-columns: 1fr; gap: 28px; }
   .platform-grid { grid-template-columns: repeat(4, 1fr); }
   .launch-card { align-items: flex-start; flex-direction: column; }
 }
@@ -215,6 +223,8 @@ html[dir="rtl"] .faq-list p { margin: -2px 0 22px 42px; }
   .step-card h3 { margin-top: 62px; }
   .permission-list article { grid-template-columns: 1fr; gap: 10px; }
   .launch-section { padding-bottom: 60px; }
+  .community-section { padding: 16px 0; }
+  .community-card { padding: 34px 28px; border-radius: 16px; }
   .launch-card { min-height: 0; padding: 38px 28px; border-radius: 16px; }
   .store-links { width: 100%; }
   .store-link { flex: 1; }
