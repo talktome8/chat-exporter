@@ -28,7 +28,7 @@ const copy = {
     privacyNote: "Your conversation stays on your device.",
     coreLabel: "Supported AI chat platforms",
     platforms: "Built for the AI tools you already use",
-    platformsBody: "Five platforms are verified for launch. Grok is available in Beta—review exported files for accuracy.",
+    platformsBody: "Six platforms are verified for the current release.",
     howEyebrow: "Three deliberate steps",
     howTitle: "Fast when it can be. Honest when it can’t.",
     steps: [
@@ -96,7 +96,7 @@ const copy = {
     privacyNote: "השיחה נשארת במכשיר שלך.",
     coreLabel: "פלטפורמות AI נתמכות",
     platforms: "מותאם לכלי ה-AI שכבר נמצאים בשימוש שלך",
-    platformsBody: "חמש פלטפורמות מאומתות להשקה. Grok זמין ב-Beta — מומלץ לבדוק את הקובץ המיוצא לדיוק.",
+    platformsBody: "שש פלטפורמות מאומתות לגרסה הנוכחית.",
     howEyebrow: "שלושה צעדים מדויקים",
     howTitle: "מהיר כשאפשר. כנה כשאי אפשר.",
     steps: [
@@ -219,8 +219,7 @@ export default function Home() {
           <div className="shell">
             <div className="platform-heading"><div><p className="section-kicker">{t.coreLabel}</p><h2>{t.platforms}</h2></div><p>{t.platformsBody}</p></div>
             <div className="platform-grid">
-              {["ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity"].map((name) => <div className="platform-card verified" key={name}><span>{name.slice(0, 1)}</span><strong>{name}</strong><small>Verified</small></div>)}
-              <div className="platform-card beta"><span>G</span><strong>Grok</strong><small>Beta</small></div>
+              {["ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity", "Grok"].map((name) => <div className="platform-card verified" key={name}><span>{name.slice(0, 1)}</span><strong>{name}</strong><small>Verified</small></div>)}
             </div>
           </div>
         </section>
