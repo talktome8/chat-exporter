@@ -26,13 +26,13 @@ const copy = {
     comingSoon: "Install from a browser store",
     reviewCode: "View the source on GitHub",
     privacyNote: "Your conversation stays on your device.",
-    coreLabel: "Verified launch support",
+    coreLabel: "Supported AI chat platforms",
     platforms: "Built for the AI tools you already use",
-    platformsBody: "Five platforms are tested as first-class integrations, with clear release criteria for every supported service.",
+    platformsBody: "Five platforms are verified for launch. Grok is available in Beta—review exported files for accuracy.",
     howEyebrow: "Three deliberate steps",
     howTitle: "Fast when it can be. Honest when it can’t.",
     steps: [
-      ["01", "Open a conversation", "Use ChatGPT, Claude, Gemini, Copilot or Perplexity as normal."],
+      ["01", "Open a conversation", "Use ChatGPT, Claude, Gemini, Copilot, Perplexity or Grok as normal."],
       ["02", "Export now or verify", "Export loaded messages immediately, or ask Chat Exporter to load earlier messages and verify completeness."],
       ["03", "Download or copy", "Choose Markdown or plain text, include the details you need, then save locally."]
     ],
@@ -79,7 +79,7 @@ const copy = {
     privacyLink: "Privacy policy",
     changelog: "Changelog",
     support: "Support",
-    version: "Launch candidate · v1.0.0"
+    version: "Version 1.0.0"
   },
   he: {
     skip: "דילוג לתוכן",
@@ -94,13 +94,13 @@ const copy = {
     comingSoon: "התקנה מחנות הדפדפן",
     reviewCode: "הקוד ב-GitHub",
     privacyNote: "השיחה נשארת במכשיר שלך.",
-    coreLabel: "תמיכה מאומתת בהשקה",
+    coreLabel: "פלטפורמות AI נתמכות",
     platforms: "מותאם לכלי ה-AI שכבר נמצאים בשימוש שלך",
-    platformsBody: "חמש פלטפורמות נבדקות כאינטגרציות מלאות, עם שער איכות ברור לכל שירות נתמך.",
+    platformsBody: "חמש פלטפורמות מאומתות להשקה. Grok זמין ב-Beta — מומלץ לבדוק את הקובץ המיוצא לדיוק.",
     howEyebrow: "שלושה צעדים מדויקים",
     howTitle: "מהיר כשאפשר. כנה כשאי אפשר.",
     steps: [
-      ["01", "פותחים שיחה", "משתמשים ב-ChatGPT, Claude, Gemini, Copilot או Perplexity כרגיל."],
+      ["01", "פותחים שיחה", "משתמשים ב-ChatGPT, Claude, Gemini, Copilot, Perplexity או Grok כרגיל."],
       ["02", "מייצאים או מאמתים", "מייצאים מיד את ההודעות שנטענו, או מבקשים מהתוסף לטעון הודעות קודמות ולבדוק שלמות."],
       ["03", "מורידים או מעתיקים", "בוחרים Markdown או טקסט, מסמנים את הפרטים הרצויים ושומרים מקומית."]
     ],
@@ -220,6 +220,7 @@ export default function Home() {
             <div className="platform-heading"><div><p className="section-kicker">{t.coreLabel}</p><h2>{t.platforms}</h2></div><p>{t.platformsBody}</p></div>
             <div className="platform-grid">
               {["ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity"].map((name) => <div className="platform-card verified" key={name}><span>{name.slice(0, 1)}</span><strong>{name}</strong><small>Verified</small></div>)}
+              <div className="platform-card beta"><span>G</span><strong>Grok</strong><small>Beta</small></div>
             </div>
           </div>
         </section>
