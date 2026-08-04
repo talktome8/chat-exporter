@@ -76,7 +76,7 @@ nav a:hover, nav a:focus-visible { color: var(--blue); }
 .popup-head > div { display: flex; flex: 1; flex-direction: column; }
 .popup-head strong { font-size: 12px; }
 .popup-head small { color: #8a94a3; font-size: 8px; }
-.popup-head button { width: 31px; height: 27px; border: 1px solid #e3e7ed; border-radius: 7px; background: #fff; color: #536071; font-size: 9px; font-weight: 800; }
+.demo-language { display: grid; width: 31px; height: 27px; place-items: center; border: 1px solid #e3e7ed; border-radius: 7px; background: #fff; color: #536071; font-size: 9px; font-weight: 800; }
 .popup-summary { display: flex; align-items: center; justify-content: space-between; margin: 10px 12px 7px; padding: 9px 10px; border: 1px solid #e5e8ed; border-radius: 9px; background: #f8f9fb; }
 .popup-summary > div { display: flex; min-width: 0; flex-direction: column; }
 .popup-summary small { color: #768295; font-size: 7px; font-weight: 850; letter-spacing: .08em; }
@@ -106,7 +106,7 @@ nav a:hover, nav a:focus-visible { color: var(--blue); }
 .platform-heading { display: grid; grid-template-columns: 1fr .78fr; align-items: end; gap: 80px; margin-bottom: 30px; }
 .platform-heading h2, .section-title { margin: 0; font-size: clamp(32px, 4vw, 50px); line-height: 1.08; letter-spacing: -.045em; }
 .platform-heading p:last-child, .section-intro { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
-.platform-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 9px; }
+.platform-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 9px; }
 .platform-card { position: relative; display: flex; min-height: 116px; flex-direction: column; justify-content: flex-end; padding: 14px; overflow: hidden; border: 1px solid #e2e6ec; border-radius: 12px; background: #fff; }
 .platform-card > span { position: absolute; inset-inline-end: 9px; top: -17px; color: #edf3fc; font-size: 72px; font-weight: 900; line-height: 1; }
 .platform-card strong { position: relative; font-size: 12px; }
@@ -200,7 +200,7 @@ html[dir="rtl"] .faq-list p { margin: -2px 0 22px 42px; }
   .preview-stage { width: min(100%, 620px); margin-inline: auto; }
   .platform-heading, .privacy-grid, .permissions-grid, .faq-grid { grid-template-columns: 1fr; gap: 42px; }
   .community-card { grid-template-columns: 1fr; gap: 28px; }
-  .platform-grid { grid-template-columns: repeat(4, 1fr); }
+  .platform-grid { grid-template-columns: repeat(3, 1fr); }
   .launch-card { align-items: flex-start; flex-direction: column; }
 }
 

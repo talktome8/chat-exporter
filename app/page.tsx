@@ -200,11 +200,11 @@ export default function Home() {
       <a className="skip-link" href="#main">{t.skip}</a>
       <header className="site-header">
         <div className="shell nav-inner">
-          <a className="site-brand" href="#top" aria-label="Chat Exporter home">
+          <a className="site-brand" href="#top" aria-label={language === "he" ? "דף הבית של Chat Exporter" : "Chat Exporter home"}>
             <Image src="/icon128.png" width={34} height={34} alt="" />
             <span><strong>Chat Exporter</strong><small>by Tom Raz</small></span>
           </a>
-          <nav aria-label="Primary navigation">
+          <nav aria-label={language === "he" ? "ניווט ראשי" : "Primary navigation"}>
             <a href="#how">{t.navHow}</a>
             <a href="#compatibility">{t.navSupport}</a>
             <a href="#privacy">{t.navPrivacy}</a>
@@ -237,7 +237,7 @@ export default function Home() {
           <div className="shell">
             <div className="platform-heading"><div><p className="section-kicker">{t.coreLabel}</p><h2>{t.platforms}</h2></div><p>{t.platformsBody}</p></div>
             <div className="platform-grid">
-              {["ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity", "Grok"].map((name) => <div className="platform-card verified" key={name}><span>{name.slice(0, 1)}</span><strong>{name}</strong><small>Verified</small></div>)}
+              {["ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity", "Grok"].map((name) => <div className="platform-card verified" key={name}><span aria-hidden="true">{name.slice(0, 1)}</span><strong>{name}</strong><small>{language === "he" ? "אומת" : "Verified"}</small></div>)}
             </div>
           </div>
         </section>
@@ -303,7 +303,7 @@ export default function Home() {
         <section className="launch-section" id="get">
           <div className="shell launch-card">
             <div><p className="section-kicker light">Chrome · Edge · Firefox</p><h2>{launchTitle}</h2><p>{launchBody}</p></div>
-            <StoreInstallLinks />
+            <StoreInstallLinks language={language} />
           </div>
         </section>
       </main>
@@ -319,8 +319,8 @@ export default function Home() {
   );
 }
 
-function StoreInstallLinks() {
-  return <div className="store-links" aria-label="Install Chat Exporter">
+function StoreInstallLinks({ language }: { language: Language }) {
+  return <div className="store-links" aria-label={language === "he" ? "התקנת Chat Exporter" : "Install Chat Exporter"}>
     <a className="store-link" href={stores.chrome} target="_blank" rel="noreferrer">Chrome</a>
     <a className="store-link" href={stores.edge} target="_blank" rel="noreferrer">Edge</a>
     <a className="store-link" href={stores.firefox} target="_blank" rel="noreferrer">Firefox</a>
@@ -329,14 +329,14 @@ function StoreInstallLinks() {
 
 function ProductPreview({ t }: { t: typeof copy.en | typeof copy.he }) {
   return (
-    <div className="preview-stage" aria-label="Chat Exporter product preview">
+    <div className="preview-stage" role="img" aria-label="Chat Exporter product preview">
       <div className="preview-orbit orbit-one" /><div className="preview-orbit orbit-two" />
       <div className="browser-card">
         <div className="browser-bar"><span /><span /><span /><div>chatgpt.com / conversation</div></div>
         <div className="conversation-demo"><p className="message user">How should I structure the launch?</p><p className="message assistant">Start with a clear release gate: compatibility, privacy, policy and evidence-based testing.</p><p className="message user short">Export this for me.</p></div>
       </div>
       <div className="popup-card">
-        <div className="popup-head"><Image src="/icon128.png" width={38} height={38} alt="" /><div><strong>Chat Exporter</strong><small>by Tom Raz</small></div><button tabIndex={-1}>עב</button></div>
+        <div className="popup-head"><Image src="/icon128.png" width={38} height={38} alt="" /><div><strong>Chat Exporter</strong><small>by Tom Raz</small></div><span className="demo-language">עב</span></div>
         <div className="popup-summary"><div><small>CHATGPT</small><strong>Launch planning</strong><span>GPT-5</span></div><b><i />{t.complete}</b></div>
         <DemoRows title={t.content} rows={[t.userMessages, t.aiMessages]} counts={[2, 2]} />
         <DemoRows title={t.metadata} rows={[t.titleModelDate, t.url]} checks={[true, false]} />
