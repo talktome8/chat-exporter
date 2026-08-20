@@ -28,13 +28,13 @@ const copy = {
     privacyNote: "Your conversation stays on your device.",
     coreLabel: "Supported AI chat platforms",
     platforms: "Built for the AI tools you already use",
-    platformsBody: "Six platforms are verified for the current release.",
+    platformsBody: "Five supported platforms, plus Grok and Mistral in Beta.",
     howEyebrow: "Three deliberate steps",
     howTitle: "Fast when it can be. Honest when it can’t.",
     steps: [
-      ["01", "Open a conversation", "Use ChatGPT, Claude, Gemini, Copilot, Perplexity or Grok as normal."],
-      ["02", "Export now or verify", "Export loaded messages immediately, or ask Chat Exporter to load earlier messages and verify completeness."],
-      ["03", "Download or copy", "Choose Markdown or plain text, include the details you need, then save locally."]
+      ["01", "Open a conversation", "Use any supported AI chat as normal. The Chat Exporter quick action appears automatically."],
+      ["02", "Export now or verify", "Export loaded messages immediately, or ask Chat Exporter to scan the full conversation and verify completeness."],
+      ["03", "Download or copy", "Choose Markdown or plain text. Very large exports are split safely inside one verified ZIP."]
     ],
     controlTitle: "A small tool with serious controls",
     controlBody: "The popup stays focused: message filters, metadata, format, completeness and one clear action.",
@@ -50,27 +50,28 @@ const copy = {
     text: "Plain text (.txt)",
     download: "Download",
     copy: "Copy",
-    local: "Processed locally. Nothing is sent to Tom Raz.",
+    local: "Processed on this device. Chat content is not transmitted.",
     privacyEyebrow: "Privacy by architecture",
     privacyTitle: "There is no conversation server to trust.",
-    privacyBody: "Chat Exporter reads the active page only after you click it. The transcript is formatted inside your browser and saved to your device. We do not run analytics, create user accounts or receive conversation content.",
+    privacyBody: "Chat Exporter runs only on the listed AI-chat sites so its quick action can appear automatically. Transcripts are formatted inside your browser and saved to your device. We do not run analytics, create user accounts or receive conversation content.",
     privacyCards: [
-      ["Active tab only", "Access is granted for the page you deliberately invoke the extension on—not your browsing history."],
+      ["AI-chat sites only", "Access is limited to seven listed AI-chat services and their fixed domains—not your general browsing history."],
       ["No remote code", "All executable code ships inside the reviewed extension package."],
-      ["Local preferences", "Only your language preference is stored in browser storage."]
+      ["Local preferences", "Interface and export defaults are stored locally. Chats and conversation URLs are not saved by the extension."]
     ],
     permissions: "Plain-language permissions",
-    permissionsBody: "Three narrowly scoped permissions power the complete feature set.",
+    permissionsBody: "Three extension permissions and a fixed list of AI-chat sites power the complete feature set.",
     permissionItems: [
-      ["activeTab", "Temporarily read the conversation in the tab where you clicked the extension."],
-      ["scripting", "Run the bundled, reviewable extractor after your explicit action."],
-      ["storage", "Remember your English or Hebrew interface preference locally."]
+      ["activeTab", "Provide popup export when you deliberately invoke the toolbar action."],
+      ["scripting", "Run only the extractor and in-chat widget bundled in the reviewed package."],
+      ["storage", "Remember interface and export preferences locally; never store chat content."],
+      ["site access", "Show the widget automatically only on seven explicitly listed AI-chat services and their fixed domains."]
     ],
     faq: "Questions worth answering before install",
     faqs: [
       ["Does it send my chats anywhere?", "No. Conversation extraction and file creation happen locally in your browser. The extension contains no analytics or network client."],
       ["Will every long conversation be complete?", "The extension tries to load earlier messages and reports a completeness status. If a platform prevents full loading, the export is marked partial instead of silently claiming success."],
-      ["Which formats are supported?", "Version 1 supports Markdown, plain text and copy to clipboard. PDF and JSON are not advertised."],
+      ["Which formats are supported?", "Version 2 supports Markdown, plain text and copy to clipboard. Exports over 10 MiB are packaged as numbered files in one ZIP."],
       ["Where can I report a problem?", "Use the public GitHub Issues tracker for non-sensitive bugs. Security reports should use GitHub's private security advisory form."]
     ],
     ctaTitle: "Available now for Chrome, Edge and Firefox.",
@@ -79,7 +80,7 @@ const copy = {
     privacyLink: "Privacy policy",
     changelog: "Changelog",
     support: "Support",
-    version: "Version 1.0.0"
+    version: "Version 2.0.0"
   },
   he: {
     skip: "דילוג לתוכן",
@@ -96,13 +97,13 @@ const copy = {
     privacyNote: "השיחה נשארת במכשיר שלך.",
     coreLabel: "פלטפורמות AI נתמכות",
     platforms: "מותאם לכלי ה-AI שכבר נמצאים בשימוש שלך",
-    platformsBody: "שש פלטפורמות מאומתות לגרסה הנוכחית.",
+    platformsBody: "חמש פלטפורמות נתמכות, לצד Grok ו־Mistral בגרסת Beta.",
     howEyebrow: "שלושה צעדים מדויקים",
     howTitle: "מהיר כשאפשר. כנה כשאי אפשר.",
     steps: [
-      ["01", "פותחים שיחה", "משתמשים ב-ChatGPT, Claude, Gemini, Copilot, Perplexity או Grok כרגיל."],
-      ["02", "מייצאים או מאמתים", "מייצאים מיד את ההודעות שנטענו, או מבקשים מהתוסף לטעון הודעות קודמות ולבדוק שלמות."],
-      ["03", "מורידים או מעתיקים", "בוחרים Markdown או טקסט, מסמנים את הפרטים הרצויים ושומרים מקומית."]
+      ["01", "פותחים שיחה", "משתמשים כרגיל בכל שירות נתמך. פעולת Chat Exporter מופיעה אוטומטית בתוך הצ׳אט."],
+      ["02", "מייצאים או מאמתים", "מייצאים מיד את ההודעות שנטענו, או מבצעים סריקה מלאה ואימות שלמות."],
+      ["03", "מורידים או מעתיקים", "בוחרים Markdown או טקסט. ייצוא גדול מאוד מחולק בבטחה בתוך קובץ ZIP מאומת אחד."]
     ],
     controlTitle: "כלי קטן עם שליטה רצינית",
     controlBody: "חלון ממוקד הכולל סינון הודעות, מטא-דאטה, פורמט, מצב שלמות ופעולה ברורה.",
@@ -118,28 +119,29 @@ const copy = {
     text: "טקסט פשוט (.txt)",
     download: "הורדה",
     copy: "העתקה",
-    local: "העיבוד מקומי. דבר אינו נשלח ל-Tom Raz.",
+    local: "העיבוד מתבצע במכשיר. תוכן השיחה אינו משודר.",
     privacyEyebrow: "פרטיות באמצעות ארכיטקטורה",
     privacyTitle: "אין שרת שיחות שצריך לתת בו אמון.",
-    privacyBody: "התוסף קורא את העמוד הפעיל רק לאחר לחיצה יזומה. התמליל מעוצב בתוך הדפדפן ונשמר במכשיר. אין אנליטיקה, חשבונות משתמש או קבלת תוכן שיחות.",
+    privacyBody: "התוסף פועל רק באתרי צ׳אט ה־AI המפורטים כדי שכפתור הפעולה יופיע אוטומטית. התמליל מעובד בדפדפן ונשמר במכשיר. אין אנליטיקה, חשבונות משתמש או קבלת תוכן שיחות.",
     privacyCards: [
-      ["רק הכרטיסייה הפעילה", "הגישה ניתנת לעמוד שבו הפעלת את התוסף—לא להיסטוריית הגלישה."],
+      ["רק אתרי צ׳אט AI", "הגישה מוגבלת לשבעה שירותים מפורטים ולדומיינים הקבועים שלהם—לא להיסטוריית הגלישה הכללית."],
       ["ללא קוד מרוחק", "כל הקוד הניתן להפעלה כלול בחבילה שנבדקת בחנות."],
-      ["העדפות מקומיות", "רק העדפת השפה נשמרת באחסון המקומי של הדפדפן."]
+      ["העדפות מקומיות", "הגדרות ממשק וייצוא נשמרות מקומית. שיחות וכתובות שיחה אינן נשמרות על ידי התוסף."]
     ],
     permissions: "הרשאות בשפה פשוטה",
-    permissionsBody: "שלוש הרשאות מצומצמות מפעילות את כל יכולות התוסף.",
+    permissionsBody: "שלוש הרשאות תוסף ורשימה קבועה של אתרי צ׳אט AI מפעילות את כל היכולות.",
     permissionItems: [
-      ["activeTab", "קריאה זמנית של השיחה בכרטיסייה שבה לחצת על התוסף."],
-      ["scripting", "הרצת מנגנון החילוץ המצורף לחבילה לאחר פעולה מפורשת שלך."],
-      ["storage", "שמירת העדפת הממשק בעברית או באנגלית באופן מקומי."]
+      ["activeTab", "ייצוא מהחלון הרגיל לאחר לחיצה יזומה על סמל התוסף."],
+      ["scripting", "הרצת מנגנון החילוץ וה־widget הכלולים בחבילה שנבדקה."],
+      ["storage", "שמירת הגדרות ממשק וייצוא מקומית, ללא שמירת תוכן שיחות."],
+      ["גישה לאתרים", "הצגת ה־widget אוטומטית רק בשבעת דומייני צ׳אט ה־AI המפורטים."]
     ],
     faq: "שאלות שכדאי לענות עליהן לפני ההתקנה",
     faqs: [
       ["האם השיחות נשלחות למקום כלשהו?", "לא. החילוץ ויצירת הקובץ מתבצעים מקומית בדפדפן. אין בתוסף אנליטיקה או לקוח רשת."],
       ["האם כל שיחה ארוכה תיוצא במלואה?", "התוסף מנסה לטעון הודעות קודמות ומדווח על מצב השלמות. אם הפלטפורמה מונעת טעינה מלאה, הייצוא יסומן כחלקי."],
-      ["אילו פורמטים נתמכים?", "גרסה 1 תומכת ב-Markdown, טקסט פשוט והעתקה ללוח. PDF ו-JSON אינם מפורסמים."],
-      ["היכן מדווחים על בעיה?", "קישור למאגר ולמעקב תקלות ציבורי יופיע כאן כשהמאגר ייפתח בעת ההשקה."]
+      ["אילו פורמטים נתמכים?", "גרסה 2 תומכת ב־Markdown, טקסט פשוט והעתקה ללוח. ייצוא מעל 10MiB נארז כחלקים ממוספרים בקובץ ZIP אחד."],
+      ["היכן מדווחים על בעיה?", "מדווחים על תקלה לא רגישה ב־GitHub Issues ועל בעיית אבטחה בטופס Security Advisory הפרטי."]
     ],
     ctaTitle: "ייצוא אמין מתחיל בהשקה אמינה.",
     ctaBody: "בחרו את הדפדפן והתקינו את Chat Exporter מהחנות הרשמית שלו.",
@@ -147,7 +149,7 @@ const copy = {
     privacyLink: "מדיניות פרטיות",
     changelog: "יומן שינויים",
     support: "תמיכה",
-    version: "פורסם · v1.0.0"
+    version: "גרסה 2.0.0"
   }
 } as const;
 
@@ -237,7 +239,8 @@ export default function Home() {
           <div className="shell">
             <div className="platform-heading"><div><p className="section-kicker">{t.coreLabel}</p><h2>{t.platforms}</h2></div><p>{t.platformsBody}</p></div>
             <div className="platform-grid">
-              {["ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity", "Grok"].map((name) => <div className="platform-card verified" key={name}><span aria-hidden="true">{name.slice(0, 1)}</span><strong>{name}</strong><small>{language === "he" ? "אומת" : "Verified"}</small></div>)}
+              {["ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity"].map((name) => <div className="platform-card verified" key={name}><span aria-hidden="true">{name.slice(0, 1)}</span><strong>{name}</strong><small>{language === "he" ? "נתמך" : "Supported"}</small></div>)}
+              {["Grok", "Mistral"].map((name) => <div className="platform-card beta" key={name}><span aria-hidden="true">{name.slice(0, 1)}</span><strong>{name}</strong><small>Beta</small></div>)}
             </div>
           </div>
         </section>

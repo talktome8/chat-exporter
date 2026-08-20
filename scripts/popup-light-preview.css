@@ -1,0 +1,24 @@
+:root {
+  color-scheme: light;
+  --ink: #111827;
+  --muted: #667085;
+  --line: #e5e7eb;
+  --panel: #f7f8fa;
+  --surface: #fff;
+  --surface-raised: #fff;
+  --control-ink: #344054;
+  --blue: #1769e0;
+  --blue-dark: #1152b5;
+  --blue-soft: #eaf2ff;
+  --green: #067647;
+  --green-soft: #e8f7ef;
+  --amber: #9a5b00;
+  --amber-soft: #fff4d6;
+  --neutral-badge: #eef1f5;
+  --neutral-badge-ink: #475467;
+}
+body { background: var(--surface); color: var(--ink); }
+footer { background: var(--panel); }
+.segmented-control span { color: #475467; }
+.segmented-control input:checked + span { border-color: #a7c7f6; background: var(--blue-soft); color: var(--blue-dark); }
+.toast { background: #101828; color: #fff; }

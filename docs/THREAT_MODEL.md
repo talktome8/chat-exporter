@@ -16,7 +16,8 @@
 
 ## Controls
 
-- `activeTab` instead of persistent host permissions.
+- `activeTab` supports popup export, while narrowly enumerated AI-chat host permissions enable the automatic in-chat widget.
+- Users can disable the widget per service; no wildcard access outside the listed AI-chat hosts is requested.
 - No cookies, identity, history, tabs or web-request permissions.
 - No network client, analytics or remote executable code.
 - Safe-link allowlist for Markdown output.

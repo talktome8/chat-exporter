@@ -6,18 +6,18 @@ type Slide = 1 | 2 | 3 | 4 | 5;
 
 const copy = {
   en: [
-    ['Export the chat you already have', 'Capture loaded messages instantly, then save a clean, readable copy.'],
-    ['Your conversation. Your format.', 'Export as Markdown or plain text — or copy everything to your clipboard.'],
+    ['Export without leaving the chat', 'The Chat Exporter quick action appears inside supported AI conversations.'],
+    ['Your conversation. Your format.', 'Markdown, plain text, clipboard — or a verified ZIP for very large chats.'],
     ['Need every message? Verify it.', 'Run a controlled full-conversation check only when completeness matters.'],
     ['Private by design', 'Your conversation is processed on your device. No account, analytics, servers, or remote code.'],
-    ['Built for the AI tools you use', 'Official support for ChatGPT, Claude, Gemini, Copilot, and Perplexity.'],
+    ['Built for the AI tools you use', 'Support for five leading AI chats, plus Grok and Mistral in Beta.'],
   ],
   he: [
-    ['השיחה שלך, בקובץ אחד', 'ייצוא מיידי של ההודעות שכבר נטענו לקובץ נקי, מסודר וקריא.'],
-    ['השיחה שלך. הפורמט שלך.', 'ייצוא ל‑Markdown או לטקסט פשוט — או העתקה ישירה ללוח.'],
+    ['ייצוא בלי לצאת מהצ׳אט', 'פעולת Chat Exporter מופיעה בתוך שיחות AI נתמכות.'],
+    ['השיחה שלך. הפורמט שלך.', 'Markdown, טקסט, לוח — או ZIP מאומת לשיחות גדולות מאוד.'],
     ['חשוב לקבל הכול? אפשר לוודא.', 'בדיקה מבוקרת של השיחה המלאה מופעלת רק כאשר השלמות חשובה.'],
     ['פרטי מלכתחילה', 'השיחה מעובדת במכשיר שלך בלבד. ללא חשבון, אנליטיקה, שרתים או קוד מרוחק.'],
-    ['נבנה עבור כלי ה‑AI שלך', 'תמיכה רשמית ב‑ChatGPT, Claude, Gemini, Copilot ו‑Perplexity.'],
+    ['נבנה עבור כלי ה‑AI שלך', 'תמיכה בחמישה שירותי צ׳אט מובילים, לצד Grok ו‑Mistral ב‑Beta.'],
   ],
 } as const;
 
@@ -84,7 +84,7 @@ const Popup = ({locale, slide}: {locale: Locale; slide: Slide}) => {
         <Icon size={43} />
         <div><div style={{fontWeight: 800, fontSize: 18, color: '#101828'}}>Chat Exporter <span style={{fontSize: 11, fontWeight: 500, color: '#667085'}}>by Tom Raz</span></div><div style={{fontSize: 12, color: '#667085', marginTop: 3}}>{t('Private, local AI chat export', 'ייצוא שיחות AI פרטי ומקומי')}</div></div>
       </div>
-      <div style={{padding: 20}}>
+      <div style={{padding: slide === 2 || slide === 5 ? 14 : 20}}>
         {slide === 1 && <>
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#667085', fontSize: 12, fontWeight: 800, marginBottom: 7}}><span>{t('CHATGPT', 'CHATGPT')}</span><span style={{padding: '3px 8px', borderRadius: 99, background: '#eef1f5', color: '#475467'}}>{t('Loaded', 'נטען')}</span></div>
           <h3 style={{margin: '0 0 4px', fontSize: 22, color: '#101828'}}>{t('24 messages found', 'נמצאו 24 הודעות')}</h3>
@@ -94,12 +94,11 @@ const Popup = ({locale, slide}: {locale: Locale; slide: Slide}) => {
         </>}
         {slide === 2 && <>
           <h3 style={popupTitle}>{t('Choose an export format', 'בחירת פורמט לייצוא')}</h3>
-          <div style={{display: 'grid', gap: 10}}>
+          <div style={{display: 'grid', gap: 7}}>
             <Choice active title="Markdown (.md)" detail={t('Headings, lists, links, code, tables', 'כותרות, רשימות, קישורים, קוד וטבלאות')} />
             <Choice title={t('Plain text (.txt)', 'טקסט פשוט (.txt)')} detail={t('Clean text for any editor', 'טקסט נקי לכל עורך')} />
-            <Choice title={t('Copy to clipboard', 'העתקה ללוח')} detail={t('Paste anywhere immediately', 'הדבקה מיידית בכל מקום')} />
+            <Choice title={t('Large-chat ZIP', 'ZIP לשיחה גדולה')} detail={t('Numbered parts with hashes and manifest', 'חלקים ממוספרים, hashes ו‑manifest')} />
           </div>
-          <button style={{...button, marginTop: 16}}>{t('Export conversation', 'ייצוא השיחה')}</button>
         </>}
         {slide === 3 && <>
           <div style={{height: 9, background: '#e7eef7', borderRadius: 9, overflow: 'hidden', margin: '10px 0 22px'}}><div style={{width: '100%', height: '100%', background: `linear-gradient(90deg, ${colors.blue}, ${colors.cyan})`}} /></div>
@@ -113,14 +112,15 @@ const Popup = ({locale, slide}: {locale: Locale; slide: Slide}) => {
           {[t('No account required', 'ללא צורך בחשבון'), t('No analytics or tracking', 'ללא אנליטיקה או מעקב'), t('No conversation uploads', 'ללא העלאת שיחות'), t('No remote code', 'ללא קוד מרוחק')].map((item) => (
             <div key={item} style={{display: 'flex', alignItems: 'center', gap: 11, padding: '12px 0', borderBottom: '1px solid #edf0f5', color: '#263247', fontSize: 15}}><span style={{color: colors.green, fontWeight: 900}}>✓</span>{item}</div>
           ))}
-          <div style={{marginTop: 20, padding: 13, background: '#effbf6', borderRadius: 12, color: '#237653', fontSize: 13}}>{t('Nothing is sent to Tom Raz.', 'שום דבר לא נשלח לתום רז.')}</div>
+          <div style={{marginTop: 20, padding: 13, background: '#effbf6', borderRadius: 12, color: '#237653', fontSize: 13}}>{t('Chat content is not transmitted.', 'תוכן השיחה אינו משודר.')}</div>
         </>}
         {slide === 5 && <>
-          <h3 style={popupTitle}>{t('Supported platforms', 'פלטפורמות נתמכות')}</h3>
-          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10}}>
-            {['ChatGPT', 'Claude', 'Gemini', 'Copilot', 'Perplexity'].map((name) => <div key={name} style={{padding: '15px 10px', borderRadius: 12, background: '#f5f8fc', color: '#1c2940', fontWeight: 750, textAlign: 'center', border: '1px solid #e1e8f2'}}>{name}</div>)}
+          <h3 style={{...popupTitle, marginBottom: 10}}>{t('Supported platforms', 'פלטפורמות נתמכות')}</h3>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 7}}>
+            {['ChatGPT', 'Claude', 'Gemini', 'Copilot', 'Perplexity'].map((name) => <div key={name} style={{padding: '10px 8px', borderRadius: 10, background: '#f5f8fc', color: '#1c2940', fontSize: 13, fontWeight: 750, textAlign: 'center', border: '1px solid #e1e8f2'}}>{name}</div>)}
+            {['Grok · Beta', 'Mistral · Beta'].map((name) => <div key={name} style={{padding: '10px 8px', borderRadius: 10, background: '#fffaf0', color: '#8a5700', fontSize: 13, fontWeight: 750, textAlign: 'center', border: '1px dashed #e2b95b'}}>{name}</div>)}
           </div>
-          <p style={{fontSize: 12, color: '#7b8798', lineHeight: 1.5, marginTop: 18}}>{t('If a page cannot be read, Chat Exporter tells you before you export.', 'אם לא ניתן לקרוא עמוד, Chat Exporter מציג זאת לפני הייצוא.')}</p>
+          <p style={{fontSize: 11, color: '#7b8798', lineHeight: 1.4, marginTop: 10}}>{t('If a page cannot be read, Chat Exporter tells you before you export.', 'אם לא ניתן לקרוא עמוד, Chat Exporter מציג זאת לפני הייצוא.')}</p>
         </>}
       </div>
       <div style={{position: 'absolute', bottom: 0, left: 0, right: 0, height: 42, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc', borderTop: '1px solid #edf0f5', color: '#667085', fontSize: 11}}>● <span style={{color: colors.green, marginInlineStart: 5}}>{t('Processed on this device', 'העיבוד מתבצע במכשיר זה')}</span></div>

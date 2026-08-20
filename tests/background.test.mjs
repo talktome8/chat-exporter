@@ -1,0 +1,41 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import test from "node:test";
+import vm from "node:vm";
+
+const root = new URL("../extension/", import.meta.url);
+const platformSource = await readFile(new URL("src/platforms.js", root), "utf8");
+const backgroundSource = await readFile(new URL("background.js", root), "utf8");
+
+test("registers the in-chat widget for every service on a clean install", async () => {
+  const listeners = {};
+  const registrations = [];
+  const stored = [];
+  const chrome = {
+    storage: { local: { get: async () => ({}), set: async (value) => { stored.push(value); } } },
+    scripting: {
+      getRegisteredContentScripts: async () => [],
+      registerContentScripts: async (definitions) => { registrations.push(...definitions); },
+      updateContentScripts: async () => {},
+      unregisterContentScripts: async () => {}
+    },
+    runtime: {
+      onInstalled: { addListener: (listener) => { listeners.installed = listener; } },
+      onStartup: { addListener: (listener) => { listeners.startup = listener; } },
+      onMessage: { addListener: (listener) => { listeners.message = listener; } }
+    }
+  };
+  const context = vm.createContext({ chrome, console });
+  vm.runInContext(platformSource, context);
+  vm.runInContext(backgroundSource, context);
+  await listeners.installed();
+
+  assert.equal(registrations.length, 7);
+  assert.deepEqual(registrations.map((item) => item.id), [
+    "chat-exporter-widget-chatgpt", "chat-exporter-widget-claude", "chat-exporter-widget-gemini",
+    "chat-exporter-widget-copilot", "chat-exporter-widget-perplexity", "chat-exporter-widget-grok",
+    "chat-exporter-widget-mistral"
+  ]);
+  assert.ok(registrations.find((item) => item.id.endsWith("perplexity")).matches.includes("https://www.perplexity.ai/*"));
+  assert.ok(Object.values(stored.at(-1).settingsV2.enabledSites).every(Boolean));
+});

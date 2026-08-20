@@ -3,11 +3,10 @@ import { createWriteStream } from "node:fs";
 import { mkdir, readFile, readdir, rm } from "node:fs/promises";
 import path from "node:path";
 
-const sourceRoot = path.resolve("extension");
-const manifest = JSON.parse(await readFile(path.join(sourceRoot, "manifest.json"), "utf8"));
-const artifactName = `chat-exporter-by-tom-raz-${manifest.version}.zip`;
+const buildsRoot = path.resolve("dist/extension-builds");
+const sourceManifest = JSON.parse(await readFile(path.resolve("extension/manifest.json"), "utf8"));
+const artifactVersion = sourceManifest.version;
 const outputRoot = path.resolve("dist");
-const outputPath = path.join(outputRoot, artifactName);
 const fixedDate = new Date("1980-01-01T00:00:00.000Z");
 
 async function filesUnder(directory, prefix = "") {
@@ -23,19 +22,16 @@ async function filesUnder(directory, prefix = "") {
 }
 
 await mkdir(outputRoot, { recursive: true });
-await rm(outputPath, { force: true });
-
-await new Promise(async (resolve, reject) => {
-  const output = createWriteStream(outputPath);
-  const archive = new ZipArchive({ zlib: { level: 9 } });
-  output.on("close", resolve);
-  output.on("error", reject);
-  archive.on("error", reject);
-  archive.pipe(output);
-  for (const file of await filesUnder(sourceRoot)) {
-    archive.append(await readFile(file.absolute), { name: file.relative, date: fixedDate, mode: 0o644 });
-  }
-  await archive.finalize();
-});
-
-console.log(outputPath);
+for (const target of ["chrome", "edge", "firefox"]) {
+  const sourceRoot = path.join(buildsRoot, target);
+  const outputPath = path.join(outputRoot, `chat-exporter-by-tom-raz-${artifactVersion}-${target}.zip`);
+  await rm(outputPath, { force: true });
+  await new Promise(async (resolve, reject) => {
+    const output = createWriteStream(outputPath);
+    const archive = new ZipArchive({ zlib: { level: 9 } });
+    output.on("close", resolve); output.on("error", reject); archive.on("error", reject); archive.pipe(output);
+    for (const file of await filesUnder(sourceRoot)) archive.append(await readFile(file.absolute), { name: file.relative, date: fixedDate, mode: 0o644 });
+    await archive.finalize();
+  });
+  console.log(outputPath);
+}

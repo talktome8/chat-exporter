@@ -24,6 +24,9 @@ test("builds stable Markdown with metadata and mixed-direction content", () => {
   assert.match(result, /שלום \*\*עולם\*\*/);
   assert.match(result, /```js/);
   assert.match(result, /https:\/\/chatgpt\.com\/c\/example/);
+  assert.match(result, /\*\*Total messages:\*\* 2/);
+  assert.match(result, /\*\*User messages:\*\* 1/);
+  assert.match(result, /\*\*AI responses:\*\* 1/);
 });
 
 test("plain text strips common Markdown", () => {
@@ -31,6 +34,15 @@ test("plain text strips common Markdown", () => {
   assert.doesNotMatch(result, /```|\*\*|^##/m);
   assert.match(result, /console\.log/);
   assert.match(result, /\[עוזר\]/);
+});
+
+test("metadata counts only messages selected for export", () => {
+  const result = buildContent({ extraction, includeUser: false, includeAssistant: true, includeMeta: true, includeUrl: false, currentUrl: "", format: "txt", language: "en", date: new Date("2026-07-19T12:00:00Z") });
+  assert.match(result, /^Total messages: 1$/m);
+  assert.match(result, /^User messages: 0$/m);
+  assert.match(result, /^AI responses: 1$/m);
+  assert.doesNotMatch(result, /^\[User\]$/m);
+  assert.match(result, /^\[Assistant\]$/m);
 });
 
 test("rejects an empty role selection and sanitizes filenames", () => {

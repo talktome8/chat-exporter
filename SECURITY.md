@@ -2,7 +2,7 @@
 
 ## Supported version
 
-Security fixes are provided for the latest published version. Version `1.0.0` is currently a release candidate.
+Security fixes are provided for the latest published version. Version `2.0.0` is the current store-submission candidate; version `1.0.0` remains the published store build until the update is accepted.
 
 ## Architecture
 

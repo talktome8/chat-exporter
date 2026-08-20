@@ -1,0 +1,22 @@
+:root {
+  color-scheme: dark;
+  --ink: #f5f7fa;
+  --muted: #aab2bd;
+  --line: #343a40;
+  --panel: #1b1e21;
+  --surface: #131517;
+  --surface-raised: #202326;
+  --control-ink: #e5e9ef;
+  --blue: #5797f2;
+  --blue-dark: #8ab9fb;
+  --blue-soft: #1c3558;
+  --green: #5ed49c;
+  --green-soft: #153b2b;
+  --amber: #ffd071;
+  --amber-soft: #493715;
+  --neutral-badge: #2b3036;
+  --neutral-badge-ink: #c3c9d1;
+}
+.warning { border-color: #71551f; background: #332811; color: #ffd071; }
+.widget-tip { border-color: #315c91; background: #172c47; color: #a9cdfd; }
+footer { background: #17191c; }

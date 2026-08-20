@@ -1,4 +1,4 @@
-# Release test matrix
+# Chat Exporter 2.0 release test matrix
 
 Record browser, browser version, AI platform version/date, tester, result and evidence for every row.
 
@@ -6,17 +6,19 @@ Record browser, browser version, AI platform version/date, tester, result and ev
 
 | Check | Result | Evidence |
 |---|---|---|
-| Automated release gate | Pass | `docs/QA_EVIDENCE.md` |
-| Firefox temporary installation | Pass | `web-ext run`, 2026-07-20 |
-| Firefox ChatGPT short conversation | Pass | Anonymous test; Markdown, TXT, Copy, filters, metadata and RTL confirmed |
-| Firefox Grok short conversation | Pass | Anonymous test; Complete status and clipboard copy confirmed, 2026-07-21 |
-| Remaining live matrix | Pending | No personal conversations used |
+| v1.0 historical evidence | Pass | `docs/QA_EVIDENCE.md` |
+| 2.0 automated release gate | Pass (2026-08-20) | 36/36 extension tests, 2/2 rendered-site tests, Firefox lint 0/0/0, three verified packages and release-readiness PASS |
+| 2.0 isolated install smoke | Pass with noted Edge runner limitation | Chrome and Firefox temporary-profile loads passed; Edge launched the byte-identical Chromium build directly after web-ext's headless CDP connection closed |
+| 2.0 live browser matrix | Owner UAT remains | Use `docs/chat-exporter-2.0-uat.md`; authenticated Claude/Copilot and Beta-service live rows are not represented as passed |
 
 ## Automated gate
 
 - JavaScript syntax and manifest parse.
-- Exact minimal permissions; no host permissions or web-accessible resources.
-- Adapter fixtures for ChatGPT, Claude, Gemini, Copilot and Perplexity.
+- Exact declared permissions and supported-site host access; no cookies, history, identity or network interception.
+- Adapter fixtures for ChatGPT, Claude, Gemini, Copilot, Perplexity, Grok and Mistral.
+- Default widget registration, single-widget reinjection, first-screen behavior and persistent dismiss controls.
+- Repeated-message preservation and overlapping-selector collapse.
+- Large-conversation splitting, counts, hashes and ZIP manifest integrity.
 - Markdown, plain text, Hebrew, code, links and tables.
 - Firefox `web-ext lint` with warnings treated as errors.
 - Deterministic ZIP contents and SHA-256 equality with source files.

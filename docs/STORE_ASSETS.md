@@ -38,8 +38,9 @@ AMO does not impose a practical screenshot-count limit, but each image should de
 
 ## Public links
 
-- Homepage/source: `https://github.com/talktome8/chat-exporter`
-- Privacy: `https://github.com/talktome8/chat-exporter/blob/main/PRIVACY.md`
+- Homepage: `https://chat-exporter.raztom.com/`
+- Source: `https://github.com/talktome8/chat-exporter`
+- Privacy: `https://chat-exporter.raztom.com/privacy`
 - Support: `https://github.com/talktome8/chat-exporter/issues`
 
 The personal portfolio is optional and is not needed for the initial submission.

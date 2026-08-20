@@ -2,10 +2,32 @@
   "manifest_version": 3,
   "name": "__MSG_extensionName__",
   "short_name": "Chat Exporter",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "__MSG_extensionDescription__",
   "default_locale": "en",
   "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*",
+    "https://copilot.microsoft.com/*",
+    "https://perplexity.ai/*",
+    "https://www.perplexity.ai/*",
+    "https://grok.com/*",
+    "https://x.ai/*",
+    "https://chat.mistral.ai/*"
+  ],
+  "background": { "scripts": ["src/platforms.js", "background.js"], "service_worker": "background.js" },
+  "web_accessible_resources": [{
+    "resources": ["icons/icon48.png"],
+    "matches": [
+      "https://chatgpt.com/*", "https://chat.openai.com/*", "https://claude.ai/*",
+      "https://gemini.google.com/*", "https://copilot.microsoft.com/*", "https://perplexity.ai/*",
+      "https://www.perplexity.ai/*",
+      "https://grok.com/*", "https://x.ai/*", "https://chat.mistral.ai/*"
+    ]
+  }],
   "browser_specific_settings": {
     "gecko": {
       "id": "chat-exporter@raztom.com",

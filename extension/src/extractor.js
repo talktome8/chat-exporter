@@ -1,122 +1,25 @@
-(async function chatExporterExtract() {
+(function exposeExtractor(global) {
   "use strict";
 
-  const LOAD_TIMEOUT_MS = 10000;
-  const BACKWARD_STEP_LIMIT = 24;
-  const FORWARD_STEP_LIMIT = 80;
+  const NO_PROGRESS_LIMIT = 12;
   const STABLE_PASSES_REQUIRED = 3;
   const STEP_DELAY_MS = 260;
-  const extractionMode = globalThis.__CHAT_EXPORTER_MODE__ === "full" ? "full" : "quick";
+  let extractionMode = "quick";
 
-  globalThis.__CHAT_EXPORTER_CANCEL__ = false;
-
-  const adapters = [
-    {
-      id: "chatgpt",
-      platform: "ChatGPT",
-      hosts: ["chatgpt.com", "chat.openai.com"],
-      status: "supported",
-      user: ['[data-message-author-role="user"]'],
-      assistant: ['[data-message-author-role="assistant"]']
-    },
-    {
-      id: "claude",
-      platform: "Claude",
-      hosts: ["claude.ai"],
-      status: "supported",
-      user: ['[data-testid="human-turn"]', '[data-testid="user-message"]'],
-      assistant: ['[data-testid="assistant-turn"]', '[data-is-streaming]']
-    },
-    {
-      id: "gemini",
-      platform: "Gemini",
-      hosts: ["gemini.google.com"],
-      status: "supported",
-      deep: true,
-      user: ["user-query", '.user-query', '[data-test-id="user-query"]'],
-      assistant: ["model-response", '.model-response', '[data-test-id="model-response"]']
-    },
-    {
-      id: "copilot",
-      platform: "Copilot",
-      hosts: ["copilot.microsoft.com"],
-      status: "supported",
-      user: ['[data-role="user"]', '[data-content="user-message"]', '[data-testid*="user-message"]'],
-      assistant: ['[data-role="assistant"]', '[data-content="ai-message"]', '[data-testid*="assistant-message"]']
-    },
-    {
-      id: "perplexity",
-      platform: "Perplexity",
-      hosts: ["perplexity.ai"],
-      status: "supported",
-      user: ['[data-testid="user-query"]', '[data-scope="web"] .break-words', '[class*="UserMessage"]'],
-      assistant: ['[data-testid="answer"]', '[data-testid*="assistant"]', 'main .prose']
-    },
-    {
-      id: "grok",
-      platform: "Grok",
-      hosts: ["grok.com", "x.ai"],
-      status: "beta",
-      user: [
-        '[data-testid="conversation-turn-user"]', '[data-testid="user-message"]',
-        '[data-testid*="user-message"]', '[data-message-author-role="user"]',
-        '[data-role="user"]', '[class*="user-message"]', '[class*="userMessage"]'
-      ],
-      assistant: [
-        '[data-testid="conversation-turn-assistant"]', '[data-testid="assistant-message"]',
-        '[data-testid*="assistant-message"]', '[data-message-author-role="assistant"]',
-        '[data-role="assistant"]', '[class*="assistant-message"]', '[class*="assistantMessage"]'
-      ]
-    },
-    {
-      id: "mistral",
-      platform: "Mistral",
-      hosts: ["chat.mistral.ai"],
-      status: "beta",
-      user: [
-        '[data-testid="conversation-turn-user"]', '[data-testid="user-message"]',
-        '[data-testid*="user-message"]', '[class*="UserMessage"]',
-        '[class*="user-message"]', '[data-role="user"]'
-      ],
-      assistant: [
-        '[data-testid="conversation-turn-assistant"]', '[data-testid="assistant-message"]',
-        '[data-testid*="assistant-message"]', '[class*="AssistantMessage"]',
-        '[class*="assistant-message"]', '[data-role="assistant"]'
-      ]
-    }
-  ];
-
-  const genericAdapter = {
-    id: "generic",
-    platform: "AI chat",
-    hosts: [],
-    status: "experimental",
-    user: [
-      '[data-message-author-role="user"]', '[data-role="user"]',
-      '[data-testid*="human"]', '[data-testid*="user-message"]',
-      '[class*="UserMessage"]', '[class*="user-message"]', '[class*="human-message"]'
-    ],
-    assistant: [
-      '[data-message-author-role="assistant"]', '[data-role="assistant"]',
-      '[data-testid*="assistant"]', '[class*="AssistantMessage"]',
-      '[class*="assistant-message"]', '[class*="model-response"]'
-    ]
-  };
+  global.__CHAT_EXPORTER_CANCEL__ = false;
+  const registry = global.ChatExporterPlatforms;
+  if (!registry) throw new Error("platform_registry_missing");
 
   function cancelled() {
-    return globalThis.__CHAT_EXPORTER_CANCEL__ === true;
+    return global.__CHAT_EXPORTER_CANCEL__ === true;
   }
 
   function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  function hostMatches(host, candidate) {
-    return host === candidate || host.endsWith(`.${candidate}`);
-  }
-
-  function selectAdapter(host) {
-    return adapters.find((adapter) => adapter.hosts.some((candidate) => hostMatches(host, candidate))) || genericAdapter;
+  function reportProgress(phase, messages, step) {
+    try { global.__CHAT_EXPORTER_PROGRESS__?.({ phase, messageCount: messages.length, step }); } catch { /* Progress reporting is optional. */ }
   }
 
   function queryAllDeep(selector, root = document) {
@@ -191,8 +94,20 @@
 
     return tagged
       .filter(({ element }, index, list) => !list.some((other, otherIndex) => otherIndex !== index && other.element.contains(element)))
-      .map(({ role, element }) => ({ role, text: normalizeMessageText(adapter, role, toMarkdown(element)), element }))
+      .map(({ role, element }) => ({ role, text: normalizeMessageText(adapter, role, toMarkdown(element)), element, turnId: stableTurnId(element) }))
       .filter((message) => message.text.length > 0);
+  }
+
+  function stableTurnId(element) {
+    let current = element;
+    for (let depth = 0; current && depth < 5; depth += 1, current = current.parentElement) {
+      for (const name of ["data-message-id", "data-turn-id", "data-testid", "id"]) {
+        const value = current.getAttribute?.(name);
+        if (!value || /^(?:(?:user|assistant|model|human)[-_ ]?)?(?:message|turn|query|response|answer)$/i.test(value)) continue;
+        return `${name}:${value}`;
+      }
+    }
+    return "";
   }
 
   function normalizeMessageText(adapter, role, value) {
@@ -307,39 +222,61 @@
     return `${message.role}\u0000${message.text}`;
   }
 
+  function sameTurn(a, b) {
+    if (a.turnId && b.turnId) return a.turnId === b.turnId && messageSignature(a) === messageSignature(b);
+    return messageSignature(a) === messageSignature(b);
+  }
+
+  function mergeMessageWindows(existing, incoming) {
+    if (!existing.length) return incoming.map(stripElement);
+    if (!incoming.length) return existing.slice();
+    const max = Math.min(existing.length, incoming.length);
+    let overlap = 0;
+    for (let size = max; size > 0; size -= 1) {
+      let matches = true;
+      for (let index = 0; index < size; index += 1) {
+        if (!sameTurn(existing[existing.length - size + index], incoming[index])) { matches = false; break; }
+      }
+      const hasStableIdentity = incoming.slice(0, size).some((message) => message.turnId);
+      if (matches && (size >= 2 || hasStableIdentity || existing.length === incoming.length)) {
+        overlap = size;
+        break;
+      }
+    }
+    return existing.concat(incoming.slice(overlap).map(stripElement));
+  }
+
   function snapshotKey(messages, container) {
     const first = messages[0]?.text.slice(0, 160) || "";
     return `${messages.length}|${first}|${container.scrollHeight}|${Math.round(getScrollTop(container))}`;
   }
 
   async function loadAndExtract(adapter) {
-    const startedAt = Date.now();
     let initial = extractWithAdapter(adapter);
-    if (initial.length < 2) return { messages: initial, completeness: "unknown", warnings: [] };
+    if (initial.length < 2) return { messages: initial, completeness: "loaded", warnings: [] };
 
     const container = findScrollContainer(initial);
     const range = scrollRange(container);
-    if (range < 32) return { messages: initial.map(stripElement), completeness: "complete", warnings: [] };
-
     if (extractionMode === "quick") {
       return {
         messages: initial.map(stripElement),
-        completeness: "unknown",
+        completeness: "loaded",
         warnings: ["quick"]
       };
     }
+    if (range < 32) return { messages: initial.map(stripElement), completeness: "complete", warnings: [] };
 
     const savedBottomDistance = range - getScrollTop(container);
     let stablePasses = 0;
     let previousKey = "";
     let reachedTop = false;
 
-    for (let step = 0; step < BACKWARD_STEP_LIMIT; step += 1) {
+    for (let step = 0; ; step += 1) {
       if (cancelled()) throw new Error("cancelled");
-      if (Date.now() - startedAt > LOAD_TIMEOUT_MS) break;
       setScrollTop(container, 0);
       await wait(STEP_DELAY_MS);
       const current = extractWithAdapter(adapter);
+      reportProgress("loading-start", current, step + 1);
       const key = snapshotKey(current, container);
       stablePasses = key === previousKey ? stablePasses + 1 : 0;
       previousKey = key;
@@ -347,25 +284,22 @@
         reachedTop = true;
         break;
       }
+      if (stablePasses >= NO_PROGRESS_LIMIT) break;
     }
 
-    const ordered = [];
-    const seen = new Set();
+    let ordered = [];
     let reachedBottom = false;
+    let noProgressPasses = 0;
     setScrollTop(container, 0);
     await wait(STEP_DELAY_MS);
 
-    for (let step = 0; step < FORWARD_STEP_LIMIT; step += 1) {
+    for (let step = 0; ; step += 1) {
       if (cancelled()) throw new Error("cancelled");
-      if (Date.now() - startedAt > LOAD_TIMEOUT_MS * 2) break;
       const current = extractWithAdapter(adapter);
-      for (const message of current) {
-        const signature = messageSignature(message);
-        if (!seen.has(signature)) {
-          seen.add(signature);
-          ordered.push(stripElement(message));
-        }
-      }
+      const before = ordered.length;
+      ordered = mergeMessageWindows(ordered, current);
+      reportProgress("collecting", ordered, step + 1);
+      noProgressPasses = ordered.length === before ? noProgressPasses + 1 : 0;
 
       const max = scrollRange(container);
       const top = getScrollTop(container);
@@ -373,6 +307,7 @@
         reachedBottom = true;
         break;
       }
+      if (noProgressPasses >= NO_PROGRESS_LIMIT) break;
       setScrollTop(container, Math.min(max, top + Math.max(240, container.clientHeight * 0.72)));
       await wait(STEP_DELAY_MS);
     }
@@ -383,21 +318,40 @@
     return {
       messages: ordered.length >= initial.length ? ordered : initial.map(stripElement),
       completeness: complete ? "complete" : "partial",
+      partialReason: complete ? "" : (!reachedTop ? "start_not_verified" : !reachedBottom ? "end_not_verified" : "merge_not_verified"),
       warnings: complete ? [] : ["partial"]
     };
   }
 
   function stripElement(message) {
-    return { role: message.role, text: message.text };
+    return { role: message.role, text: message.text, ...(message.turnId ? { turnId: message.turnId } : {}) };
   }
 
-  function detectModel() {
-    const elements = document.querySelectorAll('button, [role="button"], [aria-label], option');
+  function detectModel(adapter) {
+    for (const source of adapter.modelAttributes || []) {
+      const elements = querySelectors([source.selector], adapter.deep).reverse();
+      for (const element of elements) {
+        const value = (element.getAttribute(source.attribute) || "").trim();
+        if (value) return formatModelValue(adapter, value);
+      }
+    }
+    const elements = querySelectors(adapter.model || [], adapter.deep);
     for (const element of elements) {
       const value = ((element.textContent || element.getAttribute("aria-label") || "").split("\n")[0] || "").trim();
-      if (/^(claude|gpt|chatgpt|gemini|grok|mistral|llama|sonnet|haiku|opus|o[134]|4o|5)/i.test(value) && value.length < 64) return value;
+      if (!value || value.length >= 64 || value.toLocaleLowerCase() === adapter.name.toLocaleLowerCase()) continue;
+      if (adapter.id === "gemini" && /^(flash|pro|thinking|advanced)\b/i.test(value)) return value;
+      if (/^(claude|gpt|chatgpt|gemini|grok|mistral|llama|sonnet|haiku|opus|o[134]|4o|5)/i.test(value)) return value;
     }
     return "";
+  }
+
+  function formatModelValue(adapter, value) {
+    if (adapter.id === "chatgpt") {
+      const decimal = value.match(/^gpt-(\d+)-(\d+)$/i);
+      if (decimal) return `GPT-${decimal[1]}.${decimal[2]}`;
+      return value.replace(/^gpt-/i, "GPT-");
+    }
+    return value;
   }
 
   function cleanTitle(value) {
@@ -408,12 +362,15 @@
       .slice(0, 120);
   }
 
-  try {
+  async function run(mode = "quick") {
+   extractionMode = mode === "full" ? "full" : "quick";
+   global.__CHAT_EXPORTER_CANCEL__ = false;
+   try {
     const host = location.hostname.replace(/^www\./, "");
-    const adapter = selectAdapter(host);
+    const adapter = registry.select(host);
     let extraction = await loadAndExtract(adapter);
 
-    if (adapter === genericAdapter && extraction.messages.length < 2) {
+    if (adapter === registry.generic && extraction.messages.length < 2) {
       return { ok: false, code: "unsupported" };
     }
 
@@ -423,13 +380,14 @@
 
     return {
       ok: extraction.messages.length > 0,
-      platform: adapter === genericAdapter ? host : adapter.platform,
+      platform: adapter === registry.generic ? host : adapter.name,
       adapter: adapter.id,
       supportStatus: adapter.status,
-      model: detectModel(),
-      title: cleanTitle(document.title) || `${adapter.platform} conversation`,
+      model: detectModel(adapter),
+      title: cleanTitle(document.title) || `${adapter.name} conversation`,
       messages: extraction.messages,
       completeness: extraction.completeness,
+      partialReason: extraction.partialReason || "",
       scanMode: extractionMode,
       warnings: Array.from(new Set(warnings))
     };
@@ -439,5 +397,10 @@
       code: error?.message === "cancelled" ? "cancelled" : "extract_failed",
       error: String(error?.message || error)
     };
+   }
   }
-})();
+
+  global.ChatExporterExtractor = { run, mergeMessageWindows };
+  if (global.__CHAT_EXPORTER_RUN_ON_LOAD__) return run(global.__CHAT_EXPORTER_MODE__);
+  return null;
+})(globalThis);

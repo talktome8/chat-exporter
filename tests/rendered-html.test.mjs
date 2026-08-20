@@ -18,12 +18,16 @@ test("exports the product page with accurate launch content", async () => {
   assert.match(html, /microsoftedge\.microsoft\.com/);
   assert.match(html, /addons\.mozilla\.org/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/);
-  assert.doesNotMatch(html, /Grok and Mistral remain clearly marked beta/);
+  assert.match(html, /Version 2\.0\.0/);
+  assert.match(html, /Grok/);
+  assert.match(html, /Mistral/);
 });
 
 test("exports the public privacy policy", async () => {
   const html = await render("privacy.html");
   assert.match(html, /Privacy Policy/);
   assert.match(html, /does not make network requests/);
+  assert.match(html, /settingsV2/);
+  assert.match(html, /seven explicitly listed AI-chat services/);
   assert.match(html, /מדיניות פרטיות/);
 });
