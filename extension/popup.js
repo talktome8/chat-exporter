@@ -245,6 +245,18 @@
     }
   }
 
+  async function closeInChatWidget() {
+    try {
+      if (!activeTab?.id) {
+        [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      }
+      if (!activeTab?.id) return;
+      await chrome.tabs.sendMessage(activeTab.id, { type: "chatExporterWidget", action: "close" });
+    } catch {
+      // The widget is optional and may not be registered on this page.
+    }
+  }
+
   function showEmpty(titleKey, bodyKey) {
     elements.emptyTitle.textContent = translate(titleKey);
     elements.emptyBody.textContent = translate(bodyKey);
@@ -321,7 +333,10 @@
       const anchor = document.createElement("a");
       anchor.href = url;
       anchor.download = pack.filename;
+      anchor.hidden = true;
+      document.body.append(anchor);
       anchor.click();
+      anchor.remove();
       setTimeout(() => URL.revokeObjectURL(url), 5000);
       showToast("downloaded");
     } catch (error) {
@@ -381,6 +396,15 @@
     if (!elements.settings.hidden) await renderPlatformSettings();
   });
 
+  chrome.runtime.onMessage?.addListener((message) => {
+    if (message?.type === "chatExporterWidget" && message.action === "opened") window.close();
+  });
+  window.addEventListener("blur", () => window.close(), { once: true });
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") window.close();
+  });
+
   await loadSettings();
+  await closeInChatWidget();
   await scanConversation(settings.defaultScanMode);
 })();

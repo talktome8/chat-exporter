@@ -60,6 +60,14 @@ test("requires explicit confirmation before packaging a partial extraction", asy
   assert.equal(pack.manifest.partialReason, "start_not_verified");
 });
 
+test("uses the caller's canonical conversation title for the download name", async () => {
+  const pack = await context.ChatExporterArchive.createExportPackage(options([{ role: "user", text: "Hello" }], {
+    filenameTitle: "Dedicated chat name",
+    extraction: { platform: "ChatGPT", adapter: "chatgpt", title: "Fallback name", completeness: "complete", messages: [{ role: "user", text: "Hello" }] }
+  }));
+  assert.match(pack.filename, /^Dedicated-chat-name-2026-08-05\.md$/);
+});
+
 test("handles thousands of turns without changing their count or order", () => {
   const messages = Array.from({ length: 3000 }, (_, index) => ({ role: index % 2 ? "assistant" : "user", text: index % 100 === 0 ? "intentional repeat" : `turn-${index}` }));
   const split = context.ChatExporterArchive.splitConversation(options(messages).extraction, options(messages), 32 * 1024);

@@ -10,11 +10,11 @@ const sources = await Promise.all(["src/platforms.js", "src/i18n.js", "src/forma
 test("opens export first, promotes the widget once, and defaults every site on", async () => {
   const window = new Window({ url: "chrome-extension://test/popup.html" });
   window.document.write(html); window.document.close();
-  const listeners = { added: [], removed: [] };
+  const listeners = { added: [], removed: [], messages: [] };
   const saved = [];
   window.chrome = {
     storage: { local: { get: async () => ({ settingsV2: {} }), set: async (value) => { saved.push(value); } } },
-    tabs: { query: async () => [{ id: 1, url: "https://gemini.google.com/app/test" }] },
+    tabs: { query: async () => [{ id: 1, url: "https://gemini.google.com/app/test" }], sendMessage: async (tabId, message) => { listeners.messages.push({ tabId, message }); } },
     scripting: {
       executeScript: async (request) => request.func
         ? (request.func(...(request.args || [])), [{ result: null }])
@@ -24,11 +24,12 @@ test("opens export first, promotes the widget once, and defaults every site on",
       contains: async () => false, request: async () => true, remove: async () => true,
       onAdded: { addListener: (listener) => listeners.added.push(listener) }, onRemoved: { addListener: (listener) => listeners.removed.push(listener) }
     },
-    runtime: { sendMessage: async () => ({ ok: true }), getManifest: () => ({ version: "test" }) }
+    runtime: { sendMessage: async () => ({ ok: true }), getManifest: () => ({ version: "test" }), onMessage: { addListener: (listener) => listeners.messages.push({ listener }) } }
   };
   for (const source of sources.slice(0, -1)) window.eval(source);
   await window.eval(sources.at(-1));
   assert.equal(window.document.getElementById("result-view").hidden, false);
+  assert.ok(listeners.messages.some(({ message }) => message?.action === "close"));
   assert.match(window.document.getElementById("platform-icon").getAttribute("src"), /gemini\.png$/);
   assert.equal(window.document.getElementById("widget-tip").hidden, false);
   assert.equal(window.document.getElementById("warning").hidden, false);
@@ -54,4 +55,6 @@ test("popup supports live system theme changes and themed service logos", async 
   assert.match(css, /prefers-color-scheme:\s*dark/);
   assert.match(popup, /platform\?\.iconDark/);
   assert.match(popup, /darkMode\.addEventListener/);
+  assert.match(popup, /chatExporterWidget/);
+  assert.match(popup, /window\.addEventListener\("blur"/);
 });

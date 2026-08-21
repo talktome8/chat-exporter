@@ -356,6 +356,7 @@
 
   function cleanTitle(value) {
     return (value || "")
+      .replace(/^(ChatGPT|Claude|Gemini|Microsoft Copilot|Perplexity|Grok|Mistral)\s[-–|]\s/i, "")
       .replace(/\s[-–|]\s(ChatGPT|Claude|Gemini|Microsoft Copilot|Perplexity|Grok|Mistral).*$/i, "")
       .replace(/\s+/g, " ")
       .trim()
@@ -385,6 +386,7 @@
       supportStatus: adapter.status,
       model: detectModel(adapter),
       title: cleanTitle(document.title) || `${adapter.name} conversation`,
+      filenameTitle: cleanTitle(document.title) || `${adapter.name} conversation`,
       messages: extraction.messages,
       completeness: extraction.completeness,
       partialReason: extraction.partialReason || "",

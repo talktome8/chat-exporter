@@ -21,10 +21,14 @@
 
 * { box-sizing: border-box; }
 
-html, body { margin: 0; min-width: 340px; }
+html, body { height: 100%; margin: 0; min-width: 340px; }
 
 body {
   width: 340px;
+  height: min(600px, 100vh);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background: var(--surface);
   color: var(--ink);
   font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
@@ -69,7 +73,7 @@ h1 { margin: 0; font-size: 14px; line-height: 1.2; letter-spacing: -.01em; }
 }
 .settings-button:hover { background: var(--panel); }
 
-main { min-height: 340px; }
+main { min-height: 0; flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; }
 .loading-view, .empty-view { padding: 62px 26px 44px; text-align: center; }
 .loading-view h2, .empty-view h2 { margin: 14px 0 5px; font-size: 15px; }
 .loading-view p, .empty-view p { margin: 0 auto; max-width: 270px; color: var(--muted); }
@@ -89,14 +93,14 @@ main { min-height: 340px; }
 .progress-track { width: 220px; height: 4px; margin: 18px auto 10px; overflow: hidden; border-radius: 99px; background: #edf0f4; }
 .progress-track span { display: block; width: 18%; height: 100%; border-radius: inherit; background: var(--blue); transition: width .2s ease; }
 
-.result-view { padding-bottom: 11px; }
+.result-view { padding-bottom: 7px; }
 .conversation-summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin: 12px 14px 8px;
-  padding: 11px 12px;
+  margin: 10px 14px 6px;
+  padding: 9px 10px;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--panel);
@@ -111,16 +115,16 @@ main { min-height: 340px; }
 .completeness-badge.partial { background: var(--amber-soft); color: var(--amber); }
 .completeness-badge.loaded { background: var(--neutral-badge); color: var(--neutral-badge-ink); }
 
-.warning { display: flex; align-items: flex-start; gap: 8px; margin: 0 14px 8px; padding: 8px 10px; border: 1px solid #f4d99b; border-radius: 8px; background: #fffaeb; color: #7a4a00; font-size: 11px; }
+.warning { display: flex; align-items: flex-start; gap: 8px; margin: 0 14px 6px; padding: 7px 9px; border: 1px solid #f4d99b; border-radius: 8px; background: #fffaeb; color: #7a4a00; font-size: 10.5px; }
 .warning span { flex: 1; }
 .warning button { flex: none; padding: 2px 4px; border: 0; background: transparent; color: #7a4a00; cursor: pointer; font-size: 10px; font-weight: 800; }
-.widget-tip { display: flex; align-items: center; gap: 10px; margin: 0 14px 8px; padding: 9px 10px; border: 1px solid #b9d2f7; border-radius: 9px; background: #f2f7ff; color: #174a91; }
+.widget-tip { display: flex; align-items: center; gap: 10px; margin: 0 14px 6px; padding: 7px 9px; border: 1px solid #b9d2f7; border-radius: 9px; background: #f2f7ff; color: #174a91; }
 .widget-tip > div { flex: 1; }
 .widget-tip strong { display: block; font-size: 11px; }
 .widget-tip p { margin: 2px 0 0; font-size: 10px; line-height: 1.45; }
 .widget-tip button { flex: none; min-height: 28px; padding: 0 8px; border: 1px solid #9fc2f4; border-radius: 7px; background: var(--surface-raised); color: #174a91; cursor: pointer; font-size: 10px; font-weight: 800; }
 
-fieldset { margin: 0; padding: 9px 14px 6px; border: 0; border-top: 1px solid #f0f1f3; }
+fieldset { margin: 0; padding: 7px 14px 5px; border: 0; border-top: 1px solid #f0f1f3; }
 legend { width: 100%; padding: 0 0 6px; color: #98a2b3; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .option-row { display: flex; align-items: center; justify-content: space-between; min-height: 28px; cursor: pointer; }
 .option-row > span:first-child { display: inline-flex; align-items: center; gap: 8px; }
@@ -134,7 +138,7 @@ input[type="checkbox"], input[type="radio"] { width: 15px; height: 15px; margin:
 .segmented-control input:checked + span { border-color: #a7c7f6; background: var(--blue-soft); color: var(--blue-dark); font-weight: 700; }
 .segmented-control input:focus-visible + span { outline: 3px solid rgba(23, 105, 224, .28); outline-offset: 2px; }
 
-.actions { display: grid; grid-template-columns: 1.35fr 1fr; gap: 7px; padding: 9px 14px 3px; }
+.actions { display: grid; grid-template-columns: 1.35fr 1fr; gap: 7px; padding: 7px 14px 2px; }
 .primary-button, .secondary-button { min-height: 36px; border-radius: 8px; cursor: pointer; font-weight: 750; }
 .primary-button { border: 1px solid var(--blue); background: var(--blue); color: #fff; }
 .primary-button:hover { background: var(--blue-dark); border-color: var(--blue-dark); }
@@ -146,7 +150,7 @@ input[type="checkbox"], input[type="radio"] { width: 15px; height: 15px; margin:
 .empty-icon { display: grid; width: 36px; height: 36px; margin: 0 auto; place-items: center; border-radius: 50%; background: var(--amber-soft); color: var(--amber); font-weight: 900; }
 .empty-view .secondary-button { margin-top: 18px; padding: 0 18px; }
 
-footer { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; padding: 7px 12px; border-top: 1px solid var(--line); background: var(--panel); color: var(--muted); text-align: center; font-size: 9.5px; }
+footer { flex: none; display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 30px; padding: 6px 12px; border-top: 1px solid var(--line); background: var(--panel); color: var(--muted); text-align: center; font-size: 9.5px; }
 .privacy-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
 
 .toast { position: fixed; inset-inline: 14px; bottom: 12px; z-index: 10; padding: 9px 12px; border-radius: 8px; background: #101828; color: #fff; text-align: center; font-size: 11px; box-shadow: 0 8px 28px rgba(16, 24, 40, .22); }

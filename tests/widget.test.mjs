@@ -16,16 +16,19 @@ test("mounts one isolated widget on a supported chat and survives reinjection", 
       local: { get: async () => ({ settingsV2: { language: "en", defaultFormat: "md", includeUser: true, includeAssistant: true, includeMetadata: true, includeUrl: false, defaultScanMode: "quick" } }) },
       onChanged: { addListener: () => {} }
     },
-    runtime: { getURL: (path) => `chrome-extension://test/${path}`, getManifest: () => ({ version: "test" }) }
+    runtime: { getURL: (path) => `chrome-extension://test/${path}`, getManifest: () => ({ version: "test" }), sendMessage: () => {}, onMessage: { addListener: () => {} } }
   };
   for (const source of sources) window.eval(source);
   await new Promise((resolve) => setTimeout(resolve, 100));
   assert.equal(window.document.querySelectorAll("#chat-exporter-widget-host").length, 1);
-  assert.doesNotMatch(sources.at(-1), /extraction\?\.title|extraction\?\.model|class: "ce-head"/);
+  assert.doesNotMatch(sources.at(-1), /extraction\?\.model|class: "ce-head"/);
   assert.match(sources.at(-1), /class: "ce-status"/);
   assert.match(sources.at(-1), /getURL\("icons\/icon48\.png"\)/);
   assert.doesNotMatch(sources.at(-1), /getURL\(adapter\.icon\)/);
   assert.match(sources.at(-1), /data-ce-theme/);
+  assert.match(sources.at(-1), /filenameTitle/);
+  assert.match(sources.at(-1), /event\.composedPath\(\)\.includes\(host\)/);
+  assert.match(sources.at(-1), /action: "opened"/);
   window.eval(sources.at(-1));
   assert.equal(window.document.querySelectorAll("#chat-exporter-widget-host").length, 1);
   window.close();

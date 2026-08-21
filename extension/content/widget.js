@@ -97,6 +97,7 @@
   function currentOptions() {
     return {
       extraction,
+      filenameTitle: extraction?.filenameTitle || extraction?.title || "conversation",
       includeUser: shadow.getElementById("ce-user")?.checked ?? settings.includeUser,
       includeAssistant: shadow.getElementById("ce-assistant")?.checked ?? settings.includeAssistant,
       includeMeta: shadow.getElementById("ce-meta")?.checked ?? settings.includeMetadata,
@@ -159,8 +160,10 @@
     if (!confirmPartial) return;
     const pack = await global.ChatExporterArchive.createExportPackage({ ...currentOptions(), confirmPartial });
     const url = URL.createObjectURL(pack.blob);
-    const anchor = el("a", { href: url, download: pack.filename });
+    const anchor = el("a", { href: url, download: pack.filename, hidden: "" });
+    document.body.append(anchor);
     anchor.click();
+    anchor.remove();
     setTimeout(() => URL.revokeObjectURL(url), 5000);
   }
 
@@ -193,9 +196,28 @@
     }, 80);
   }
 
+  function closePanel() {
+    panel.hidden = true;
+  }
+
+  function notifyPopup() {
+    try { chrome.runtime.sendMessage({ type: "chatExporterWidget", action: "opened" }); } catch { /* The toolbar popup may be closed. */ }
+  }
+
   toggle.addEventListener("click", async () => {
     panel.hidden = !panel.hidden;
-    if (!panel.hidden && !extraction && !scanning) await scanConversation(settings.defaultScanMode);
+    if (!panel.hidden) {
+      notifyPopup();
+      if (!extraction && !scanning) await scanConversation(settings.defaultScanMode);
+    }
+  });
+
+  document.addEventListener("pointerdown", (event) => {
+    if (!panel.hidden && !event.composedPath().includes(host)) closePanel();
+  }, true);
+
+  chrome.runtime.onMessage?.addListener((message) => {
+    if (message?.type === "chatExporterWidget" && message.action === "close") closePanel();
   });
 
   loadSettings().then(() => {

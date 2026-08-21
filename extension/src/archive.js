@@ -137,7 +137,7 @@
     if (!extraction) throw new Error("missing_extraction");
     if (extraction.completeness === "partial" && !options.confirmPartial) throw new Error("partial_confirmation_required");
     const maxBytes = config.maxBytes || DEFAULT_PART_BYTES;
-    const base = global.ChatExporterFormat.safeFilename(extraction.title);
+    const base = global.ChatExporterFormat.safeFilename(options.filenameTitle || extraction.filenameTitle || extraction.title);
     const extension = options.format === "txt" ? "txt" : "md";
     const date = options.date || new Date();
     const dateSlug = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
