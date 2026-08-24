@@ -68,6 +68,8 @@ const checksums = [];
 for (const browser of browsers) {
   const targetManifest = await json(`dist/extension-builds/${browser}/manifest.json`);
   assert.equal(targetManifest.version, expectedVersion, `${browser} target version mismatch`);
+  if (browser === "firefox") assert.ok(targetManifest.browser_specific_settings?.gecko, "Firefox metadata missing");
+  else assert.equal("browser_specific_settings" in targetManifest, false, `${browser} includes Firefox-only metadata`);
   const archiveName = `chat-exporter-by-tom-raz-${expectedVersion}-${browser}.zip`;
   const archivePath = path.join(root, "dist", archiveName);
   const archiveBytes = await readFile(archivePath);

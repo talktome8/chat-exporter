@@ -9,6 +9,7 @@ test("uses a minimal Manifest V3 permission set", () => {
   assert.equal(manifest.manifest_version, 3);
   assert.equal(manifest.version, "2.0.0");
   assert.equal(manifest.name, "__MSG_extensionName__");
+  assert.ok(manifest.short_name.length <= 12);
   assert.deepEqual(manifest.permissions, ["activeTab", "scripting", "storage"]);
   assert.deepEqual(manifest.host_permissions, [
     "https://chatgpt.com/*", "https://chat.openai.com/*", "https://claude.ai/*",

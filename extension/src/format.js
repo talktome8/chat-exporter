@@ -23,6 +23,10 @@
     const labels = language === "he"
       ? { user: "משתמש", assistant: "עוזר", platform: "פלטפורמה", date: "תאריך", model: "מודל", completeness: "שלמות", messages: "הודעות בסך הכול", userMessages: "הודעות משתמש", assistantMessages: "תגובות AI" }
       : { user: "User", assistant: "Assistant", platform: "Platform", date: "Date", model: "Model", completeness: "Completeness", messages: "Total messages", userMessages: "User messages", assistantMessages: "AI responses" };
+    const completenessValues = language === "he"
+      ? { loaded: "נטען", complete: "מלא", partial: "חלקי" }
+      : { loaded: "Loaded", complete: "Complete", partial: "Partial" };
+    const completeness = completenessValues[extraction.completeness] || extraction.completeness || completenessValues.loaded;
     const lines = [];
     const selectedMessages = (extraction.messages || []).filter((message) => {
       if (message.role === "user" && !includeUser) return false;
@@ -39,7 +43,7 @@
         if (extraction.model) lines.push(`**${labels.model}:** ${extraction.model}`);
         if (includeUrl && currentUrl) lines.push(`**URL:** ${currentUrl}`);
         lines.push(
-          `**${labels.completeness}:** ${extraction.completeness || "loaded"}`,
+          `**${labels.completeness}:** ${completeness}`,
           `**${labels.messages}:** ${selectedMessages.length}`,
           `**${labels.userMessages}:** ${userMessageCount}`,
           `**${labels.assistantMessages}:** ${assistantMessageCount}`,
@@ -50,7 +54,7 @@
         if (extraction.model) lines.push(`${labels.model}: ${extraction.model}`);
         if (includeUrl && currentUrl) lines.push(`URL: ${currentUrl}`);
         lines.push(
-          `${labels.completeness}: ${extraction.completeness || "loaded"}`,
+          `${labels.completeness}: ${completeness}`,
           `${labels.messages}: ${selectedMessages.length}`,
           `${labels.userMessages}: ${userMessageCount}`,
           `${labels.assistantMessages}: ${assistantMessageCount}`,

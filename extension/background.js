@@ -18,7 +18,7 @@ const DEFAULT_SETTINGS = {
 
 async function loadSettings() {
   const stored = await chrome.storage.local.get(["settingsV2", "language"]);
-  const storedSettings = stored.settingsV2 || {};
+  const storedSettings = stored.settingsV2 && typeof stored.settingsV2 === "object" && !Array.isArray(stored.settingsV2) ? stored.settingsV2 : {};
   const enabledSites = Object.fromEntries(ChatExporterPlatforms.platforms.map((platform) => [
     platform.id,
     storedSettings.enabledSites?.[platform.id] !== false
@@ -26,7 +26,15 @@ async function loadSettings() {
   return {
     ...DEFAULT_SETTINGS,
     ...storedSettings,
-    language: storedSettings.language || stored.language || "en",
+    language: (storedSettings.language || stored.language) === "he" ? "he" : "en",
+    defaultFormat: storedSettings.defaultFormat === "txt" ? "txt" : "md",
+    includeUser: storedSettings.includeUser !== false,
+    includeAssistant: storedSettings.includeAssistant !== false,
+    includeMetadata: storedSettings.includeMetadata !== false,
+    includeUrl: storedSettings.includeUrl === true,
+    defaultScanMode: storedSettings.defaultScanMode === "full" ? "full" : "quick",
+    dismissedQuickWarning: storedSettings.dismissedQuickWarning === true,
+    dismissedWidgetTip: storedSettings.dismissedWidgetTip === true,
     enabledSites
   };
 }
@@ -40,6 +48,7 @@ async function syncWidgetRegistrations() {
   const registered = await chrome.scripting.getRegisteredContentScripts();
   const registeredIds = new Set(registered.map((script) => script.id));
 
+  const errors = [];
   for (const platform of ChatExporterPlatforms.platforms) {
     const id = `chat-exporter-widget-${platform.id}`;
     const enabled = settings.enabledSites[platform.id] !== false;
@@ -50,14 +59,19 @@ async function syncWidgetRegistrations() {
         runAt: "document_idle",
         persistAcrossSessions: true
       };
-    if (enabled && !registeredIds.has(id)) {
-      await chrome.scripting.registerContentScripts([definition]);
-    } else if (enabled) {
-      await chrome.scripting.updateContentScripts([definition]);
-    } else if (!enabled && registeredIds.has(id)) {
-      await chrome.scripting.unregisterContentScripts({ ids: [id] });
+    try {
+      if (enabled && !registeredIds.has(id)) {
+        await chrome.scripting.registerContentScripts([definition]);
+      } else if (enabled) {
+        await chrome.scripting.updateContentScripts([definition]);
+      } else if (!enabled && registeredIds.has(id)) {
+        await chrome.scripting.unregisterContentScripts({ ids: [id] });
+      }
+    } catch (error) {
+      errors.push({ platform: platform.id, error: String(error?.message || error) });
     }
   }
+  if (errors.length) console.warn("Chat Exporter could not register some widgets", errors);
   return settings;
 }
 

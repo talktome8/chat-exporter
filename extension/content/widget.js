@@ -19,6 +19,8 @@
   let route = location.href;
   let observer;
   let positionTimer;
+  let themeTimer;
+  let panelChoices = null;
   const systemTheme = global.matchMedia?.("(prefers-color-scheme: dark)");
 
   function text() { return copy[settings?.language === "he" ? "he" : "en"]; }
@@ -36,15 +38,16 @@
 
   async function loadSettings() {
     const stored = await chrome.storage.local.get(["settingsV2", "language"]);
+    const saved = stored.settingsV2 && typeof stored.settingsV2 === "object" && !Array.isArray(stored.settingsV2) ? stored.settingsV2 : {};
     settings = {
-      language: stored.settingsV2?.language || stored.language || "en",
-      defaultFormat: stored.settingsV2?.defaultFormat || "md",
-      includeUser: stored.settingsV2?.includeUser !== false,
-      includeAssistant: stored.settingsV2?.includeAssistant !== false,
-      includeMetadata: stored.settingsV2?.includeMetadata !== false,
-      includeUrl: stored.settingsV2?.includeUrl === true,
-      defaultScanMode: stored.settingsV2?.defaultScanMode === "full" ? "full" : "quick",
-      enabled: stored.settingsV2?.enabledSites?.[adapter.id] !== false
+      language: (saved.language || stored.language) === "he" ? "he" : "en",
+      defaultFormat: saved.defaultFormat === "txt" ? "txt" : "md",
+      includeUser: saved.includeUser !== false,
+      includeAssistant: saved.includeAssistant !== false,
+      includeMetadata: saved.includeMetadata !== false,
+      includeUrl: saved.includeUrl === true,
+      defaultScanMode: saved.defaultScanMode === "full" ? "full" : "quick",
+      enabled: saved.enabledSites?.[adapter.id] !== false
     };
   }
 
@@ -57,9 +60,10 @@
     ].filter(Boolean).join(" ").toLowerCase();
     if (/(^|\s|[-_:])dark(\s|$|[-_:])/.test(signal)) return "dark";
     if (/(^|\s|[-_:])light(\s|$|[-_:])/.test(signal)) return "light";
-    const background = global.getComputedStyle?.(body || root)?.backgroundColor || "";
-    const rgb = background.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
-    if (rgb) {
+    for (const node of [body, root]) {
+      const background = global.getComputedStyle?.(node)?.backgroundColor || "";
+      const rgb = background.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/i);
+      if (!rgb || (rgb[4] !== undefined && Number(rgb[4]) === 0)) continue;
       const luminance = (Number(rgb[1]) * 299 + Number(rgb[2]) * 587 + Number(rgb[3]) * 114) / 1000;
       if (luminance < 90) return "dark";
       if (luminance > 190) return "light";
@@ -68,6 +72,10 @@
   }
 
   function syncTheme() { host.dataset.ceTheme = detectTheme(); }
+  function scheduleThemeSync() {
+    clearTimeout(themeTimer);
+    themeTimer = setTimeout(syncTheme, 100);
+  }
 
   const host = el("div", { id: "chat-exporter-widget-host" });
   Object.assign(host.style, { position: "fixed", right: "24px", bottom: "24px", zIndex: "2147483646", direction: "ltr" });
@@ -109,7 +117,19 @@
     };
   }
 
+  function capturePanelChoices() {
+    if (!shadow.getElementById("ce-user")) return;
+    panelChoices = {
+      includeUser: shadow.getElementById("ce-user").checked,
+      includeAssistant: shadow.getElementById("ce-assistant").checked,
+      includeMetadata: shadow.getElementById("ce-meta").checked,
+      includeUrl: shadow.getElementById("ce-url").checked,
+      format: shadow.getElementById("ce-txt")?.checked ? "txt" : "md"
+    };
+  }
+
   function render() {
+    capturePanelChoices();
     const t = text();
     panel.replaceChildren();
     panel.dir = settings.language === "he" ? "rtl" : "ltr";
@@ -118,10 +138,10 @@
     const progress = el("div", { class: "ce-progress", text: scanning ? `${t.scanning} ${progressCount}` : `${counts.filter((message) => message.role === "user").length} ${t.user} · ${counts.filter((message) => message.role === "assistant").length} ${t.assistant}` });
     const status = el("div", { class: "ce-status" }, [progress, el("span", { class: `ce-badge ${badgeState}`, text: t[badgeState] || t.loaded })]);
     const options = el("div", { class: "ce-options" }, [
-      option("user", t.user, settings.includeUser), option("assistant", t.assistant, settings.includeAssistant), option("meta", t.meta, settings.includeMetadata), option("url", t.url, settings.includeUrl),
+      option("user", t.user, panelChoices?.includeUser ?? settings.includeUser), option("assistant", t.assistant, panelChoices?.includeAssistant ?? settings.includeAssistant), option("meta", t.meta, panelChoices?.includeMetadata ?? settings.includeMetadata), option("url", t.url, panelChoices?.includeUrl ?? settings.includeUrl),
       el("div", { class: "ce-format" }, [
-        el("label", {}, [el("input", { id: "ce-md", type: "radio", name: "ce-format", value: "md", ...(settings.defaultFormat !== "txt" ? { checked: "" } : {}) }), document.createTextNode("Markdown")]),
-        el("label", {}, [el("input", { id: "ce-txt", type: "radio", name: "ce-format", value: "txt", ...(settings.defaultFormat === "txt" ? { checked: "" } : {}) }), document.createTextNode("Text")])
+        el("label", {}, [el("input", { id: "ce-md", type: "radio", name: "ce-format", value: "md", ...((panelChoices?.format || settings.defaultFormat) !== "txt" ? { checked: "" } : {}) }), document.createTextNode("Markdown")]),
+        el("label", {}, [el("input", { id: "ce-txt", type: "radio", name: "ce-format", value: "txt", ...((panelChoices?.format || settings.defaultFormat) === "txt" ? { checked: "" } : {}) }), document.createTextNode("Text")])
       ])
     ]);
     const download = el("button", { class: "ce-primary", type: "button", text: t.download, onclick: downloadExport });
@@ -201,7 +221,10 @@
   }
 
   function notifyPopup() {
-    try { chrome.runtime.sendMessage({ type: "chatExporterWidget", action: "opened" }); } catch { /* The toolbar popup may be closed. */ }
+    try {
+      const delivery = chrome.runtime.sendMessage({ type: "chatExporterWidget", action: "opened" });
+      delivery?.catch?.(() => {});
+    } catch { /* The toolbar popup may be closed. */ }
   }
 
   toggle.addEventListener("click", async () => {
@@ -230,19 +253,20 @@
     positionWidget();
     observer = new MutationObserver(() => {
       if (route !== location.href) { route = location.href; extraction = null; render(); }
-      syncTheme();
+      scheduleThemeSync();
       positionWidget();
     });
     observer.observe(document.documentElement, { childList: true, subtree: true });
     global.addEventListener("resize", positionWidget, { passive: true });
     global.addEventListener("scroll", positionWidget, { passive: true });
-    systemTheme?.addEventListener?.("change", syncTheme);
+    systemTheme?.addEventListener?.("change", scheduleThemeSync);
   });
 
   chrome.storage.onChanged?.addListener((changes, area) => {
     if (area !== "local" || changes.settingsV2?.newValue?.enabledSites?.[adapter.id] !== false) return;
     observer?.disconnect();
     clearTimeout(positionTimer);
+    clearTimeout(themeTimer);
     host.remove();
     global.__CHAT_EXPORTER_WIDGET__ = false;
   });

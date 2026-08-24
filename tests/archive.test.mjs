@@ -37,7 +37,10 @@ test("creates a ZIP with numbered parts, hashes and a verifiable manifest", asyn
   const pack = await context.ChatExporterArchive.createExportPackage(options(messages), { maxBytes: 700 });
   assert.equal(pack.kind, "zip");
   assert.ok(pack.parts > 1);
-  const zip = new AdmZip(Buffer.from(await pack.blob.arrayBuffer()));
+  const zipBytes = Buffer.from(await pack.blob.arrayBuffer());
+  assert.notEqual(zipBytes.readUInt16LE(10), 0);
+  assert.notEqual(zipBytes.readUInt16LE(12), 0);
+  const zip = new AdmZip(zipBytes);
   const manifest = JSON.parse(zip.readAsText("manifest.json"));
   assert.equal(manifest.totalMessages, 40);
   assert.equal(manifest.userMessages, 20);

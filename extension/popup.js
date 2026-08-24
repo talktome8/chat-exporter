@@ -41,6 +41,7 @@
   let scanToken = 0;
   let progressTimer = null;
   let toastTimer = null;
+  let nativeDialogOpen = false;
   let previousView = "loading";
   const darkMode = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -71,13 +72,13 @@
   async function loadSettings() {
     try {
       const stored = await chrome.storage.local.get(["settingsV2", "language"]);
-      const storedSettings = stored.settingsV2 || {};
+      const storedSettings = stored.settingsV2 && typeof stored.settingsV2 === "object" && !Array.isArray(stored.settingsV2) ? stored.settingsV2 : {};
       const enabledSites = Object.fromEntries(ChatExporterPlatforms.platforms.map((platform) => [
         platform.id,
         storedSettings.enabledSites?.[platform.id] !== false
       ]));
       settings = {
-        language: storedSettings.language || stored.language || "en",
+        language: (storedSettings.language || stored.language) === "he" ? "he" : "en",
         enabledSites,
         defaultFormat: storedSettings.defaultFormat === "txt" ? "txt" : "md",
         includeUser: storedSettings.includeUser !== false,
@@ -324,9 +325,15 @@
     toastTimer = setTimeout(() => { elements.toast.hidden = true; }, 2200);
   }
 
+  function confirmUser(message) {
+    nativeDialogOpen = true;
+    try { return window.confirm(message); }
+    finally { nativeDialogOpen = false; }
+  }
+
   async function downloadExport() {
     try {
-      const confirmPartial = extraction?.completeness !== "partial" || window.confirm(translate("partialConfirm"));
+      const confirmPartial = extraction?.completeness !== "partial" || confirmUser(translate("partialConfirm"));
       if (!confirmPartial) return;
       const pack = await ChatExporterArchive.createExportPackage({ ...exportOptions(), confirmPartial });
       const url = URL.createObjectURL(pack.blob);
@@ -346,7 +353,7 @@
 
   async function copyExport() {
     try {
-      if (extraction?.completeness === "partial" && !window.confirm(translate("partialConfirm"))) return;
+      if (extraction?.completeness === "partial" && !confirmUser(translate("partialConfirm"))) return;
       await navigator.clipboard.writeText(buildContent());
       showToast("copied");
     } catch (error) {
@@ -399,9 +406,9 @@
   chrome.runtime.onMessage?.addListener((message) => {
     if (message?.type === "chatExporterWidget" && message.action === "opened") window.close();
   });
-  window.addEventListener("blur", () => window.close(), { once: true });
+  window.addEventListener("blur", () => { if (!nativeDialogOpen) window.close(); });
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "hidden") window.close();
+    if (!nativeDialogOpen && document.visibilityState === "hidden") window.close();
   });
 
   await loadSettings();

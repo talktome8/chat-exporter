@@ -5,6 +5,8 @@
   const STABLE_PASSES_REQUIRED = 3;
   const STEP_DELAY_MS = 260;
   let extractionMode = "quick";
+  const nodeIdentities = new WeakMap();
+  let nextNodeIdentity = 1;
 
   global.__CHAT_EXPORTER_CANCEL__ = false;
   const registry = global.ChatExporterPlatforms;
@@ -107,7 +109,8 @@
         return `${name}:${value}`;
       }
     }
-    return "";
+    if (!nodeIdentities.has(element)) nodeIdentities.set(element, nextNodeIdentity++);
+    return `node:${nodeIdentities.get(element)}`;
   }
 
   function normalizeMessageText(adapter, role, value) {
@@ -175,6 +178,7 @@
 
     return walk(root)
       .replace(/\u00a0/g, " ")
+      .replace(/\n[ \t]+(?=\S)/g, "\n")
       .replace(/[ \t]+$/gm, "")
       .replace(/\n{3,}/g, "\n\n")
       .trim();

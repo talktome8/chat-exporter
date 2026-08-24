@@ -95,10 +95,20 @@
   function write16(view, offset, value) { view.setUint16(offset, value, true); }
   function write32(view, offset, value) { view.setUint32(offset, value >>> 0, true); }
 
-  function makeZip(entries) {
+  function dosDateTime(value) {
+    const source = value instanceof Date && !Number.isNaN(value.getTime()) ? value : new Date();
+    const year = Math.min(2107, Math.max(1980, source.getFullYear()));
+    return {
+      date: ((year - 1980) << 9) | ((source.getMonth() + 1) << 5) | source.getDate(),
+      time: (source.getHours() << 11) | (source.getMinutes() << 5) | Math.floor(source.getSeconds() / 2)
+    };
+  }
+
+  function makeZip(entries, modifiedAt = new Date()) {
     const localParts = [];
     const centralParts = [];
     let offset = 0;
+    const dos = dosDateTime(modifiedAt);
 
     for (const entry of entries) {
       const name = encoder.encode(entry.name);
@@ -107,7 +117,7 @@
       const local = new Uint8Array(30 + name.length);
       const localView = new DataView(local.buffer);
       write32(localView, 0, 0x04034b50); write16(localView, 4, 20); write16(localView, 6, 0x0800);
-      write16(localView, 8, 0); write16(localView, 10, 0); write16(localView, 12, 0);
+      write16(localView, 8, 0); write16(localView, 10, dos.time); write16(localView, 12, dos.date);
       write32(localView, 14, crc); write32(localView, 18, data.length); write32(localView, 22, data.length);
       write16(localView, 26, name.length); write16(localView, 28, 0); local.set(name, 30);
       localParts.push(local, data);
@@ -115,7 +125,7 @@
       const central = new Uint8Array(46 + name.length);
       const centralView = new DataView(central.buffer);
       write32(centralView, 0, 0x02014b50); write16(centralView, 4, 20); write16(centralView, 6, 20);
-      write16(centralView, 8, 0x0800); write16(centralView, 10, 0); write16(centralView, 12, 0); write16(centralView, 14, 0);
+      write16(centralView, 8, 0x0800); write16(centralView, 10, 0); write16(centralView, 12, dos.time); write16(centralView, 14, dos.date);
       write32(centralView, 16, crc); write32(centralView, 20, data.length); write32(centralView, 24, data.length);
       write16(centralView, 28, name.length); write16(centralView, 30, 0); write16(centralView, 32, 0);
       write16(centralView, 34, 0); write16(centralView, 36, 0); write32(centralView, 38, 0); write32(centralView, 42, offset);
@@ -186,7 +196,7 @@
       parts: partRecords
     };
     entries.push({ name: "manifest.json", bytes: encoder.encode(`${JSON.stringify(manifest, null, 2)}\n`) });
-    return { kind: "zip", filename: `${base}-${dateSlug}.zip`, blob: makeZip(entries), manifest, parts: split.parts.length };
+    return { kind: "zip", filename: `${base}-${dateSlug}.zip`, blob: makeZip(entries, date), manifest, parts: split.parts.length };
   }
 
   global.ChatExporterArchive = { DEFAULT_PART_BYTES, byteLength, splitConversation, makeZip, createExportPackage };

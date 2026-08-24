@@ -36,6 +36,11 @@ test("plain text strips common Markdown", () => {
   assert.match(result, /\[עוזר\]/);
 });
 
+test("localizes completeness values in Hebrew metadata", () => {
+  const result = buildContent({ extraction, includeUser: true, includeAssistant: true, includeMeta: true, includeUrl: false, currentUrl: "", format: "txt", language: "he", date: new Date("2026-07-19T12:00:00Z") });
+  assert.match(result, /^שלמות: מלא$/m);
+});
+
 test("metadata counts only messages selected for export", () => {
   const result = buildContent({ extraction, includeUser: false, includeAssistant: true, includeMeta: true, includeUrl: false, currentUrl: "", format: "txt", language: "en", date: new Date("2026-07-19T12:00:00Z") });
   assert.match(result, /^Total messages: 1$/m);
