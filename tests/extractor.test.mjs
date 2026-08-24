@@ -154,5 +154,15 @@ test("merges overlapping windows without dropping repeated turns with stable ids
   assert.deepEqual(Array.from(sameNodeOverlap, (message) => message.turnId), ["node:1", "node:2"]);
   const legitimateRepeat = merge([{ role: "user", text: "same", turnId: "node:1" }], [{ role: "user", text: "same", turnId: "node:2" }, { role: "assistant", text: "next", turnId: "node:3" }]);
   assert.deepEqual(Array.from(legitimateRepeat, (message) => message.turnId), ["node:1", "node:2", "node:3"]);
+  const rebuiltTwoTurnOverlap = merge(
+    [{ role: "user", text: "a", turnId: "node:1" }, { role: "assistant", text: "b", turnId: "node:2" }],
+    [{ role: "user", text: "a", turnId: "node:3" }, { role: "assistant", text: "b", turnId: "node:4" }, { role: "user", text: "c", turnId: "node:5" }]
+  );
+  assert.deepEqual(Array.from(rebuiltTwoTurnOverlap, (message) => message.text), ["a", "b", "c"]);
+  const rebuiltFullWindow = merge(
+    [{ role: "user", text: "a", turnId: "node:1" }, { role: "assistant", text: "b", turnId: "node:2" }, { role: "user", text: "c", turnId: "node:3" }],
+    [{ role: "user", text: "a", turnId: "node:4" }, { role: "assistant", text: "b", turnId: "node:5" }, { role: "user", text: "c", turnId: "node:6" }, { role: "assistant", text: "d", turnId: "node:7" }]
+  );
+  assert.deepEqual(Array.from(rebuiltFullWindow, (message) => message.text), ["a", "b", "c", "d"]);
   window.close();
 });

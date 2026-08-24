@@ -226,8 +226,14 @@
     return `${message.role}\u0000${message.text}`;
   }
 
+  function authoritativeTurnId(message) {
+    return message.turnId && !message.turnId.startsWith("node:") ? message.turnId : "";
+  }
+
   function sameTurn(a, b) {
-    if (a.turnId && b.turnId) return a.turnId === b.turnId && messageSignature(a) === messageSignature(b);
+    const idA = authoritativeTurnId(a);
+    const idB = authoritativeTurnId(b);
+    if (idA && idB) return idA === idB && messageSignature(a) === messageSignature(b);
     return messageSignature(a) === messageSignature(b);
   }
 
@@ -241,8 +247,10 @@
       for (let index = 0; index < size; index += 1) {
         if (!sameTurn(existing[existing.length - size + index], incoming[index])) { matches = false; break; }
       }
-      const hasStableIdentity = incoming.slice(0, size).some((message) => message.turnId);
-      if (matches && (size >= 2 || hasStableIdentity || existing.length === incoming.length)) {
+      const pairs = incoming.slice(0, size).map((message, index) => [existing[existing.length - size + index], message]);
+      const hasAuthoritativeIdentity = pairs.some(([left, right]) => authoritativeTurnId(left) && authoritativeTurnId(left) === authoritativeTurnId(right));
+      const hasExactNodeIdentity = pairs.some(([left, right]) => left.turnId?.startsWith("node:") && left.turnId === right.turnId);
+      if (matches && (size >= 2 || hasAuthoritativeIdentity || hasExactNodeIdentity || existing.length === incoming.length)) {
         overlap = size;
         break;
       }
