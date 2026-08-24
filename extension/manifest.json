@@ -15,8 +15,7 @@
     "https://perplexity.ai/*",
     "https://www.perplexity.ai/*",
     "https://grok.com/*",
-    "https://x.ai/*",
-    "https://chat.mistral.ai/*"
+    "https://x.ai/*"
   ],
   "background": { "scripts": ["src/platforms.js", "background.js"], "service_worker": "background.js" },
   "web_accessible_resources": [{
@@ -25,7 +24,7 @@
       "https://chatgpt.com/*", "https://chat.openai.com/*", "https://claude.ai/*",
       "https://gemini.google.com/*", "https://copilot.microsoft.com/*", "https://perplexity.ai/*",
       "https://www.perplexity.ai/*",
-      "https://grok.com/*", "https://x.ai/*", "https://chat.mistral.ai/*"
+      "https://grok.com/*", "https://x.ai/*"
     ]
   }],
   "browser_specific_settings": {

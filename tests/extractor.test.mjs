@@ -11,8 +11,7 @@ const cases = [
   ["gemini", "https://gemini.google.com/app/test", "Gemini"],
   ["copilot", "https://copilot.microsoft.com/chats/test", "Copilot"],
   ["perplexity", "https://www.perplexity.ai/search/test", "Perplexity"],
-  ["grok", "https://grok.com/c/test", "Grok"],
-  ["mistral", "https://chat.mistral.ai/chat/test", "Mistral"]
+  ["grok", "https://grok.com/c/test", "Grok"]
 ];
 
 async function extractFixture(name, url, mode = "quick") {
@@ -33,7 +32,7 @@ for (const [name, url, platform] of cases) {
     const result = await extractFixture(name, url);
     assert.equal(result.ok, true);
     assert.equal(result.platform, platform);
-    assert.equal(result.supportStatus, ["Grok", "Mistral"].includes(platform) ? "beta" : "supported");
+    assert.equal(result.supportStatus, platform === "Grok" ? "beta" : "supported");
     assert.equal(result.completeness, "loaded");
     assert.equal(result.scanMode, "quick");
     assert.equal(result.messages.length, 2);

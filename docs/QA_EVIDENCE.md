@@ -24,4 +24,4 @@ Run date: 2026-07-21
 
 ## Remaining live gate
 
-Run the verified-platform matrix in Chrome, Edge and Firefox using anonymous test conversations before tagging or submitting the release. Grok and Mistral are not included in public support material until their live tests pass.
+Run the verified-platform matrix in Chrome, Edge and Firefox using anonymous test conversations before tagging or submitting the release. Grok remains Beta until its full live matrix passes.

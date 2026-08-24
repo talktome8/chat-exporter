@@ -49,14 +49,6 @@
       assistant: ['[data-testid="conversation-turn-assistant"]', '[data-testid="assistant-message"]', '[data-testid*="assistant-message"]', '[data-message-author-role="assistant"]', '[data-role="assistant"]', '[class*="assistant-message"]', '[class*="assistantMessage"]'],
       model: ['[data-testid*="model"]', 'button[aria-label*="model" i]'],
       composer: ['form:has(textarea)', '[contenteditable="true"]', 'textarea']
-    },
-    {
-      id: "mistral", name: "Mistral", hosts: ["chat.mistral.ai"], status: "beta",
-      icon: "platforms/mistral.png", accent: "#f97316",
-      user: ['[data-testid="conversation-turn-user"]', '[data-testid="user-message"]', '[data-testid*="user-message"]', '[class*="UserMessage"]', '[class*="user-message"]', '[data-role="user"]'],
-      assistant: ['[data-testid="conversation-turn-assistant"]', '[data-testid="assistant-message"]', '[data-testid*="assistant-message"]', '[class*="AssistantMessage"]', '[class*="assistant-message"]', '[data-role="assistant"]'],
-      model: ['[data-testid*="model"]', 'button[aria-label*="model" i]'],
-      composer: ['form:has(textarea)', '[contenteditable="true"]', 'textarea']
     }
   ];
 

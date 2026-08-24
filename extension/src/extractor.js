@@ -352,7 +352,7 @@
       const value = ((element.textContent || element.getAttribute("aria-label") || "").split("\n")[0] || "").trim();
       if (!value || value.length >= 64 || value.toLocaleLowerCase() === adapter.name.toLocaleLowerCase()) continue;
       if (adapter.id === "gemini" && /^(flash|pro|thinking|advanced)\b/i.test(value)) return value;
-      if (/^(claude|gpt|chatgpt|gemini|grok|mistral|llama|sonnet|haiku|opus|o[134]|4o|5)/i.test(value)) return value;
+      if (/^(claude|gpt|chatgpt|gemini|grok|llama|sonnet|haiku|opus|o[134]|4o|5)/i.test(value)) return value;
     }
     return "";
   }
@@ -368,8 +368,8 @@
 
   function cleanTitle(value) {
     return (value || "")
-      .replace(/^(ChatGPT|Claude|Gemini|Microsoft Copilot|Perplexity|Grok|Mistral)\s[-–|]\s/i, "")
-      .replace(/\s[-–|]\s(ChatGPT|Claude|Gemini|Microsoft Copilot|Perplexity|Grok|Mistral).*$/i, "")
+      .replace(/^(ChatGPT|Claude|Gemini|Microsoft Copilot|Perplexity|Grok)\s[-–|]\s/i, "")
+      .replace(/\s[-–|]\s(ChatGPT|Claude|Gemini|Microsoft Copilot|Perplexity|Grok).*$/i, "")
       .replace(/\s+/g, " ")
       .trim()
       .slice(0, 120);

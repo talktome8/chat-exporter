@@ -15,7 +15,7 @@ Record browser, browser version, AI platform version/date, tester, result and ev
 
 - JavaScript syntax and manifest parse.
 - Exact declared permissions and supported-site host access; no cookies, history, identity or network interception.
-- Adapter fixtures for ChatGPT, Claude, Gemini, Copilot, Perplexity, Grok and Mistral.
+- Adapter fixtures for ChatGPT, Claude, Gemini, Copilot, Perplexity and Grok.
 - Default widget registration, single-widget reinjection, first-screen behavior and persistent dismiss controls.
 - Repeated-message preservation and overlapping-selector collapse.
 - Large-conversation splitting, counts, hashes and ZIP manifest integrity.
@@ -45,7 +45,7 @@ Run each verified platform in current stable Chrome, Microsoft Edge and Firefox 
 | Restricted browser page | Pending | Pending | Pending |
 | Empty/unsupported page | Pending | Pending | Pending |
 
-Repeat the same matrix for ChatGPT, Claude, Gemini, Copilot and Perplexity. Grok and Mistral must pass every row before they are included in public support claims. Record live testing only with anonymous test conversations.
+Repeat the same matrix for ChatGPT, Claude, Gemini, Copilot and Perplexity. Grok must pass every row before it is promoted beyond Beta. Record live testing only with anonymous test conversations.
 
 ## Content fixtures
 

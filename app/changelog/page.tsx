@@ -17,7 +17,7 @@ export default function ChangelogPage() {
           <h2>2.0.0 — Store submission candidate</h2>
           <ul>
             <li>Added an automatic in-chat quick action with a shared Chat Exporter identity, platform-aware styling, Shadow DOM isolation and light/dark theme support.</li>
-            <li>Unified extraction adapters for ChatGPT, Claude, Gemini, Copilot, Perplexity, Grok and Mistral; Grok and Mistral remain clearly marked Beta.</li>
+            <li>Unified extraction adapters for ChatGPT, Claude, Gemini, Copilot, Perplexity and Grok; Grok remains clearly marked Beta.</li>
             <li>Preserved legitimate repeated messages while collapsing overlapping DOM selectors and virtualized-window overlap.</li>
             <li>Added full-conversation scanning, cancellation, progress and explicit complete/partial/loaded states.</li>
             <li>Added verified ZIP splitting above 10 MiB with numbered parts, counts, per-part SHA-256 hashes and a machine-readable manifest.</li>

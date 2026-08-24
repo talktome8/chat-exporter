@@ -22,7 +22,7 @@ Run date: 2026-08-07. Only synthetic QA prompts were used.
 | Claude | Blocked by authentication | The isolated browser reached Claude's login page. No account credentials were entered. Fixture and regression coverage passes, but live extension behavior is not yet certified. |
 | Copilot | Blocked by authentication | The isolated browser reached the account chooser and did not grant Microsoft/Google/Apple account access. Fixture and regression coverage passes, but live extension behavior is not yet certified. |
 | Grok | Partial, remains Beta | The live user-message selector matched a synthetic prompt, but Grok required sign-up before returning an assistant response. |
-| Mistral / Vibe | Blocked by terms acceptance, remains Beta | The live service required acceptance of new Vibe terms before use. No legal acceptance was made on the user's behalf. |
+| Mistral / Vibe | Deferred beyond 2.0 | Live extraction did not pass the release gate, so Mistral was removed from the 2.0 package and public compatibility claims. |
 
 ## Browser-channel status
 

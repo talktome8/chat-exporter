@@ -4,6 +4,7 @@ These ideas are intentionally not part of the stabilization beta. They should be
 
 ## 2.1 — local navigation helpers
 
+- Reintroduce Mistral only after its adapter passes the full live browser matrix.
 - Optional favorites for selected AI services and conversations.
 - A recent-exports list containing only platform, title, export time, and source URL; never conversation content unless the user explicitly opts in.
 - A clear **Open source conversation** action in the extension UI and exported metadata when URL export is enabled.

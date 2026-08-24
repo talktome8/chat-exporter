@@ -14,7 +14,7 @@ test("uses a minimal Manifest V3 permission set", () => {
   assert.deepEqual(manifest.host_permissions, [
     "https://chatgpt.com/*", "https://chat.openai.com/*", "https://claude.ai/*",
     "https://gemini.google.com/*", "https://copilot.microsoft.com/*", "https://perplexity.ai/*",
-    "https://www.perplexity.ai/*", "https://grok.com/*", "https://x.ai/*", "https://chat.mistral.ai/*"
+    "https://www.perplexity.ai/*", "https://grok.com/*", "https://x.ai/*"
   ]);
   assert.equal("optional_host_permissions" in manifest, false);
   assert.equal(manifest.background.service_worker, "background.js");
@@ -25,7 +25,7 @@ test("uses a minimal Manifest V3 permission set", () => {
 
 test("ships every declared icon and locale", async () => {
   for (const icon of Object.values(manifest.icons)) await access(new URL(icon, root));
-  for (const icon of ["chatgpt.png", "chatgpt-dark.png", "claude.png", "gemini.png", "copilot.png", "perplexity.png", "grok.png", "grok-dark.png", "mistral.png"]) {
+  for (const icon of ["chatgpt.png", "chatgpt-dark.png", "claude.png", "gemini.png", "copilot.png", "perplexity.png", "grok.png", "grok-dark.png"]) {
     await access(new URL(`platforms/${icon}`, root));
   }
   await access(new URL("_locales/en/messages.json", root));

@@ -30,6 +30,7 @@ assert.ok(sourceManifest.host_permissions.length > 0, "Automatic widget requires
 assert.ok(!sourceManifest.host_permissions.some((host) => host.includes("*://*/*")), "Wildcard host access is forbidden");
 
 const sourceFiles = await readdir(path.join(root, "extension"), { recursive: true });
+assert.ok(!sourceFiles.some((file) => /mistral/i.test(file)), "Mistral must not ship in the 2.0 extension package");
 assert.ok(!sourceFiles.some((file) => /(?:^|[\\/])(TODO|FIXME)(?:[.\\/]|$)/i.test(file)), "Unfinished marker file in extension");
 for (const file of sourceFiles.filter((name) => /\.(?:js|html|css|json)$/i.test(name))) {
   const body = await text(path.join("extension", file));
@@ -42,16 +43,17 @@ assert.match(privacy, /settingsV2/);
 assert.match(privacy, /host access/i);
 assert.match(storeCopy, /2\.0\.0/);
 assert.match(storeCopy, /activeTab/);
-assert.match(storeCopy, /Grok and Mistral.*Beta/is);
+assert.match(storeCopy, /Grok.*Beta/is);
+assert.doesNotMatch(storeCopy, /Mistral/i);
 assert.doesNotMatch(storeCopy, /only (?:the )?language preference/i);
 
 const renderedHome = await text("out/index.html");
 const renderedPrivacy = await text("out/privacy.html");
 assert.match(renderedHome, /Version 2\.0\.0/);
 assert.match(renderedHome, /Grok/);
-assert.match(renderedHome, /Mistral/);
+assert.doesNotMatch(renderedHome, /Mistral/);
 assert.match(renderedPrivacy, /settingsV2/);
-assert.match(renderedPrivacy, /seven explicitly listed AI-chat services/);
+assert.match(renderedPrivacy, /six explicitly listed AI-chat services/);
 
 const expectedAssets = [
   ["extension/icons/icon128.png", 128, 128],

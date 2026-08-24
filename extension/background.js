@@ -47,8 +47,18 @@ async function syncWidgetRegistrations() {
   const settings = await loadSettings();
   const registered = await chrome.scripting.getRegisteredContentScripts();
   const registeredIds = new Set(registered.map((script) => script.id));
-
   const errors = [];
+  const expectedIds = new Set(ChatExporterPlatforms.platforms.map((platform) => `chat-exporter-widget-${platform.id}`));
+  for (const script of registered) {
+    if (!script.id.startsWith("chat-exporter-widget-") || expectedIds.has(script.id)) continue;
+    try {
+      await chrome.scripting.unregisterContentScripts({ ids: [script.id] });
+      registeredIds.delete(script.id);
+    } catch (error) {
+      errors.push({ platform: script.id, error: String(error?.message || error) });
+    }
+  }
+
   for (const platform of ChatExporterPlatforms.platforms) {
     const id = `chat-exporter-widget-${platform.id}`;
     const enabled = settings.enabledSites[platform.id] !== false;

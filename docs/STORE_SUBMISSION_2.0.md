@@ -47,9 +47,8 @@ Supported services:
 - Microsoft Copilot
 - Perplexity
 
-Beta adapters, clearly labelled for manual review:
+Beta adapter, clearly labelled for manual review:
 - Grok
-- Mistral
 
 Key features:
 - Automatic in-chat quick action plus a complete toolbar popup
@@ -72,7 +71,7 @@ Export conversations from supported AI-chat websites to local Markdown or plain-
 
 ### Release notes
 
-Version 2.0.0 adds an automatic in-chat quick action, a unified seven-service extraction engine, reliable repeated-message handling, full-conversation progress and cancellation, light/dark themes, expanded local settings, and verified ZIP splitting for exports above 10 MiB. Grok and Mistral remain clearly marked Beta.
+Version 2.0.0 adds an automatic in-chat quick action, a unified six-service extraction engine, reliable repeated-message handling, full-conversation progress and cancellation, light/dark themes, expanded local settings, and verified ZIP splitting for exports above 10 MiB. Grok remains clearly marked Beta.
 
 ### Reviewer notes
 
@@ -81,9 +80,9 @@ Version 2.0.0 adds an automatic in-chat quick action, a unified seven-service ex
 3. Open the in-chat panel or toolbar popup. Quick export reports Loaded and shows the messages currently present in the page.
 4. Select Verify full conversation to exercise progress, cancellation and Complete/Partial reporting.
 5. Select Markdown or Text, then Download or Copy. Partial downloads require confirmation.
-6. Settings can disable the widget per service; all seven service toggles are enabled by default.
+6. Settings can disable the widget per service; all six service toggles are enabled by default.
 
-The package makes no extension-originated network requests, contains no analytics or remote code, and does not store conversation content or conversation URLs. Grok and Mistral are Beta and are not presented as verified services.
+The package makes no extension-originated network requests, contains no analytics or remote code, and does not store conversation content or conversation URLs. Grok is Beta and is not presented as a verified service.
 
 ## Permission and privacy fields — copy and paste
 
@@ -101,7 +100,7 @@ Stores `settingsV2` locally: language, enabled services, default format, selecte
 
 ### Host/site access justification
 
-Required access is limited to the explicitly listed ChatGPT, Claude, Gemini, Copilot, Perplexity, Grok and Mistral domains. It allows the Chat Exporter quick action to appear automatically and read the loaded conversation only on those services. No wildcard access to unrelated websites is requested.
+Required access is limited to the explicitly listed ChatGPT, Claude, Gemini, Copilot, Perplexity and Grok domains. It allows the Chat Exporter quick action to appear automatically and read the loaded conversation only on those services. No wildcard access to unrelated websites is requested.
 
 ### Remote code
 
@@ -145,7 +144,7 @@ Chat Exporter יוצר עותק מקומי, נקי וקריא של שיחת AI �
 
 שירותים נתמכים: ChatGPT, Claude, Gemini, Microsoft Copilot ו־Perplexity.
 
-Grok ו־Mistral מסומנים בבירור כ־Beta ומומלץ לבדוק ידנית את הקובץ שלהם.
+Grok מסומן בבירור כ־Beta ומומלץ לבדוק ידנית את הקובץ שלו.
 
 כל העיבוד מתבצע במכשיר. אין חשבון תוסף, אנליטיקה, פרסום, שרת שיחות או קוד מרוחק.
 
@@ -155,7 +154,7 @@ Grok ו־Mistral מסומנים בבירור כ־Beta ומומלץ לבדוק י
 
 ### הערות לגרסה
 
-גרסה 2.0.0 מוסיפה פעולת ייצוא אוטומטית בתוך הצ׳אט, מנוע חילוץ אחיד לשבעה שירותים, טיפול אמין בהודעות חוזרות, התקדמות וביטול בסריקה מלאה, תמיכה במצב כהה ובהיר, הגדרות מקומיות מורחבות ופיצול ZIP מאומת לייצוא מעל 10MiB. Grok ו־Mistral נשארים Beta.
+גרסה 2.0.0 מוסיפה פעולת ייצוא אוטומטית בתוך הצ׳אט, מנוע חילוץ אחיד לשישה שירותים, טיפול אמין בהודעות חוזרות, התקדמות וביטול בסריקה מלאה, תמיכה במצב כהה ובהיר, הגדרות מקומיות מורחבות ופיצול ZIP מאומת לייצוא מעל 10MiB. Grok נשאר Beta.
 
 ## Store-specific selections
 

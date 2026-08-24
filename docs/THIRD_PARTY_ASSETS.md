@@ -2,6 +2,6 @@
 
 The service logos shown in Chat Exporter settings and conversation summaries are bundled locally and are never loaded at runtime.
 
-Source: [SVGL](https://svgl.app/), retrieved from its public logo library for OpenAI, Claude AI, Gemini, Microsoft Copilot, Perplexity AI, Grok and Mistral AI.
+Source: [SVGL](https://svgl.app/), retrieved from its public logo library for OpenAI, Claude AI, Gemini, Microsoft Copilot, Perplexity AI and Grok.
 
 All product names, logos and trademarks belong to their respective owners. Their appearance identifies supported services and does not imply endorsement or affiliation.
