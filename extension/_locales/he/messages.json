@@ -3,7 +3,7 @@
     "message": "Chat Exporter by Tom Raz"
   },
   "extensionDescription": {
-    "message": "ייצוא שיחות AI שנטענו ל-Markdown או לטקסט, באופן מקומי בדפדפן."
+    "message": "ייצוא שיחות AI ל-Markdown או לטקסט באופן מקומי, עם אימות שיחה מלאה וקובצי ZIP בטוחים לשיחות ארוכות."
   },
   "actionTitle": {
     "message": "ייצוא שיחת ה-AI הנוכחית"

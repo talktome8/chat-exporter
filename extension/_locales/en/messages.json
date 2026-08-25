@@ -3,7 +3,7 @@
     "message": "Chat Exporter by Tom Raz"
   },
   "extensionDescription": {
-    "message": "Export loaded AI conversations to Markdown or plain text, locally in your browser."
+    "message": "Export AI chats to Markdown or text locally, with full-chat verification and safe ZIPs for long conversations."
   },
   "actionTitle": {
     "message": "Export this AI conversation"
