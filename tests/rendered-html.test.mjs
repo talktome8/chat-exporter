@@ -21,6 +21,9 @@ test("exports the product page with accurate launch content", async () => {
   assert.match(html, /Version 2\.0\.0/);
   assert.doesNotMatch(html, /Grok/);
   assert.doesNotMatch(html, /Mistral/);
+  for (const platform of ["chatgpt", "claude", "gemini", "copilot", "perplexity"]) {
+    assert.match(html, new RegExp(`/platforms/${platform}\\.png`));
+  }
 });
 
 test("exports the public privacy policy", async () => {

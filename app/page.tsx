@@ -12,6 +12,14 @@ const stores = {
   firefox: "https://addons.mozilla.org/he/firefox/addon/chat-exporter-by-tom-raz/"
 } as const;
 
+const supportedPlatforms = [
+  { name: "ChatGPT", icon: "/platforms/chatgpt.png" },
+  { name: "Claude", icon: "/platforms/claude.png" },
+  { name: "Gemini", icon: "/platforms/gemini.png" },
+  { name: "Copilot", icon: "/platforms/copilot.png" },
+  { name: "Perplexity", icon: "/platforms/perplexity.png" }
+] as const;
+
 const copy = {
   en: {
     skip: "Skip to content",
@@ -239,7 +247,7 @@ export default function Home() {
           <div className="shell">
             <div className="platform-heading"><div><p className="section-kicker">{t.coreLabel}</p><h2>{t.platforms}</h2></div><p>{t.platformsBody}</p></div>
             <div className="platform-grid">
-              {["ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity"].map((name) => <div className="platform-card verified" key={name}><span aria-hidden="true">{name.slice(0, 1)}</span><strong>{name}</strong><small>{language === "he" ? "נתמך" : "Supported"}</small></div>)}
+              {supportedPlatforms.map((platform) => <div className="platform-card verified" key={platform.name}><Image className="platform-logo" src={platform.icon} width={52} height={52} alt={`${platform.name} logo`} /><strong>{platform.name}</strong><small>{language === "he" ? "נתמך" : "Supported"}</small></div>)}
             </div>
           </div>
         </section>
