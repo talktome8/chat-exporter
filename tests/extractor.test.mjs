@@ -40,7 +40,7 @@ for (const [name, url, platform] of cases) {
   });
 }
 
-test("extracts the current Grok message-bubble structure with correct roles", async () => {
+test("extracts the current Grok labelled-article structure with correct roles", async () => {
   const result = await extractFixture("grok", "https://grok.com/c/test");
   assert.deepEqual(Array.from(result.messages, (message) => [String(message.role), String(message.text)]), [
     ["user", "Export this Grok test."],

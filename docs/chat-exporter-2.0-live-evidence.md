@@ -21,7 +21,7 @@ Run date: 2026-08-07. Only synthetic QA prompts were used.
 | Perplexity | Pass after fix | Created a short QA session with Hebrew, a list, table and code; verified two repeated queries and two responses. The live site had replaced the old user selector, assistant selector and composer anchor; Beta 3 uses the current `group/query`, `data-renderer="lm"` and contenteditable textbox structures. |
 | Claude | Blocked by authentication | The isolated browser reached Claude's login page. No account credentials were entered. Fixture and regression coverage passes, but live extension behavior is not yet certified. |
 | Copilot | Blocked by authentication | The isolated browser reached the account chooser and did not grant Microsoft/Google/Apple account access. Fixture and regression coverage passes, but live extension behavior is not yet certified. |
-| Grok | Supported after selector fix | A Chrome failure on the current Grok layout exposed missing `.message-bubble` role detection. The adapter now recognizes semantic bubbles and `items-end` / `items-start` roles, with a matching regression fixture. Final packaged-build UAT remains part of the submission check. |
+| Grok | Supported after live selector fix | A live authenticated Grok conversation exposed its current `article[aria-label="You"]` and `article[aria-label="Grok"]` turns. The adapter now recognizes that structure plus the earlier semantic-bubble fallback, and a matching regression fixture verifies role order and content cleanup. |
 | Mistral / Vibe | Deferred beyond 2.0 | Live extraction did not pass the release gate, so Mistral was removed from the 2.0 package and public compatibility claims. |
 
 ## Browser-channel status

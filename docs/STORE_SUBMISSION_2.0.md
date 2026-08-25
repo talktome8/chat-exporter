@@ -69,7 +69,7 @@ Export conversations from supported AI-chat websites to local Markdown or plain-
 
 ### Release notes
 
-Version 2.0.0 adds an automatic in-chat quick action, a unified six-service extraction engine, reliable repeated-message handling, full-conversation progress and cancellation, light/dark themes, expanded local settings, and verified ZIP splitting for exports above 10 MiB. Grok extraction now supports its current message-bubble layout.
+Version 2.0.0 adds an automatic in-chat quick action, a unified six-service extraction engine, reliable repeated-message handling, full-conversation progress and cancellation, light/dark themes, expanded local settings, and verified ZIP splitting for exports above 10 MiB. Grok extraction now supports its current labelled conversation-turn layout.
 
 ### Reviewer notes
 
@@ -150,7 +150,7 @@ Chat Exporter יוצר עותק מקומי, נקי וקריא של שיחת AI �
 
 ### הערות לגרסה
 
-גרסה 2.0.0 מוסיפה פעולת ייצוא אוטומטית בתוך הצ׳אט, מנוע חילוץ אחיד לשישה שירותים, טיפול אמין בהודעות חוזרות, התקדמות וביטול בסריקה מלאה, תמיכה במצב כהה ובהיר, הגדרות מקומיות מורחבות, תמיכה במבנה ההודעות העדכני של Grok ופיצול ZIP מאומת לייצוא מעל 10MiB.
+גרסה 2.0.0 מוסיפה פעולת ייצוא אוטומטית בתוך הצ׳אט, מנוע חילוץ אחיד לשישה שירותים, טיפול אמין בהודעות חוזרות, התקדמות וביטול בסריקה מלאה, תמיכה במצב כהה ובהיר, הגדרות מקומיות מורחבות, תמיכה במבנה ה־turns העדכני של Grok ופיצול ZIP מאומת לייצוא מעל 10MiB.
 
 ## Store-specific selections
 

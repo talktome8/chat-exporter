@@ -17,7 +17,7 @@ Available now on [Chrome](https://chromewebstore.google.com/detail/chat-exporter
 
 - Local export to Markdown, plain text, or the clipboard.
 - Verified support for ChatGPT, Claude, Gemini, Microsoft Copilot, and Perplexity.
-- Grok extraction for its current semantic message-bubble layout.
+- Grok extraction for its current labelled-article conversation layout.
 - Optional full-conversation verification with complete, partial, and unknown status reporting.
 - English and Hebrew (RTL) interface.
 - No account, analytics, server, remote executable code, advertising, or donation prompts.

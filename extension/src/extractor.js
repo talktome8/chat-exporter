@@ -126,9 +126,10 @@
         current.getAttribute?.("data-message-author-role"),
         current.getAttribute?.("data-role"),
         current.getAttribute?.("data-turn"),
-        current.getAttribute?.("data-testid")
+        current.getAttribute?.("data-testid"),
+        current.getAttribute?.("aria-label")
       ].filter(Boolean).join(" ").toLowerCase();
-      if (/\b(user|human)\b/.test(value)) return "user";
+      if (/\b(user|human|you)\b/.test(value)) return "user";
       if (/\b(assistant|model|grok)\b/.test(value)) return "assistant";
       if (current.classList?.contains("items-end")) return "user";
       if (current.classList?.contains("items-start")) return "assistant";
