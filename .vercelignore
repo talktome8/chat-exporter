@@ -1,0 +1,19 @@
+# Local build outputs and dependencies
+node_modules/
+dist/
+.next/
+out/
+coverage/
+
+# Local tools and unrelated browser-extension test artifacts
+screenscribe/
+screenscribe-*/
+*.traineddata
+
+# Credentials and local-only files
+.env
+.env.*
+*.log
+*.pem
+*.crx
+*.xpi
