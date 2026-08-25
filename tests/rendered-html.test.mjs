@@ -19,7 +19,7 @@ test("exports the product page with accurate launch content", async () => {
   assert.match(html, /addons\.mozilla\.org/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/);
   assert.match(html, /Version 2\.0\.0/);
-  assert.match(html, /Grok/);
+  assert.doesNotMatch(html, /Grok/);
   assert.doesNotMatch(html, /Mistral/);
 });
 
@@ -28,6 +28,6 @@ test("exports the public privacy policy", async () => {
   assert.match(html, /Privacy Policy/);
   assert.match(html, /does not make network requests/);
   assert.match(html, /settingsV2/);
-  assert.match(html, /six explicitly listed AI-chat services/);
+  assert.match(html, /five explicitly listed AI-chat services/);
   assert.match(html, /מדיניות פרטיות/);
 });

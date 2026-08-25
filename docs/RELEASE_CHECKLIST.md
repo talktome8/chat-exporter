@@ -33,7 +33,6 @@ Use [STORE_SUBMISSION_2.0.md](STORE_SUBMISSION_2.0.md) for copy-and-paste listin
 - [ ] Exports above 10MiB produce a ZIP whose parts, counts and SHA-256 values match its manifest.
 - [ ] The widget appears automatically, remains singular across SPA navigation, follows light/dark mode, and can be disabled per service.
 - [ ] Popup first screen is the export screen; settings and both one-time notices behave correctly.
-- [ ] Grok is labelled Supported consistently in the extension, site and store copy.
 
 ### Submission gate
 

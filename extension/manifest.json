@@ -13,9 +13,7 @@
     "https://gemini.google.com/*",
     "https://copilot.microsoft.com/*",
     "https://perplexity.ai/*",
-    "https://www.perplexity.ai/*",
-    "https://grok.com/*",
-    "https://x.ai/*"
+    "https://www.perplexity.ai/*"
   ],
   "background": { "scripts": ["src/platforms.js", "background.js"], "service_worker": "background.js" },
   "web_accessible_resources": [{
@@ -23,8 +21,7 @@
     "matches": [
       "https://chatgpt.com/*", "https://chat.openai.com/*", "https://claude.ai/*",
       "https://gemini.google.com/*", "https://copilot.microsoft.com/*", "https://perplexity.ai/*",
-      "https://www.perplexity.ai/*",
-      "https://grok.com/*", "https://x.ai/*"
+      "https://www.perplexity.ai/*"
     ]
   }],
   "browser_specific_settings": {

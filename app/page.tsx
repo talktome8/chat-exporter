@@ -28,7 +28,7 @@ const copy = {
     privacyNote: "Your conversation stays on your device.",
     coreLabel: "Supported AI chat platforms",
     platforms: "Built for the AI tools you already use",
-    platformsBody: "Six supported AI chat platforms.",
+    platformsBody: "Five supported AI chat platforms.",
     howEyebrow: "Three deliberate steps",
     howTitle: "Fast when it can be. Honest when it can’t.",
     steps: [
@@ -55,7 +55,7 @@ const copy = {
     privacyTitle: "There is no conversation server to trust.",
     privacyBody: "Chat Exporter runs only on the listed AI-chat sites so its quick action can appear automatically. Transcripts are formatted inside your browser and saved to your device. We do not run analytics, create user accounts or receive conversation content.",
     privacyCards: [
-      ["AI-chat sites only", "Access is limited to six listed AI-chat services and their fixed domains—not your general browsing history."],
+      ["AI-chat sites only", "Access is limited to five listed AI-chat services and their fixed domains—not your general browsing history."],
       ["No remote code", "All executable code ships inside the reviewed extension package."],
       ["Local preferences", "Interface and export defaults are stored locally. Chats and conversation URLs are not saved by the extension."]
     ],
@@ -65,7 +65,7 @@ const copy = {
       ["activeTab", "Provide popup export when you deliberately invoke the toolbar action."],
       ["scripting", "Run only the extractor and in-chat widget bundled in the reviewed package."],
       ["storage", "Remember interface and export preferences locally; never store chat content."],
-      ["site access", "Show the widget automatically only on six explicitly listed AI-chat services and their fixed domains."]
+      ["site access", "Show the widget automatically only on five explicitly listed AI-chat services and their fixed domains."]
     ],
     faq: "Questions worth answering before install",
     faqs: [
@@ -97,7 +97,7 @@ const copy = {
     privacyNote: "השיחה נשארת במכשיר שלך.",
     coreLabel: "פלטפורמות AI נתמכות",
     platforms: "מותאם לכלי ה-AI שכבר נמצאים בשימוש שלך",
-    platformsBody: "שש פלטפורמות צ׳אט AI נתמכות.",
+    platformsBody: "חמש פלטפורמות צ׳אט AI נתמכות.",
     howEyebrow: "שלושה צעדים מדויקים",
     howTitle: "מהיר כשאפשר. כנה כשאי אפשר.",
     steps: [
@@ -124,7 +124,7 @@ const copy = {
     privacyTitle: "אין שרת שיחות שצריך לתת בו אמון.",
     privacyBody: "התוסף פועל רק באתרי צ׳אט ה־AI המפורטים כדי שכפתור הפעולה יופיע אוטומטית. התמליל מעובד בדפדפן ונשמר במכשיר. אין אנליטיקה, חשבונות משתמש או קבלת תוכן שיחות.",
     privacyCards: [
-      ["רק אתרי צ׳אט AI", "הגישה מוגבלת לשישה שירותים מפורטים ולדומיינים הקבועים שלהם—לא להיסטוריית הגלישה הכללית."],
+      ["רק אתרי צ׳אט AI", "הגישה מוגבלת לחמישה שירותים מפורטים ולדומיינים הקבועים שלהם—לא להיסטוריית הגלישה הכללית."],
       ["ללא קוד מרוחק", "כל הקוד הניתן להפעלה כלול בחבילה שנבדקת בחנות."],
       ["העדפות מקומיות", "הגדרות ממשק וייצוא נשמרות מקומית. שיחות וכתובות שיחה אינן נשמרות על ידי התוסף."]
     ],
@@ -134,7 +134,7 @@ const copy = {
       ["activeTab", "ייצוא מהחלון הרגיל לאחר לחיצה יזומה על סמל התוסף."],
       ["scripting", "הרצת מנגנון החילוץ וה־widget הכלולים בחבילה שנבדקה."],
       ["storage", "שמירת הגדרות ממשק וייצוא מקומית, ללא שמירת תוכן שיחות."],
-      ["גישה לאתרים", "הצגת ה־widget אוטומטית רק בששת שירותי צ׳אט ה־AI המפורטים."]
+      ["גישה לאתרים", "הצגת ה־widget אוטומטית רק בחמשת שירותי צ׳אט ה־AI המפורטים."]
     ],
     faq: "שאלות שכדאי לענות עליהן לפני ההתקנה",
     faqs: [
@@ -239,7 +239,7 @@ export default function Home() {
           <div className="shell">
             <div className="platform-heading"><div><p className="section-kicker">{t.coreLabel}</p><h2>{t.platforms}</h2></div><p>{t.platformsBody}</p></div>
             <div className="platform-grid">
-              {["ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity", "Grok"].map((name) => <div className="platform-card verified" key={name}><span aria-hidden="true">{name.slice(0, 1)}</span><strong>{name}</strong><small>{language === "he" ? "נתמך" : "Supported"}</small></div>)}
+              {["ChatGPT", "Claude", "Gemini", "Copilot", "Perplexity"].map((name) => <div className="platform-card verified" key={name}><span aria-hidden="true">{name.slice(0, 1)}</span><strong>{name}</strong><small>{language === "he" ? "נתמך" : "Supported"}</small></div>)}
             </div>
           </div>
         </section>

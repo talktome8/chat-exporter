@@ -11,7 +11,6 @@ const cases = [
   ["gemini", "https://gemini.google.com/app/test", "Gemini"],
   ["copilot", "https://copilot.microsoft.com/chats/test", "Copilot"],
   ["perplexity", "https://www.perplexity.ai/search/test", "Perplexity"],
-  ["grok", "https://grok.com/c/test", "Grok"]
 ];
 
 async function extractFixture(name, url, mode = "quick") {
@@ -39,15 +38,6 @@ for (const [name, url, platform] of cases) {
     assert.deepEqual(Array.from(result.messages, (message) => String(message.role)), ["user", "assistant"]);
   });
 }
-
-test("extracts the current Grok labelled-article structure with correct roles", async () => {
-  const result = await extractFixture("grok", "https://grok.com/c/test");
-  assert.deepEqual(Array.from(result.messages, (message) => [String(message.role), String(message.text)]), [
-    ["user", "Export this Grok test."],
-    ["assistant", "The export stays local."]
-  ]);
-  assert.deepEqual(Array.from(result.warnings, String), ["quick"]);
-});
 
 test("preserves code and tables while removing unsafe link protocols", async () => {
   const result = await extractFixture("chatgpt", "https://chatgpt.com/c/test");

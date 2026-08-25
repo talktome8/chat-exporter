@@ -9,7 +9,6 @@ const icons = [
   { id: "gemini", light: "https://svgl.app/library/gemini.svg" },
   { id: "copilot", light: "https://svgl.app/library/microsoft-copilot.svg" },
   { id: "perplexity", light: "https://svgl.app/library/perplexity.svg" },
-  { id: "grok", light: "https://svgl.app/library/grok-light.svg", dark: "https://svgl.app/library/grok-dark.svg" }
 ];
 
 await mkdir(output, { recursive: true });

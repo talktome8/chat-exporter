@@ -46,7 +46,6 @@ Supported services:
 - Gemini
 - Microsoft Copilot
 - Perplexity
-- Grok
 
 Key features:
 - Automatic in-chat quick action plus a complete toolbar popup
@@ -69,16 +68,16 @@ Export conversations from supported AI-chat websites to local Markdown or plain-
 
 ### Release notes
 
-Version 2.0.0 adds an automatic in-chat quick action, a unified six-service extraction engine, reliable repeated-message handling, full-conversation progress and cancellation, light/dark themes, expanded local settings, and verified ZIP splitting for exports above 10 MiB. Grok extraction now supports its current labelled conversation-turn layout.
+Version 2.0.0 adds an automatic in-chat quick action, a unified five-service extraction engine, reliable repeated-message handling, full-conversation progress and cancellation, light/dark themes, expanded local settings, and verified ZIP splitting for exports above 10 MiB.
 
 ### Reviewer notes
 
-1. Open a conversation on ChatGPT, Claude, Gemini, Copilot, Perplexity or Grok. The extension does not implement or bypass the service login; reviewers may use their own test account.
+1. Open a conversation on ChatGPT, Claude, Gemini, Copilot or Perplexity. The extension does not implement or bypass the service login; reviewers may use their own test account.
 2. Reload the chat page once after installing the update. The Chat Exporter icon should appear automatically near the composer; if an anchor is unavailable, it appears as a floating button.
 3. Open the in-chat panel or toolbar popup. Quick export reports Loaded and shows the messages currently present in the page.
 4. Select Verify full conversation to exercise progress, cancellation and Complete/Partial reporting.
 5. Select Markdown or Text, then Download or Copy. Partial downloads require confirmation.
-6. Settings can disable the widget per service; all six service toggles are enabled by default.
+6. Settings can disable the widget per service; all five service toggles are enabled by default.
 
 The package makes no extension-originated network requests, contains no analytics or remote code, and does not store conversation content or conversation URLs.
 
@@ -98,7 +97,7 @@ Stores `settingsV2` locally: language, enabled services, default format, selecte
 
 ### Host/site access justification
 
-Required access is limited to the explicitly listed ChatGPT, Claude, Gemini, Copilot, Perplexity and Grok domains. It allows the Chat Exporter quick action to appear automatically and read the loaded conversation only on those services. No wildcard access to unrelated websites is requested.
+Required access is limited to the explicitly listed ChatGPT, Claude, Gemini, Copilot and Perplexity domains. It allows the Chat Exporter quick action to appear automatically and read the loaded conversation only on those services. No wildcard access to unrelated websites is requested.
 
 ### Remote code
 
@@ -140,7 +139,7 @@ Chat Exporter יוצר עותק מקומי, נקי וקריא של שיחת AI �
 
 שיחות ארוכות נתמכות. כאשר התוכן שנבחר גדול מ־10MiB ב־UTF-8, התוסף יוצר ZIP יחיד עם חלקים ממוספרים. הפיצול מתבצע רק בין הודעות ולעולם לא באמצע הודעה. ה־ZIP כולל manifest עם ספירות, טווחי הודעות, גדלים, הגדרות ו־SHA-256 לכל חלק.
 
-שירותים נתמכים: ChatGPT, Claude, Gemini, Microsoft Copilot, Perplexity ו־Grok.
+שירותים נתמכים: ChatGPT, Claude, Gemini, Microsoft Copilot ו־Perplexity.
 
 כל העיבוד מתבצע במכשיר. אין חשבון תוסף, אנליטיקה, פרסום, שרת שיחות או קוד מרוחק.
 
@@ -150,7 +149,7 @@ Chat Exporter יוצר עותק מקומי, נקי וקריא של שיחת AI �
 
 ### הערות לגרסה
 
-גרסה 2.0.0 מוסיפה פעולת ייצוא אוטומטית בתוך הצ׳אט, מנוע חילוץ אחיד לשישה שירותים, טיפול אמין בהודעות חוזרות, התקדמות וביטול בסריקה מלאה, תמיכה במצב כהה ובהיר, הגדרות מקומיות מורחבות, תמיכה במבנה ה־turns העדכני של Grok ופיצול ZIP מאומת לייצוא מעל 10MiB.
+גרסה 2.0.0 מוסיפה פעולת ייצוא אוטומטית בתוך הצ׳אט, מנוע חילוץ אחיד לחמישה שירותים, טיפול אמין בהודעות חוזרות, התקדמות וביטול בסריקה מלאה, תמיכה במצב כהה ובהיר, הגדרות מקומיות מורחבות ופיצול ZIP מאומת לייצוא מעל 10MiB.
 
 ## Store-specific selections
 

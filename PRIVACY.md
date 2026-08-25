@@ -23,7 +23,7 @@ This access is used only to show local message counts and to create the export r
 - `activeTab`: supports toolbar-popup export after the user invokes the extension.
 - `scripting`: runs the bundled extractor and registers the in-chat widget.
 - `storage`: remembers local interface and export preferences.
-- Required host access is limited to the listed ChatGPT, Claude, Gemini, Copilot, Perplexity and Grok domains so the widget can appear automatically. The extension requests no wildcard access to other websites.
+- Required host access is limited to the listed ChatGPT, Claude, Gemini, Copilot and Perplexity domains so the widget can appear automatically. The extension requests no wildcard access to other websites.
 
 Chat Exporter does not sell, share or use user data for advertising, profiling, credit decisions or unrelated purposes. Material changes will be recorded in the changelog and store privacy disclosures.
 

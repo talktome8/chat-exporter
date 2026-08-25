@@ -27,10 +27,12 @@ assert.equal(packageJson.version, expectedVersion, "package.json version mismatc
 assert.equal(sourceManifest.version, expectedVersion, "extension manifest version mismatch");
 assert.deepEqual(sourceManifest.permissions, ["activeTab", "scripting", "storage"]);
 assert.ok(sourceManifest.host_permissions.length > 0, "Automatic widget requires explicit site access");
+assert.ok(!sourceManifest.host_permissions.some((host) => /grok|x\.ai/i.test(host)), "Grok host access must not ship in the 2.0 package");
 assert.ok(!sourceManifest.host_permissions.some((host) => host.includes("*://*/*")), "Wildcard host access is forbidden");
 
 const sourceFiles = await readdir(path.join(root, "extension"), { recursive: true });
 assert.ok(!sourceFiles.some((file) => /mistral/i.test(file)), "Mistral must not ship in the 2.0 extension package");
+assert.ok(!sourceFiles.some((file) => /grok/i.test(file)), "Grok must not ship in the 2.0 extension package");
 assert.ok(!sourceFiles.some((file) => /(?:^|[\\/])(TODO|FIXME)(?:[.\\/]|$)/i.test(file)), "Unfinished marker file in extension");
 for (const file of sourceFiles.filter((name) => /\.(?:js|html|css|json)$/i.test(name))) {
   const body = await text(path.join("extension", file));
@@ -43,18 +45,18 @@ assert.match(privacy, /settingsV2/);
 assert.match(privacy, /host access/i);
 assert.match(storeCopy, /2\.0\.0/);
 assert.match(storeCopy, /activeTab/);
-assert.match(storeCopy, /Supported services:[\s\S]*Grok/i);
-assert.doesNotMatch(storeCopy, /Grok.{0,80}Beta|Beta.{0,80}Grok/is);
+assert.match(storeCopy, /Supported services:[\s\S]*Perplexity/i);
+assert.doesNotMatch(storeCopy, /Grok/i);
 assert.doesNotMatch(storeCopy, /Mistral/i);
 assert.doesNotMatch(storeCopy, /only (?:the )?language preference/i);
 
 const renderedHome = await text("out/index.html");
 const renderedPrivacy = await text("out/privacy.html");
 assert.match(renderedHome, /Version 2\.0\.0/);
-assert.match(renderedHome, /Grok/);
+assert.doesNotMatch(renderedHome, /Grok/);
 assert.doesNotMatch(renderedHome, /Mistral/);
 assert.match(renderedPrivacy, /settingsV2/);
-assert.match(renderedPrivacy, /six explicitly listed AI-chat services/);
+assert.match(renderedPrivacy, /five explicitly listed AI-chat services/);
 
 const expectedAssets = [
   ["extension/icons/icon128.png", 128, 128],

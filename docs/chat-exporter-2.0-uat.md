@@ -11,7 +11,7 @@ Do not submit the release to a store until every required row passes in Chrome, 
 5. Confirm the one-time widget tip is visible. Click **Got it**, reopen the popup, and confirm it stays dismissed.
 6. Confirm Quick export shows its completeness warning. Click **Dismiss**, reopen the popup, and confirm that warning stays dismissed.
 7. In Settings, disable one service and reload its site; confirm its widget is absent. Re-enable it and reload; confirm it returns.
-8. Confirm all six service toggles are enabled by default on a clean install.
+8. Confirm all five service toggles are enabled by default on a clean install.
 
 ## Required platforms
 
@@ -22,7 +22,6 @@ Do not submit the release to a store until every required row passes in Chrome, 
 | Gemini | Required | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Copilot | Required | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Perplexity | Required | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Grok | Supported | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 
 ## Conversation scenarios
 
@@ -53,5 +52,4 @@ For each platform:
 - [ ] Edge package verified and manually approved.
 - [ ] Firefox package verified and manually approved.
 - [ ] Tom Raz approves the UI and exported content.
-- [ ] Grok passes the same export checks as every supported service.
 - [ ] Confirm the manifest, all three ZIPs, store copy, privacy page and website report `2.0.0`, then submit the exact verified archives.

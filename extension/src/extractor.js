@@ -130,7 +130,7 @@
         current.getAttribute?.("aria-label")
       ].filter(Boolean).join(" ").toLowerCase();
       if (/\b(user|human|you)\b/.test(value)) return "user";
-      if (/\b(assistant|model|grok)\b/.test(value)) return "assistant";
+      if (/\b(assistant|model)\b/.test(value)) return "assistant";
       if (current.classList?.contains("items-end")) return "user";
       if (current.classList?.contains("items-start")) return "assistant";
     }
@@ -389,7 +389,7 @@
       const value = ((element.textContent || element.getAttribute("aria-label") || "").split("\n")[0] || "").trim();
       if (!value || value.length >= 64 || value.toLocaleLowerCase() === adapter.name.toLocaleLowerCase()) continue;
       if (adapter.id === "gemini" && /^(flash|pro|thinking|advanced)\b/i.test(value)) return value;
-      if (/^(claude|gpt|chatgpt|gemini|grok|llama|sonnet|haiku|opus|o[134]|4o|5)/i.test(value)) return value;
+      if (/^(claude|gpt|chatgpt|gemini|llama|sonnet|haiku|opus|o[134]|4o|5)/i.test(value)) return value;
     }
     return "";
   }
@@ -405,8 +405,8 @@
 
   function cleanTitle(value) {
     return (value || "")
-      .replace(/^(ChatGPT|Claude|Gemini|Microsoft Copilot|Perplexity|Grok)\s[-–|]\s/i, "")
-      .replace(/\s[-–|]\s(ChatGPT|Claude|Gemini|Microsoft Copilot|Perplexity|Grok).*$/i, "")
+      .replace(/^(ChatGPT|Claude|Gemini|Microsoft Copilot|Perplexity)\s[-–|]\s/i, "")
+      .replace(/\s[-–|]\s(ChatGPT|Claude|Gemini|Microsoft Copilot|Perplexity).*$/i, "")
       .replace(/\s+/g, " ")
       .trim()
       .slice(0, 120);

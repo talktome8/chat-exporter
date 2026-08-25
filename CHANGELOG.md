@@ -5,7 +5,6 @@ All notable changes to Chat Exporter are documented here.
 ## 2.0.0 — Store submission candidate 2026-08-20
 
 - Added an automatic in-chat quick action using the Chat Exporter icon, isolated Shadow DOM UI and light/dark theme support.
-- Unified platform adapters for ChatGPT, Claude, Gemini, Copilot, Perplexity and Grok.
 - Preserved legitimate repeated messages while removing duplicates caused by overlapping selectors and virtualized DOM windows.
 - Added resumable full-conversation scanning with progress, cancellation and explicit Complete, Partial and Loaded states.
 - Added ZIP splitting above 10 MiB with numbered Markdown/text parts, counts, SHA-256 hashes and `manifest.json`.
@@ -17,7 +16,6 @@ Available now on [Chrome](https://chromewebstore.google.com/detail/chat-exporter
 
 - Local export to Markdown, plain text, or the clipboard.
 - Verified support for ChatGPT, Claude, Gemini, Microsoft Copilot, and Perplexity.
-- Grok extraction for its current labelled-article conversation layout.
 - Optional full-conversation verification with complete, partial, and unknown status reporting.
 - English and Hebrew (RTL) interface.
 - No account, analytics, server, remote executable code, advertising, or donation prompts.

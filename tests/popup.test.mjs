@@ -47,7 +47,7 @@ test("opens export first, promotes the widget once, and defaults every site on",
   window.document.getElementById("settings-button").click();
   await new Promise((resolve) => setTimeout(resolve, 0));
   assert.equal(window.document.getElementById("settings-view").hidden, false);
-  assert.equal(window.document.querySelectorAll(".platform-setting").length, 6);
+  assert.equal(window.document.querySelectorAll(".platform-setting").length, 5);
   assert.ok([...window.document.querySelectorAll(".platform-setting input")].every((input) => input.checked));
   assert.equal(window.document.getElementById("lang-button"), null);
   window.close();

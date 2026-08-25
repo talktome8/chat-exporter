@@ -24,7 +24,7 @@
 
 # Chat Exporter
 
-Chat Exporter הוא תוסף דפדפן מקומי לייצוא שיחות מ־ChatGPT, Claude, Gemini, Microsoft Copilot, Perplexity ו־Grok. הוא שומר את מבנה השיחה כ־Markdown או כטקסט פשוט, מאפשר העתקה ללוח ומציג מצב שלמות ברור. כל העיבוד מתבצע בדפדפן, ללא חשבון, אנליטיקה או העלאת תוכן לשרת.
+Chat Exporter הוא תוסף דפדפן מקומי לייצוא שיחות מ־ChatGPT, Claude, Gemini, Microsoft Copilot ו־Perplexity. הוא שומר את מבנה השיחה כ־Markdown או כטקסט פשוט, מאפשר העתקה ללוח ומציג מצב שלמות ברור. כל העיבוד מתבצע בדפדפן, ללא חשבון, אנליטיקה או העלאת תוכן לשרת.
 
 **תגיות:** חינם · קוד פתוח · מקומי ופרטי · Chrome / Edge / Firefox
 
@@ -70,7 +70,7 @@ Chat Exporter הוא תוסף דפדפן מקומי לייצוא שיחות מ־
 - סינון הודעות משתמש ותשובות AI.
 - ממשק אנגלית ועברית עם RTL.
 - ללא חשבון, פרסומות, אנליטיקה, שרת או קוד מרוחק.
-- תמיכה ב־ChatGPT, Claude, Gemini, Microsoft Copilot, Perplexity ו־Grok.
+- תמיכה ב־ChatGPT, Claude, Gemini, Microsoft Copilot ו־Perplexity.
 
 ## תמיכה וקוד פתוח
 
