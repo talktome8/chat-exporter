@@ -22,7 +22,7 @@ Do not submit the release to a store until every required row passes in Chrome, 
 | Gemini | Required | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Copilot | Required | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Perplexity | Required | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Grok | Beta | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Grok | Supported | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 
 ## Conversation scenarios
 
@@ -53,5 +53,5 @@ For each platform:
 - [ ] Edge package verified and manually approved.
 - [ ] Firefox package verified and manually approved.
 - [ ] Tom Raz approves the UI and exported content.
-- [ ] Grok remains Beta unless every row passes.
+- [ ] Grok passes the same export checks as every supported service.
 - [ ] Confirm the manifest, all three ZIPs, store copy, privacy page and website report `2.0.0`, then submit the exact verified archives.

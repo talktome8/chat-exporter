@@ -45,7 +45,7 @@ Run each verified platform in current stable Chrome, Microsoft Edge and Firefox 
 | Restricted browser page | Pending | Pending | Pending |
 | Empty/unsupported page | Pending | Pending | Pending |
 
-Repeat the same matrix for ChatGPT, Claude, Gemini, Copilot and Perplexity. Grok must pass every row before it is promoted beyond Beta. Record live testing only with anonymous test conversations.
+Repeat the same matrix for ChatGPT, Claude, Gemini, Copilot, Perplexity and Grok. Record live testing only with anonymous test conversations.
 
 ## Content fixtures
 

@@ -43,7 +43,8 @@ assert.match(privacy, /settingsV2/);
 assert.match(privacy, /host access/i);
 assert.match(storeCopy, /2\.0\.0/);
 assert.match(storeCopy, /activeTab/);
-assert.match(storeCopy, /Grok.*Beta/is);
+assert.match(storeCopy, /Supported services:[\s\S]*Grok/i);
+assert.doesNotMatch(storeCopy, /Grok.{0,80}Beta|Beta.{0,80}Grok/is);
 assert.doesNotMatch(storeCopy, /Mistral/i);
 assert.doesNotMatch(storeCopy, /only (?:the )?language preference/i);
 

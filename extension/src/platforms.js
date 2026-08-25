@@ -43,8 +43,9 @@
       composer: ['[contenteditable="true"][role="textbox"]', 'form:has(textarea)', '[data-testid*="composer"]', 'textarea']
     },
     {
-      id: "grok", name: "Grok", hosts: ["grok.com", "x.ai"], status: "beta",
+      id: "grok", name: "Grok", hosts: ["grok.com", "x.ai"], status: "supported",
       icon: "platforms/grok.png", iconDark: "platforms/grok-dark.png", accent: "#111827",
+      turns: ['[data-message-author-role]', '[data-role="user"]', '[data-role="assistant"]', '[data-testid="conversation-turn-user"]', '[data-testid="conversation-turn-assistant"]', '[data-testid="user-message"]', '[data-testid="assistant-message"]', '.message-bubble'],
       user: ['[data-testid="conversation-turn-user"]', '[data-testid="user-message"]', '[data-testid*="user-message"]', '[data-message-author-role="user"]', '[data-role="user"]', '[class*="user-message"]', '[class*="userMessage"]'],
       assistant: ['[data-testid="conversation-turn-assistant"]', '[data-testid="assistant-message"]', '[data-testid*="assistant-message"]', '[data-message-author-role="assistant"]', '[data-role="assistant"]', '[class*="assistant-message"]', '[class*="assistantMessage"]'],
       model: ['[data-testid*="model"]', 'button[aria-label*="model" i]'],

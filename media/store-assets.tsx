@@ -10,14 +10,14 @@ const copy = {
     ['Your conversation. Your format.', 'Markdown, plain text, clipboard — or a verified ZIP for very large chats.'],
     ['Need every message? Verify it.', 'Run a controlled full-conversation check only when completeness matters.'],
     ['Private by design', 'Your conversation is processed on your device. No account, analytics, servers, or remote code.'],
-    ['Built for the AI tools you use', 'Support for five leading AI chats, plus Grok in Beta.'],
+    ['Built for the AI tools you use', 'Support for six leading AI chat services.'],
   ],
   he: [
     ['ייצוא בלי לצאת מהצ׳אט', 'פעולת Chat Exporter מופיעה בתוך שיחות AI נתמכות.'],
     ['השיחה שלך. הפורמט שלך.', 'Markdown, טקסט, לוח — או ZIP מאומת לשיחות גדולות מאוד.'],
     ['חשוב לקבל הכול? אפשר לוודא.', 'בדיקה מבוקרת של השיחה המלאה מופעלת רק כאשר השלמות חשובה.'],
     ['פרטי מלכתחילה', 'השיחה מעובדת במכשיר שלך בלבד. ללא חשבון, אנליטיקה, שרתים או קוד מרוחק.'],
-    ['נבנה עבור כלי ה‑AI שלך', 'תמיכה בחמישה שירותי צ׳אט מובילים, לצד Grok ב‑Beta.'],
+    ['נבנה עבור כלי ה‑AI שלך', 'תמיכה בשישה שירותי צ׳אט AI מובילים.'],
   ],
 } as const;
 
@@ -118,7 +118,7 @@ const Popup = ({locale, slide}: {locale: Locale; slide: Slide}) => {
           <h3 style={{...popupTitle, marginBottom: 10}}>{t('Supported platforms', 'פלטפורמות נתמכות')}</h3>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 7}}>
             {['ChatGPT', 'Claude', 'Gemini', 'Copilot', 'Perplexity'].map((name) => <div key={name} style={{padding: '10px 8px', borderRadius: 10, background: '#f5f8fc', color: '#1c2940', fontSize: 13, fontWeight: 750, textAlign: 'center', border: '1px solid #e1e8f2'}}>{name}</div>)}
-            <div style={{padding: '10px 8px', borderRadius: 10, background: '#fffaf0', color: '#8a5700', fontSize: 13, fontWeight: 750, textAlign: 'center', border: '1px dashed #e2b95b'}}>Grok · Beta</div>
+            <div style={{padding: '10px 8px', borderRadius: 10, background: '#effaf6', color: '#08785c', fontSize: 13, fontWeight: 750, textAlign: 'center', border: '1px solid #9adac8'}}>Grok · Supported</div>
           </div>
           <p style={{fontSize: 11, color: '#7b8798', lineHeight: 1.4, marginTop: 10}}>{t('If a page cannot be read, Chat Exporter tells you before you export.', 'אם לא ניתן לקרוא עמוד, Chat Exporter מציג זאת לפני הייצוא.')}</p>
         </>}

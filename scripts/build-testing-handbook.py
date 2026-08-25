@@ -210,7 +210,7 @@ def build():
     table(doc, ["פריט", "ערך"], [
         ("גרסת מסמך", "1.0"),
         ("תאריך", date.today().isoformat()),
-        ("היקף", "Chrome, Edge, Firefox | ChatGPT, Claude, Gemini, Copilot, Perplexity, Grok, Mistral"),
+        ("היקף", "Chrome, Edge, Firefox | ChatGPT, Claude, Gemini, Copilot, Perplexity, Grok"),
         ("בעלות על אישור שחרור", "בעל המוצר + בודק/ת UAT"),
         ("עקרון פרטיות", "אין שמירת שיחות או כתובות שיחה במערכת הניטור"),
     ], [2500, 6860])
@@ -253,15 +253,14 @@ def build():
 
     page_break(doc)
     heading(doc, "3. Checklist קדם-שחרור — כל שירות וכל דפדפן", 1)
-    paragraph(doc, "מלאו שורה אחת לכל שירות ודפדפן. Grok ו‑Mistral נשארים Beta עד למעבר מלא של כל השורות.")
+    paragraph(doc, "מלאו שורה אחת לכל שירות ודפדפן. כל ששת השירותים כפופים לאותו שער בדיקות.")
     table(doc, ["שירות", "Chrome", "Edge", "Firefox", "מצב", "בעלות / ראיה"], [
         ("ChatGPT", "☐", "☐", "☐", "☐ Verified ☐ Blocked", ""),
         ("Claude", "☐", "☐", "☐", "☐ Verified ☐ Blocked", ""),
         ("Gemini", "☐", "☐", "☐", "☐ Verified ☐ Blocked", ""),
         ("Copilot", "☐", "☐", "☐", "☐ Verified ☐ Blocked", ""),
         ("Perplexity", "☐", "☐", "☐", "☐ Verified ☐ Blocked", ""),
-        ("Grok", "☐", "☐", "☐", "☐ Beta ☐ Blocked", ""),
-        ("Mistral", "☐", "☐", "☐", "☐ Beta ☐ Blocked", ""),
+        ("Grok", "☐", "☐", "☐", "☐ Verified ☐ Blocked", ""),
     ], [1280, 900, 850, 1000, 1800, 3530])
     heading(doc, "כל סמן מחייב את כל הבדיקות הבאות", 2)
     table(doc, ["תחום", "בדיקת קבלה"], [
@@ -283,8 +282,7 @@ def build():
     heading(doc, "5. רישום תוצאות לפי שירות — חלק ב׳", 1)
     add_service_card(doc, "Copilot", "Verified candidate")
     add_service_card(doc, "Perplexity", "Verified candidate")
-    add_service_card(doc, "Grok", "Beta")
-    add_service_card(doc, "Mistral", "Beta")
+    add_service_card(doc, "Grok", "Verified candidate")
 
     page_break(doc)
     heading(doc, "6. בדיקת ייצוא ארוך ו-ZIP", 1)

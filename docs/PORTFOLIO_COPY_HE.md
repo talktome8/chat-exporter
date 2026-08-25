@@ -70,8 +70,7 @@ Chat Exporter הוא תוסף דפדפן מקומי לייצוא שיחות מ־
 - סינון הודעות משתמש ותשובות AI.
 - ממשק אנגלית ועברית עם RTL.
 - ללא חשבון, פרסומות, אנליטיקה, שרת או קוד מרוחק.
-- תמיכה מאומתת ב־ChatGPT, Claude, Gemini, Microsoft Copilot, Perplexity ו־Grok.
-- תמיכת Beta ב־Grok — עם בקשה לבדוק את הקובץ המיוצא לפני שימוש.
+- תמיכה ב־ChatGPT, Claude, Gemini, Microsoft Copilot, Perplexity ו־Grok.
 
 ## תמיכה וקוד פתוח
 

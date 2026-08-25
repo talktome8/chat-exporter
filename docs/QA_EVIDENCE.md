@@ -24,4 +24,4 @@ Run date: 2026-07-21
 
 ## Remaining live gate
 
-Run the verified-platform matrix in Chrome, Edge and Firefox using anonymous test conversations before tagging or submitting the release. Grok remains Beta until its full live matrix passes.
+Run the supported-platform matrix in Chrome, Edge and Firefox using anonymous test conversations before tagging or submitting the release. Grok uses the same release gate as the other supported services.

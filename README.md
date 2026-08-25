@@ -27,7 +27,7 @@ Everything is processed on the device. The extension has no account, analytics, 
 | Area | v2.0.0 support |
 | --- | --- |
 | Supported platforms | ChatGPT, Claude, Gemini, Microsoft Copilot, Perplexity |
-| Beta platforms | Grok — review exports for accuracy |
+| Supported platforms | ChatGPT, Claude, Gemini, Copilot, Perplexity and Grok |
 | Export formats | Markdown (`.md`), plain text (`.txt`), copy to clipboard |
 | Processing | Local only — conversation content is not sent to Tom Raz or a third party |
 | Languages | English and Hebrew (RTL) |

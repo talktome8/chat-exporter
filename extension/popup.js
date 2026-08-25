@@ -361,9 +361,9 @@
     }
   }
 
-  elements.settingsButton.addEventListener("click", async () => {
-    await renderPlatformSettings();
+  elements.settingsButton.addEventListener("click", () => {
     showOnly("settings");
+    if (settings) void renderPlatformSettings();
   });
   elements.settingsBack.addEventListener("click", async () => {
     if (!extraction) await scanConversation(settings.defaultScanMode);

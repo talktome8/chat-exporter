@@ -27,7 +27,10 @@ test("opens export first, promotes the widget once, and defaults every site on",
     runtime: { sendMessage: async () => ({ ok: true }), getManifest: () => ({ version: "test" }), onMessage: { addListener: (listener) => listeners.messages.push({ listener }) } }
   };
   for (const source of sources.slice(0, -1)) window.eval(source);
-  await window.eval(sources.at(-1));
+  const initializing = window.eval(sources.at(-1));
+  window.document.getElementById("settings-button").click();
+  assert.equal(window.document.getElementById("settings-view").hidden, false, "settings opens immediately while extraction initializes");
+  await initializing;
   assert.equal(window.document.getElementById("result-view").hidden, false);
   assert.equal(window.document.documentElement.lang, "en");
   assert.ok(listeners.messages.some(({ message }) => message?.action === "close"));
