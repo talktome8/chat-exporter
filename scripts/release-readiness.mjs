@@ -41,6 +41,8 @@ for (const file of sourceFiles.filter((name) => /\.(?:js|html|css|json)$/i.test(
 
 const privacy = await text("PRIVACY.md");
 const storeCopy = await text("docs/STORE_SUBMISSION_2.0.md");
+const storeKitPrivacy = await text("dist/store-submission-kit-2.0.0/PRIVACY.md");
+const storeKitCopy = await text("dist/store-submission-kit-2.0.0/STORE_SUBMISSION_2.0.md");
 assert.match(privacy, /settingsV2/);
 assert.match(privacy, /host access/i);
 assert.match(storeCopy, /2\.0\.0/);
@@ -49,6 +51,9 @@ assert.match(storeCopy, /Supported services:[\s\S]*Perplexity/i);
 assert.doesNotMatch(storeCopy, /Grok/i);
 assert.doesNotMatch(storeCopy, /Mistral/i);
 assert.doesNotMatch(storeCopy, /only (?:the )?language preference/i);
+assert.equal(storeKitPrivacy, privacy, "Store-kit privacy policy is out of date");
+assert.equal(storeKitCopy, storeCopy, "Store-kit submission copy is out of date");
+assert.doesNotMatch(storeKitPrivacy, /Grok|Mistral/i);
 
 const renderedHome = await text("out/index.html");
 const renderedPrivacy = await text("out/privacy.html");

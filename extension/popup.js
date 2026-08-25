@@ -95,6 +95,8 @@
     } catch {
       settings = { language: "en", enabledSites: Object.fromEntries(ChatExporterPlatforms.platforms.map((platform) => [platform.id, true])), defaultFormat: "md", includeUser: true, includeAssistant: true, includeMetadata: true, includeUrl: false, defaultScanMode: "quick", dismissedQuickWarning: false, dismissedWidgetTip: false };
       applyLanguage("en");
+      applySettingsToControls();
+      await renderPlatformSettings();
     }
   }
 

@@ -79,25 +79,6 @@
   }
 
   function extractWithAdapter(adapter) {
-    if (adapter.turns?.length) {
-      const turns = querySelectors(adapter.turns, adapter.deep)
-        .filter((element, index, list) => !list.some((other, otherIndex) => otherIndex !== index && other.contains(element)))
-        .map((element) => ({ role: roleForTurn(element), element }))
-        .filter(({ role }) => role);
-
-      if (turns.length) {
-        turns.sort((a, b) => {
-          const position = a.element.compareDocumentPosition?.(b.element) || 0;
-          if (position & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
-          if (position & Node.DOCUMENT_POSITION_PRECEDING) return 1;
-          return elementTop(a.element) - elementTop(b.element);
-        });
-        return turns
-          .map(({ role, element }) => ({ role, text: normalizeMessageText(adapter, role, toMarkdown(element)), element, turnId: stableTurnId(element) }))
-          .filter((message) => message.text.length > 0);
-      }
-    }
-
     const userElements = querySelectors(adapter.user, adapter.deep);
     const assistantElements = querySelectors(adapter.assistant, adapter.deep);
     const tagged = [
@@ -117,24 +98,6 @@
       .filter(({ element }, index, list) => !list.some((other, otherIndex) => otherIndex !== index && other.element.contains(element)))
       .map(({ role, element }) => ({ role, text: normalizeMessageText(adapter, role, toMarkdown(element)), element, turnId: stableTurnId(element) }))
       .filter((message) => message.text.length > 0);
-  }
-
-  function roleForTurn(element) {
-    let current = element;
-    for (let depth = 0; current && depth < 5; depth += 1, current = current.parentElement) {
-      const value = [
-        current.getAttribute?.("data-message-author-role"),
-        current.getAttribute?.("data-role"),
-        current.getAttribute?.("data-turn"),
-        current.getAttribute?.("data-testid"),
-        current.getAttribute?.("aria-label")
-      ].filter(Boolean).join(" ").toLowerCase();
-      if (/\b(user|human|you)\b/.test(value)) return "user";
-      if (/\b(assistant|model)\b/.test(value)) return "assistant";
-      if (current.classList?.contains("items-end")) return "user";
-      if (current.classList?.contains("items-start")) return "assistant";
-    }
-    return element.classList?.contains("message-bubble") ? "assistant" : "";
   }
 
   function stableTurnId(element) {
