@@ -50,9 +50,11 @@ nav a:hover, nav a:focus-visible { color: var(--blue); }
 .hero h1 em { color: var(--blue); font-style: normal; font-weight: inherit; }
 .hero-body { max-width: 620px; margin: 28px 0 0; color: var(--muted); font-size: 18px; line-height: 1.7; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 34px; }
+.hero-store-links { display: flex; gap: 8px; }
 .button { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; padding: 0 19px; border-radius: 10px; font-size: 13px; font-weight: 800; }
 .button[aria-disabled="true"] { cursor: default; }
 .button-primary { background: var(--blue); color: #fff; box-shadow: 0 10px 24px rgba(23,105,224,.22); }
+.button-store { border: 1px solid #cdd8e8; background: #fff; color: #275391; }
 .button-secondary { border: 1px solid var(--line); background: #fff; color: #3c4859; }
 .hero-note { display: flex; align-items: center; gap: 7px; margin: 16px 0 0; color: #6e7a8b; font-size: 11px; }
 .hero-note span { display: grid; width: 17px; height: 17px; place-items: center; border-radius: 50%; background: #e8f7ef; color: var(--green); font-size: 10px; font-weight: 900; }
@@ -212,7 +214,7 @@ html[dir="rtl"] .faq-list p { margin: -2px 0 22px 42px; }
   .hero { padding: 62px 0 74px; }
   .hero h1 { font-size: clamp(42px, 13vw, 58px); }
   .hero-body { font-size: 16px; }
-  .hero-actions { align-items: stretch; flex-direction: column; }
+  .hero-actions, .hero-store-links { align-items: stretch; flex-direction: column; }
   .preview-stage { min-height: 490px; transform: scale(.88); transform-origin: top center; margin-bottom: -58px; }
   .browser-card { width: 420px; inset-inline-end: -52px; }
   .popup-card { inset-inline-start: -36px; }

@@ -234,7 +234,11 @@ export default function Home() {
               <h1>{t.headlineA}<br /><em>{t.headlineB}</em></h1>
               <p className="hero-body">{t.hero}</p>
               <div className="hero-actions">
-                <a className="button button-primary" href={stores.chrome} target="_blank" rel="noreferrer">Chrome Web Store</a>
+                <div className="hero-store-links" aria-label={language === "he" ? "התקנת התוסף לפי דפדפן" : "Install Chat Exporter by browser"}>
+                  <a className="button button-primary" href={stores.chrome} target="_blank" rel="noreferrer">Chrome</a>
+                  <a className="button button-store" href={stores.edge} target="_blank" rel="noreferrer">Edge</a>
+                  <a className="button button-store" href={stores.firefox} target="_blank" rel="noreferrer">Firefox</a>
+                </div>
                 <a className="button button-secondary" href="https://github.com/talktome8/chat-exporter" target="_blank" rel="noreferrer">{language === "he" ? "הקוד ב-GitHub" : t.reviewCode}</a>
               </div>
               <p className="hero-note"><span aria-hidden="true">✓</span>{t.privacyNote}</p>
