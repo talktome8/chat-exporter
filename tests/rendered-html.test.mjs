@@ -18,7 +18,7 @@ test("exports the product page with accurate launch content", async () => {
   assert.match(html, /microsoftedge\.microsoft\.com/);
   assert.match(html, /addons\.mozilla\.org/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/);
-  assert.match(html, /Version 2\.0\.0/);
+  assert.match(html, /Version 2\.0\.1/);
   assert.doesNotMatch(html, /Grok/);
   assert.doesNotMatch(html, /Mistral/);
   for (const platform of ["chatgpt", "claude", "gemini", "copilot", "perplexity"]) {

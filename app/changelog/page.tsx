@@ -14,6 +14,13 @@ export default function ChangelogPage() {
         <p className="section-kicker">Release history</p>
         <h1>Changelog</h1>
         <section>
+          <h2>2.0.1 — Popup hotfix</h2>
+          <ul>
+            <li>Fixed the toolbar popup collapsing to header and footer only in Chromium browsers.</li>
+            <li>Added a regression check for stable popup sizing.</li>
+          </ul>
+        </section>
+        <section>
           <h2>2.0.0 — Store submission candidate</h2>
           <ul>
             <li>Added an automatic in-chat quick action with a shared Chat Exporter identity, platform-aware styling, Shadow DOM isolation and light/dark theme support.</li>

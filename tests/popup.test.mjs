@@ -56,6 +56,8 @@ test("opens export first, promotes the widget once, and defaults every site on",
 test("popup supports live system theme changes and themed service logos", async () => {
   const css = await readFile(new URL("popup.css", root), "utf8");
   const popup = sources.at(-1);
+  assert.match(css, /body\s*\{[\s\S]*?height:\s*560px/);
+  assert.doesNotMatch(css, /height:\s*min\([^;]*100vh/);
   assert.match(css, /prefers-color-scheme:\s*dark/);
   assert.match(popup, /platform\?\.iconDark/);
   assert.match(popup, /darkMode\.addEventListener/);

@@ -88,7 +88,7 @@ const copy = {
     privacyLink: "Privacy policy",
     changelog: "Changelog",
     support: "Support",
-    version: "Version 2.0.0"
+    version: "Version 2.0.1"
   },
   he: {
     skip: "דילוג לתוכן",
@@ -157,7 +157,7 @@ const copy = {
     privacyLink: "מדיניות פרטיות",
     changelog: "יומן שינויים",
     support: "תמיכה",
-    version: "גרסה 2.0.0"
+    version: "גרסה 2.0.1"
   }
 } as const;
 

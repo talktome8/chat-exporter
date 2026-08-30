@@ -1,6 +1,6 @@
 {
   "name": "chat-exporter-by-tom-raz",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
@@ -17,8 +17,9 @@
     "extension:verify": "node scripts/verify-package.mjs",
     "qa:exports": "node scripts/generate-qa-exports.mjs",
     "assets:store": "node scripts/render-store-assets.mjs",
+    "store:kit": "node scripts/prepare-store-kit.mjs",
     "release:verify": "node scripts/release-readiness.mjs",
-    "check": "npm run lint && npm run test && npm run extension:lint && npm run extension:package && npm run extension:verify && npm run build && npm run test:rendered && npm run release:verify"
+    "check": "npm run lint && npm run test && npm run extension:lint && npm run extension:package && npm run extension:verify && npm run build && npm run test:rendered && npm run store:kit && npm run release:verify"
   },
   "dependencies": {
     "next": "16.3.1",

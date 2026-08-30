@@ -5,7 +5,7 @@
 [![Chrome Web Store](https://img.shields.io/badge/Chrome-Available-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/chat-exporter-by-tom-raz/ljgpghdicijmjojfnhmpefjpipfakoen)
 [![Microsoft Edge Add-ons](https://img.shields.io/badge/Edge-Available-0078D7?logo=microsoftedge&logoColor=white)](https://microsoftedge.microsoft.com/addons/detail/chat-exporter-by-tom-raz/nmmpfdnapkfklcbfgcmkahcjcclophhk)
 [![Firefox Add-ons](https://img.shields.io/badge/Firefox-Available-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/he/firefox/addon/chat-exporter-by-tom-raz/)
-[![Version](https://img.shields.io/badge/version-2.0.0-1769E0)](https://github.com/talktome8/chat-exporter/releases)
+[![Version](https://img.shields.io/badge/version-2.0.1-1769E0)](https://github.com/talktome8/chat-exporter/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-087A4F.svg)](LICENSE)
 
 | Install | Browser |
@@ -24,10 +24,9 @@ Everything is processed on the device. The extension has no account, analytics, 
 
 ## Support at a glance
 
-| Area | v2.0.0 support |
+| Area | v2.0.1 support |
 | --- | --- |
 | Supported platforms | ChatGPT, Claude, Gemini, Microsoft Copilot, Perplexity |
-| Supported platforms | ChatGPT, Claude, Gemini, Copilot and Perplexity |
 | Export formats | Markdown (`.md`), plain text (`.txt`), copy to clipboard |
 | Processing | Local only — conversation content is not sent to Tom Raz or a third party |
 | Languages | English and Hebrew (RTL) |
@@ -66,7 +65,7 @@ To load the extension locally, use `dist/extension-builds/chrome` or `dist/exten
 
 ## Release assets
 
-Store-specific 2.0.0 ZIPs are produced under `dist/`. `npm run release:verify` confirms the version inside every archive and prints its SHA-256 checksum.
+Store-specific 2.0.1 ZIPs are produced under `dist/`. `npm run release:verify` confirms the version inside every archive and prints its SHA-256 checksum.
 
 ## Support and contributions
 

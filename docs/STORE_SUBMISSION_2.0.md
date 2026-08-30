@@ -1,4 +1,4 @@
-# Chat Exporter 2.0.0 — store submission copy kit
+# Chat Exporter 2.0.1 — store submission copy kit
 
 Use this document with the exact ZIP for each store. Do not rename or rebuild a ZIP after its checksum has been recorded.
 
@@ -6,11 +6,11 @@ Use this document with the exact ZIP for each store. Do not rename or rebuild a 
 
 | Store | Upload this file |
 | --- | --- |
-| Chrome Web Store | `dist/chat-exporter-by-tom-raz-2.0.0-chrome.zip` |
-| Microsoft Edge Add-ons | `dist/chat-exporter-by-tom-raz-2.0.0-edge.zip` |
-| Firefox Add-ons (AMO) | `dist/chat-exporter-by-tom-raz-2.0.0-firefox.zip` |
+| Chrome Web Store | `dist/chat-exporter-by-tom-raz-2.0.1-chrome.zip` |
+| Microsoft Edge Add-ons | `dist/chat-exporter-by-tom-raz-2.0.1-edge.zip` |
+| Firefox Add-ons (AMO) | `dist/chat-exporter-by-tom-raz-2.0.1-firefox.zip` |
 
-Checksums are recorded in `dist/SHA256SUMS-2.0.0.txt` after the final release gate.
+Checksums are recorded in `dist/SHA256SUMS-2.0.1.txt` after the final release gate.
 
 ## URLs
 
@@ -68,7 +68,7 @@ Export conversations from supported AI-chat websites to local Markdown or plain-
 
 ### Release notes
 
-Version 2.0.0 adds an automatic in-chat quick action, a unified five-service extraction engine, reliable repeated-message handling, full-conversation progress and cancellation, light/dark themes, expanded local settings, and verified ZIP splitting for exports above 10 MiB.
+Version 2.0.1 fixes the toolbar popup collapsing to its header and footer in Chromium browsers. All 2.0 export, verification, ZIP, widget and privacy features remain unchanged.
 
 ### Reviewer notes
 
@@ -149,7 +149,7 @@ Chat Exporter יוצר עותק מקומי, נקי וקריא של שיחת AI �
 
 ### הערות לגרסה
 
-גרסה 2.0.0 מוסיפה פעולת ייצוא אוטומטית בתוך הצ׳אט, מנוע חילוץ אחיד לחמישה שירותים, טיפול אמין בהודעות חוזרות, התקדמות וביטול בסריקה מלאה, תמיכה במצב כהה ובהיר, הגדרות מקומיות מורחבות ופיצול ZIP מאומת לייצוא מעל 10MiB.
+גרסה 2.0.1 מתקנת מצב שבו חלון התוסף מסרגל הכלים הצטמצם לכותרת ולשורת הפרטיות בלבד בדפדפני Chromium. כל יכולות הייצוא, האימות, ה־ZIP, הווידג׳ט והפרטיות של 2.0 נשארו ללא שינוי.
 
 ## Store-specific selections
 
@@ -189,9 +189,9 @@ Chat Exporter יוצר עותק מקומי, נקי וקריא של שיחת AI �
 
 ## Final submission sequence
 
-1. Run `npm run check` and confirm `Release readiness PASS — Chat Exporter 2.0.0`.
-2. Compare the three printed SHA-256 values with `dist/SHA256SUMS-2.0.0.txt`.
+1. Run `npm run check` and confirm `Release readiness PASS — Chat Exporter 2.0.1`.
+2. Compare the three printed SHA-256 values with `dist/SHA256SUMS-2.0.1.txt`.
 3. Upload only the browser-specific ZIP listed at the top of this document.
 4. Paste the listing, privacy, permission and reviewer text from this document.
 5. Upload the matching screenshots and tiles.
-6. Stop before the final Publish/Submit button if any dashboard field contradicts this document or reports a version other than 2.0.0.
+6. Stop before the final Publish/Submit button if any dashboard field contradicts this document or reports a version other than 2.0.1.

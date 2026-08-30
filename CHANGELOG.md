@@ -2,6 +2,11 @@
 
 All notable changes to Chat Exporter are documented here.
 
+## 2.0.1 — Popup hotfix 2026-08-31
+
+- Fixed the toolbar popup collapsing to header and footer only in Chromium browsers.
+- Added a regression test that forbids viewport-relative popup height.
+
 ## 2.0.0 — Store submission candidate 2026-08-20
 
 - Added an automatic in-chat quick action using the Chat Exporter icon, isolated Shadow DOM UI and light/dark theme support.

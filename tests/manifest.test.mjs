@@ -7,7 +7,7 @@ const manifest = JSON.parse(await readFile(new URL("manifest.json", root), "utf8
 
 test("uses a minimal Manifest V3 permission set", () => {
   assert.equal(manifest.manifest_version, 3);
-  assert.equal(manifest.version, "2.0.0");
+  assert.equal(manifest.version, "2.0.1");
   assert.equal(manifest.name, "__MSG_extensionName__");
   assert.ok(manifest.short_name.length <= 12);
   assert.deepEqual(manifest.permissions, ["activeTab", "scripting", "storage"]);

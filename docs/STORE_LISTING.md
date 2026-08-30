@@ -1,4 +1,4 @@
-# Store listing — v2.0.0
+# Store listing — v2.0.1
 
 The authoritative copy-and-paste submission kit for Chrome, Microsoft Edge and Firefox is [STORE_SUBMISSION_2.0.md](STORE_SUBMISSION_2.0.md).
 

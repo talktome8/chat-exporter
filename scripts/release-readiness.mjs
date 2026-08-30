@@ -5,7 +5,7 @@ import path from "node:path";
 import AdmZip from "adm-zip";
 
 const root = process.cwd();
-const expectedVersion = "2.0.0";
+const expectedVersion = "2.0.1";
 const browsers = ["chrome", "edge", "firefox"];
 
 async function json(relative) {
@@ -41,11 +41,11 @@ for (const file of sourceFiles.filter((name) => /\.(?:js|html|css|json)$/i.test(
 
 const privacy = await text("PRIVACY.md");
 const storeCopy = await text("docs/STORE_SUBMISSION_2.0.md");
-const storeKitPrivacy = await text("dist/store-submission-kit-2.0.0/PRIVACY.md");
-const storeKitCopy = await text("dist/store-submission-kit-2.0.0/STORE_SUBMISSION_2.0.md");
+const storeKitPrivacy = await text(`dist/store-submission-kit-${expectedVersion}/PRIVACY.md`);
+const storeKitCopy = await text(`dist/store-submission-kit-${expectedVersion}/STORE_SUBMISSION_2.0.md`);
 assert.match(privacy, /settingsV2/);
 assert.match(privacy, /host access/i);
-assert.match(storeCopy, /2\.0\.0/);
+assert.ok(storeCopy.includes(expectedVersion), "Store copy version mismatch");
 assert.match(storeCopy, /activeTab/);
 assert.match(storeCopy, /Supported services:[\s\S]*Perplexity/i);
 assert.doesNotMatch(storeCopy, /Grok/i);
@@ -57,7 +57,7 @@ assert.doesNotMatch(storeKitPrivacy, /Grok|Mistral/i);
 
 const renderedHome = await text("out/index.html");
 const renderedPrivacy = await text("out/privacy.html");
-assert.match(renderedHome, /Version 2\.0\.0/);
+assert.ok(renderedHome.includes(`Version ${expectedVersion}`), "Rendered website version mismatch");
 assert.doesNotMatch(renderedHome, /Grok/);
 assert.doesNotMatch(renderedHome, /Mistral/);
 assert.match(renderedPrivacy, /settingsV2/);
@@ -83,6 +83,8 @@ for (const browser of browsers) {
   const archiveName = `chat-exporter-by-tom-raz-${expectedVersion}-${browser}.zip`;
   const archivePath = path.join(root, "dist", archiveName);
   const archiveBytes = await readFile(archivePath);
+  const kitArchiveBytes = await readFile(path.join(root, "dist", `store-submission-kit-${expectedVersion}`, archiveName));
+  assert.ok(archiveBytes.equals(kitArchiveBytes), `${archiveName} in the store kit is out of date`);
   const archive = new AdmZip(archiveBytes);
   const entries = archive.getEntries();
   assert.ok(entries.some((entry) => entry.entryName === "manifest.json"), `${archiveName} has no root manifest`);
@@ -94,6 +96,8 @@ for (const browser of browsers) {
 
 const recordedChecksums = (await text(`dist/SHA256SUMS-${expectedVersion}.txt`)).trim().split(/\r?\n/).sort();
 assert.deepEqual(recordedChecksums, [...checksums].sort(), "Recorded package checksums do not match the final ZIPs");
+const kitChecksums = (await text(`dist/store-submission-kit-${expectedVersion}/SHA256SUMS-${expectedVersion}.txt`)).trim().split(/\r?\n/).sort();
+assert.deepEqual(kitChecksums, recordedChecksums, "Store-kit checksums are out of date");
 
 console.log(`Release readiness PASS — Chat Exporter ${expectedVersion}`);
 console.log(checksums.join("\n"));

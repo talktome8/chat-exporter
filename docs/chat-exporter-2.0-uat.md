@@ -52,4 +52,4 @@ For each platform:
 - [ ] Edge package verified and manually approved.
 - [ ] Firefox package verified and manually approved.
 - [ ] Tom Raz approves the UI and exported content.
-- [ ] Confirm the manifest, all three ZIPs, store copy, privacy page and website report `2.0.0`, then submit the exact verified archives.
+- [ ] Confirm the manifest, all three ZIPs, store copy, privacy page and website report `2.0.1`, then submit the exact verified archives.
