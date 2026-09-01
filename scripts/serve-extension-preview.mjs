@@ -27,7 +27,8 @@ createServer(async (request, response) => {
     if (pathname === "/popup.html") {
       const html = await readFile(file, "utf8");
       const dark = url.searchParams.get("theme") === "dark";
-      const stub = `<script>window.matchMedia=()=>({matches:${dark},addEventListener(){}});window.chrome={storage:{local:{get:async()=>({settingsV2:{dismissedWidgetTip:true}}),set:async()=>{}}},tabs:{query:async()=>[{id:1,url:'https://gemini.google.com/app/qa'}]},scripting:{executeScript:async()=>[{result:{ok:true,adapter:'gemini',platform:'Gemini',supportStatus:'supported',title:'Japan planning conversation',model:'Gemini 2.5 Pro',messages:[{role:'user',text:'Hello'},{role:'assistant',text:'Hi'}],completeness:'complete',warnings:[],scanMode:'full'}}]},runtime:{sendMessage:async()=>({ok:true}),getManifest:()=>({version:'2.0.1'})}};</script>`;
+      const notices = url.searchParams.get("notices") === "1";
+      const stub = `<script>window.matchMedia=()=>({matches:${dark},addEventListener(){}});window.chrome={storage:{local:{get:async()=>({settingsV2:{dismissedWidgetTip:${!notices}}}),set:async()=>{}}},tabs:{query:async()=>[{id:1,url:'https://chatgpt.com/c/qa'}]},scripting:{executeScript:async()=>[{result:{ok:true,adapter:'chatgpt',platform:'ChatGPT',supportStatus:'supported',title:'ניסוח מייל למשרה כלכלית ותכנון המשך הקריירה',model:'GPT-5.6 Thinking',messages:[{role:'user',text:'Hello'},{role:'assistant',text:'Hi'}],completeness:'${notices ? "loaded" : "complete"}',warnings:${notices ? "['quick']" : "[]"},scanMode:'${notices ? "quick" : "full"}'}}]},runtime:{sendMessage:async()=>({ok:true}),getManifest:()=>({version:'2.0.1'})}};</script>`;
       const themeStylesheet = dark ? "popup-dark-preview.css" : "popup-light-preview.css";
       response.end(html.replace("</head>", `<link rel="stylesheet" href="${themeStylesheet}"></head>`).replace("<body>", `<body>${stub}`));
       return;
