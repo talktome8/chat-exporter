@@ -178,6 +178,19 @@ test("ignores current Gemini screen-reader headings that duplicate visible messa
   window.close();
 });
 
+test("excludes Gemini generation status from the assistant answer", async () => {
+  const html = '<!doctype html><title>Test - Google Gemini</title>' +
+    '<user-query><p>What is 5 + 6?</p></user-query>' +
+    '<model-response><div><p>5 + 6 equals 11.</p></div>' +
+    '<div class="response-footer"><response-info-line role="status"><span>You stopped this response</span></response-info-line></div></model-response>';
+  const window = new Window({ url: "https://gemini.google.com/app/current" });
+  window.document.write(html); window.document.close();
+  window.__CHAT_EXPORTER_MODE__ = "quick"; window.__CHAT_EXPORTER_RUN_ON_LOAD__ = true;
+  window.eval(platforms); const result = await window.eval(extractor);
+  assert.deepEqual(Array.from(result.messages, (message) => message.text), ["What is 5 + 6?", "5 + 6 equals 11."]);
+  window.close();
+});
+
 test("uses a stable ancestor id for services that identify the full turn", async () => {
   const html = '<!doctype html><title>Test</title><div id="turn-123"><user-query><p>Hello</p></user-query><model-response><p>Hi</p></model-response></div>';
   const window = new Window({ url: "https://gemini.google.com/app/test" });

@@ -145,7 +145,9 @@
       }
 
       const tag = node.tagName.toLowerCase();
-      if (["script", "style", "svg", "button", "nav", "header", "footer", "textarea", "input"].includes(tag)) return "";
+      // Gemini places generation-status text inside model-response, but it is
+      // not part of the answer (for example, "You stopped this response").
+      if (["script", "style", "svg", "button", "nav", "header", "footer", "textarea", "input", "response-info-line"].includes(tag)) return "";
       if (node.getAttribute("aria-hidden") === "true") return "";
       if (/^h[1-6]$/.test(tag) && (node.classList.contains("sr-only") || node.classList.contains("cdk-visually-hidden"))) return "";
       if (node.shadowRoot) return walk(node.shadowRoot);
