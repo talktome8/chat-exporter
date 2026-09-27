@@ -5,8 +5,8 @@
     {
       id: "chatgpt", name: "ChatGPT", hosts: ["chatgpt.com", "chat.openai.com"], status: "supported",
       icon: "platforms/chatgpt.png", iconDark: "platforms/chatgpt-dark.png", accent: "#10a37f",
-      user: ['[data-message-author-role="user"]', '[data-chatgpt-search-unit-key$=":user"]'],
-      assistant: ['[data-message-author-role="assistant"]', '[data-chatgpt-search-unit-key$=":assistant"]'],
+      user: ['[data-message-author-role="user"]', '[data-chatgpt-search-unit-key$=":user"]', '[data-conversation-transcript] [data-message-role="user"]'],
+      assistant: ['[data-message-author-role="assistant"]', '[data-chatgpt-search-unit-key$=":assistant"]', '[data-conversation-transcript] [data-message-role="assistant"]'],
       modelAttributes: [{ selector: '[data-message-author-role="assistant"][data-message-model-slug]', attribute: "data-message-model-slug" }],
       model: ['button[data-testid*="model"]', '[aria-label*="model" i]'],
       composer: ['form[data-type="unified-composer"]', 'form:has(textarea)', '#prompt-textarea']

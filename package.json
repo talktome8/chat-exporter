@@ -16,13 +16,14 @@
     "extension:package": "node scripts/prepare-extension-targets.mjs && node scripts/package-extension.mjs",
     "extension:verify": "node scripts/verify-package.mjs",
     "qa:exports": "node scripts/generate-qa-exports.mjs",
+    "qa:firefox-smoke": "node scripts/qa-firefox-smoke.mjs",
     "assets:store": "node scripts/render-store-assets.mjs",
     "store:kit": "node scripts/prepare-store-kit.mjs",
     "release:verify": "node scripts/release-readiness.mjs",
     "check": "npm run lint && npm run test && npm run extension:lint && npm run extension:package && npm run extension:verify && npm run build && npm run test:rendered && npm run store:kit && npm run release:verify"
   },
   "dependencies": {
-    "next": "16.3.1",
+    "next": "16.3.6",
     "react": "19.2.6",
     "react-dom": "19.2.6"
   },
@@ -39,6 +40,7 @@
     "eslint-config-next": "16.2.10",
     "happy-dom": "^20.11.0",
     "remotion": "4.0.494",
+    "selenium-webdriver": "4.35.0",
     "typescript": "5.9.3",
     "web-ext": "^10.5.0"
   },

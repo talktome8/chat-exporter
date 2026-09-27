@@ -145,6 +145,12 @@
       }
 
       const tag = node.tagName.toLowerCase();
+      if (node.hasAttribute("data-message-attribution")) return "";
+      // ChatGPT's anonymous transcript puts the user text in a button.
+      // Other controls remain excluded from the exported conversation.
+      if (tag === "button" && node.hasAttribute("data-user-message-bubble")) {
+        return Array.from(node.childNodes).map((child) => walk(child)).join("");
+      }
       // Gemini places generation-status text inside model-response, but it is
       // not part of the answer (for example, "You stopped this response").
       if (["script", "style", "svg", "button", "nav", "header", "footer", "textarea", "input", "response-info-line"].includes(tag)) return "";
@@ -153,6 +159,7 @@
       if (node.shadowRoot) return walk(node.shadowRoot);
 
       const inner = () => Array.from(node.childNodes).map((child) => walk(child)).join("");
+      if (tag === "li" && node.hasAttribute("data-message-role")) return inner().trim();
       if (tag === "pre") {
         const code = node.querySelector("code");
         const language = (code?.className.match(/language-([\w-]+)/) || [])[1] || "";

@@ -67,3 +67,39 @@ test("isolates a failed site registration and normalizes corrupt settings", asyn
   assert.equal(stored.at(-1).settingsV2.language, "en");
   assert.equal(stored.at(-1).settingsV2.defaultFormat, "md");
 });
+
+test("injects the widget into an already-open approved tab only when absent", async () => {
+  const listeners = {};
+  const injections = [];
+  let hasWidget = false;
+  const chrome = {
+    storage: { local: { get: async () => ({}), set: async () => {} } },
+    tabs: { query: async ({ url }) => {
+      assert.ok(url.includes("https://chatgpt.com/*"));
+      return [{ id: 17 }];
+    } },
+    scripting: {
+      getRegisteredContentScripts: async () => [],
+      registerContentScripts: async () => {},
+      updateContentScripts: async () => {},
+      unregisterContentScripts: async () => {},
+      executeScript: async (args) => {
+        if (args.func) return [{ result: hasWidget }];
+        injections.push(args.files);
+        hasWidget = true;
+        return [];
+      }
+    },
+    runtime: {
+      onInstalled: { addListener: (listener) => { listeners.installed = listener; } },
+      onStartup: { addListener: () => {} },
+      onMessage: { addListener: () => {} }
+    }
+  };
+  const context = vm.createContext({ chrome, console });
+  vm.runInContext(platformSource, context); vm.runInContext(backgroundSource, context);
+  await listeners.installed();
+  await listeners.installed();
+  assert.equal(injections.length, 1);
+  assert.equal(injections[0].at(-1), "content/widget.js");
+});

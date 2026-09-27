@@ -65,6 +65,28 @@ test("extracts current ChatGPT search-unit markup without duplicate speaker head
   window.close();
 });
 
+test("extracts anonymous ChatGPT transcript turns with repeated prompts", async () => {
+  const html = '<!doctype html><title>Anonymous ChatGPT</title><ol data-conversation-transcript>' +
+    '<li id="user-1" data-message-role="user"><h4 data-message-attribution>You said:</h4><div><button data-user-message-bubble><p>Same question</p></button></div></li>' +
+    '<li id="assistant-1" data-message-role="assistant"><h4 data-message-attribution>ChatGPT said:</h4><div><p>First answer</p></div><div data-assistant-message-actions><button>Copy</button></div></li>' +
+    '<li id="user-2" data-message-role="user"><h4 data-message-attribution>You said:</h4><div><button data-user-message-bubble><p>Same question</p></button></div></li>' +
+    '<li id="assistant-2" data-message-role="assistant"><h4 data-message-attribution>ChatGPT said:</h4><div><p>Second answer</p></div></li>' +
+    '</ol>';
+  const window = new Window({ url: "https://chatgpt.com/uc/test" });
+  window.document.write(html); window.document.close();
+  window.__CHAT_EXPORTER_RUN_ON_LOAD__ = true;
+  window.eval(platforms); const result = await window.eval(extractor);
+  assert.equal(result.ok, true);
+  assert.deepEqual(Array.from(result.messages, (message) => [message.role, message.text]), [
+    ["user", "Same question"], ["assistant", "First answer"],
+    ["user", "Same question"], ["assistant", "Second answer"]
+  ]);
+  assert.deepEqual(Array.from(result.messages, (message) => message.turnId), [
+    "id:user-1", "id:assistant-1", "id:user-2", "id:assistant-2"
+  ]);
+  window.close();
+});
+
 test("includes research links that are shown as citation icons", async () => {
   const window = new Window({ url: "https://chatgpt.com/c/sources" });
   window.document.write('<!doctype html><title>Research - ChatGPT</title><div data-message-author-role="user">Find a study</div><div data-message-author-role="assistant">Read the paper <a href="https://example.org/paper/7" aria-label="Research source"><svg></svg></a><a href="javascript:alert(1)">unsafe</a><table><tr><th>Source</th></tr><tr><td><a href="https://example.org/table-source">Study</a></td></tr></table></div>');

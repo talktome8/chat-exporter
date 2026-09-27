@@ -48,6 +48,7 @@ async function syncWidgetRegistrations() {
   const registered = await chrome.scripting.getRegisteredContentScripts();
   const registeredIds = new Set(registered.map((script) => script.id));
   const errors = [];
+  const activeMatches = [];
   const expectedIds = new Set(ChatExporterPlatforms.platforms.map((platform) => `chat-exporter-widget-${platform.id}`));
   for (const script of registered) {
     if (!script.id.startsWith("chat-exporter-widget-") || expectedIds.has(script.id)) continue;
@@ -77,8 +78,30 @@ async function syncWidgetRegistrations() {
       } else if (!enabled && registeredIds.has(id)) {
         await chrome.scripting.unregisterContentScripts({ ids: [id] });
       }
+      if (enabled) activeMatches.push(...definition.matches);
     } catch (error) {
       errors.push({ platform: platform.id, error: String(error?.message || error) });
+    }
+  }
+  if (activeMatches.length && chrome.tabs?.query) {
+    try {
+      const tabs = await chrome.tabs.query({ url: activeMatches });
+      for (const tab of tabs) {
+        if (!Number.isInteger(tab.id)) continue;
+        try {
+          const [probe] = await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: () => Boolean(document.getElementById("chat-exporter-widget-host"))
+          });
+          if (!probe?.result) {
+            await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: WIDGET_FILES });
+          }
+        } catch (error) {
+          errors.push({ tab: tab.id, error: String(error?.message || error) });
+        }
+      }
+    } catch (error) {
+      errors.push({ tabs: true, error: String(error?.message || error) });
     }
   }
   if (errors.length) console.warn("Chat Exporter could not register some widgets", errors);
