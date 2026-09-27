@@ -41,7 +41,7 @@ const copy = {
     howTitle: "Fast when it can be. Honest when it can’t.",
     steps: [
       ["01", "Open a conversation", "Use any supported AI chat as normal. The Chat Exporter quick action appears automatically."],
-      ["02", "Export now or verify", "Export loaded messages immediately, or ask Chat Exporter to scan the full conversation and verify completeness."],
+      ["02", "Choose and verify", "Choose the messages and format. Download and Copy scan the full conversation first; an unverified result is clearly marked."],
       ["03", "Download or copy", "Choose Markdown or plain text. Very large exports are split safely inside one verified ZIP."]
     ],
     controlTitle: "A small tool with serious controls",
@@ -88,7 +88,7 @@ const copy = {
     privacyLink: "Privacy policy",
     changelog: "Changelog",
     support: "Support",
-    version: "Version 2.0.1"
+    version: "Version 2.0.2"
   },
   he: {
     skip: "דילוג לתוכן",
@@ -110,7 +110,7 @@ const copy = {
     howTitle: "מהיר כשאפשר. כנה כשאי אפשר.",
     steps: [
       ["01", "פותחים שיחה", "משתמשים כרגיל בכל שירות נתמך. פעולת Chat Exporter מופיעה אוטומטית בתוך הצ׳אט."],
-      ["02", "מייצאים או מאמתים", "מייצאים מיד את ההודעות שנטענו, או מבצעים סריקה מלאה ואימות שלמות."],
+      ["02", "בוחרים ומאמתים", "בוחרים הודעות ופורמט. הורדה והעתקה סורקות תחילה את כל השיחה; תוצאה שלא אומתה מסומנת בבירור."],
       ["03", "מורידים או מעתיקים", "בוחרים Markdown או טקסט. ייצוא גדול מאוד מחולק בבטחה בתוך קובץ ZIP מאומת אחד."]
     ],
     controlTitle: "כלי קטן עם שליטה רצינית",
@@ -157,7 +157,7 @@ const copy = {
     privacyLink: "מדיניות פרטיות",
     changelog: "יומן שינויים",
     support: "תמיכה",
-    version: "גרסה 2.0.1"
+    version: "גרסה 2.0.2"
   }
 } as const;
 

@@ -163,7 +163,9 @@ input[type="checkbox"], input[type="radio"] { width: 15px; height: 15px; margin:
 .secondary-button { border: 1px solid var(--line); background: var(--surface-raised); color: var(--control-ink); }
 .secondary-button:hover { background: var(--panel); }
 .text-button { border: 0; background: transparent; color: var(--blue-dark); cursor: pointer; font-weight: 700; }
-.scan-button { display: block; margin: 2px auto 0; padding: 4px 10px; color: var(--muted); font-size: 10.5px; }
+.utility-actions { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 2px 12px 0; }
+.scan-button, .widget-toggle-button { display: block; min-width: 0; margin: 0; padding: 4px 8px; color: var(--muted); font-size: 10.5px; }
+.widget-toggle-button { border-inline-start: 1px solid var(--line); color: var(--blue-dark); }
 
 .empty-icon { display: grid; width: 36px; height: 36px; margin: 0 auto; place-items: center; border-radius: 50%; background: var(--amber-soft); color: var(--amber); font-weight: 900; }
 .empty-view .secondary-button { margin-top: 18px; padding: 0 18px; }

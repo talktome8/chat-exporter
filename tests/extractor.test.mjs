@@ -45,10 +45,85 @@ test("preserves code and tables while removing unsafe link protocols", async () 
   assert.match(result.messages[1].text, /\| Gate \| Status \|/);
 });
 
+test("includes research links that are shown as citation icons", async () => {
+  const window = new Window({ url: "https://chatgpt.com/c/sources" });
+  window.document.write('<!doctype html><title>Research - ChatGPT</title><div data-message-author-role="user">Find a study</div><div data-message-author-role="assistant">Read the paper <a href="https://example.org/paper/7" aria-label="Research source"><svg></svg></a><a href="javascript:alert(1)">unsafe</a><table><tr><th>Source</th></tr><tr><td><a href="https://example.org/table-source">Study</a></td></tr></table></div>');
+  window.document.close(); window.__CHAT_EXPORTER_RUN_ON_LOAD__ = true;
+  window.eval(platforms); const result = await window.eval(extractor);
+  assert.match(result.messages[1].text, /\[Research source\]\(https:\/\/example\.org\/paper\/7\)/);
+  assert.match(result.messages[1].text, /\[Study\]\(https:\/\/example\.org\/table-source\)/);
+  assert.doesNotMatch(result.messages[1].text, /javascript:/);
+  window.close();
+});
+
 test("accepts an explicit full-history scan mode", async () => {
   const result = await extractFixture("chatgpt", "https://chatgpt.com/c/test", "full");
   assert.equal(result.ok, true);
   assert.equal(result.scanMode, "full");
+});
+
+test("full scan waits for delayed earlier turns and both stable scroll boundaries", async () => {
+  const window = new Window({ url: "https://chatgpt.com/c/long" });
+  window.document.write('<!doctype html><title>Long</title><div id="scroll" style="overflow-y:auto"><div data-message-author-role="user" data-message-id="u2">Later question</div><div data-message-author-role="assistant" data-message-id="a2">Later answer</div></div>');
+  window.document.close();
+  const container = window.document.getElementById("scroll");
+  let top = 300;
+  let inserted = false;
+  Object.defineProperty(container, "clientHeight", { value: 100 });
+  Object.defineProperty(container, "scrollHeight", { value: 400 });
+  Object.defineProperty(container, "scrollTop", { get: () => top, set: (value) => { top = value; } });
+  container.scrollTo = ({ top: value }) => {
+    top = value;
+    if (value === 0 && !inserted) {
+      inserted = true;
+      setTimeout(() => {
+        container.innerHTML = '<div data-message-author-role="user" data-message-id="u1">Earlier question</div><div data-message-author-role="assistant" data-message-id="a1">Earlier answer</div>' + container.innerHTML;
+      }, 1200);
+    }
+  };
+  window.__CHAT_EXPORTER_MODE__ = "full";
+  window.__CHAT_EXPORTER_RUN_ON_LOAD__ = true;
+  window.eval(platforms);
+  const result = await window.eval(extractor);
+  assert.equal(result.completeness, "complete");
+  assert.deepEqual(Array.from(result.messages, (message) => message.text), ["Earlier question", "Earlier answer", "Later question", "Later answer"]);
+  window.close();
+});
+
+test("an active streamed answer cannot be marked complete", async () => {
+  const window = new Window({ url: "https://chatgpt.com/c/stream" });
+  window.document.write('<!doctype html><title>Streaming</title><div data-message-author-role="user">Question</div><div data-message-author-role="assistant" data-is-streaming="true">Still writing</div>');
+  window.document.close(); window.__CHAT_EXPORTER_MODE__ = "full"; window.__CHAT_EXPORTER_RUN_ON_LOAD__ = true;
+  window.eval(platforms);
+  const result = await window.eval(extractor);
+  assert.equal(result.completeness, "partial");
+  assert.equal(result.partialReason, "start_not_verified");
+  window.close();
+});
+
+test("a rebuilt virtual window without stable overlap is reported as partial", async () => {
+  const window = new Window({ url: "https://chatgpt.com/c/virtual" });
+  window.document.write('<!doctype html><title>Virtual</title><div id="scroll" style="overflow-y:auto"><div data-message-author-role="user">First</div><div data-message-author-role="assistant">Second</div></div>');
+  window.document.close();
+  const container = window.document.getElementById("scroll");
+  let top = 0;
+  let rebuilt = false;
+  Object.defineProperty(container, "clientHeight", { value: 100 });
+  Object.defineProperty(container, "scrollHeight", { value: 300 });
+  Object.defineProperty(container, "scrollTop", { get: () => top, set: (value) => { top = value; } });
+  container.scrollTo = ({ top: value }) => {
+    top = value;
+    if (value >= 120 && !rebuilt) {
+      rebuilt = true;
+      container.innerHTML = '<div data-message-author-role="assistant">Second</div><div data-message-author-role="user">Third</div>';
+    }
+  };
+  window.__CHAT_EXPORTER_MODE__ = "full"; window.__CHAT_EXPORTER_RUN_ON_LOAD__ = true;
+  window.eval(platforms);
+  const result = await window.eval(extractor);
+  assert.equal(result.completeness, "partial");
+  assert.equal(result.partialReason, "merge_not_verified");
+  window.close();
 });
 
 test("uses progress-based scan termination instead of fixed step timeouts", async () => {

@@ -1,4 +1,4 @@
-# Chat Exporter 2.0.1 — store submission copy kit
+# Chat Exporter 2.0.2 — store submission copy kit
 
 Use this document with the exact ZIP for each store. Do not rename or rebuild a ZIP after its checksum has been recorded.
 
@@ -6,11 +6,11 @@ Use this document with the exact ZIP for each store. Do not rename or rebuild a 
 
 | Store | Upload this file |
 | --- | --- |
-| Chrome Web Store | `dist/chat-exporter-by-tom-raz-2.0.1-chrome.zip` |
-| Microsoft Edge Add-ons | `dist/chat-exporter-by-tom-raz-2.0.1-edge.zip` |
-| Firefox Add-ons (AMO) | `dist/chat-exporter-by-tom-raz-2.0.1-firefox.zip` |
+| Chrome Web Store | `dist/chat-exporter-by-tom-raz-2.0.2-chrome.zip` |
+| Microsoft Edge Add-ons | `dist/chat-exporter-by-tom-raz-2.0.2-edge.zip` |
+| Firefox Add-ons (AMO) | `dist/chat-exporter-by-tom-raz-2.0.2-firefox.zip` |
 
-Checksums are recorded in `dist/SHA256SUMS-2.0.1.txt` after the final release gate.
+Checksums are recorded in `dist/SHA256SUMS-2.0.2.txt` after the final release gate.
 
 ## URLs
 
@@ -34,9 +34,9 @@ Export AI chats to Markdown or text locally, with full-chat verification and saf
 
 Chat Exporter creates a clean local copy of an AI conversation without repetitive copy and paste.
 
-Use the Chat Exporter quick action directly inside a supported AI chat, or open the toolbar popup as a full fallback. Choose user messages, AI responses, metadata and the conversation URL, then export to Markdown, plain text or the clipboard.
+Use the Chat Exporter quick action directly inside a supported AI chat, or open the toolbar popup as a full fallback. Hide or restore the in-chat button for each service from the toolbar popup. Choose user messages, AI responses, metadata and the conversation URL, then export to Markdown, plain text or the clipboard.
 
-When completeness matters, run a full-conversation scan. Chat Exporter reports Loaded, Complete or Partial instead of silently claiming that every message was captured. A partial export requires explicit confirmation and is clearly marked.
+Download and Copy start a full-conversation scan from either entry point unless it is already complete. Chat Exporter reports Loaded, Complete or Partial instead of silently claiming that every message was captured. A partial export requires explicit confirmation and is clearly marked. Research links are retained when the chat page exposes their URLs.
 
 Long conversations are supported. When the selected UTF-8 content exceeds 10 MiB, the extension creates one ZIP containing numbered parts. Messages are split only between turns, never in the middle. The ZIP includes a manifest with message counts, part ranges, byte sizes, settings and SHA-256 hashes.
 
@@ -52,7 +52,9 @@ Key features:
 - Markdown and plain-text export
 - Copy to clipboard
 - User/AI role filters and optional metadata or URL
-- Full-conversation progress, cancellation and completeness reporting
+- Full-conversation progress, cancellation and completeness reporting from either entry point
+- Hide or restore the in-chat action for each service
+- Preserve source links exposed by the chat page in Markdown and text exports
 - Legitimate repeated prompts are preserved
 - Overlapping page selectors are collapsed without duplicating turns
 - Large-conversation ZIPs with counts and SHA-256 verification
@@ -68,16 +70,16 @@ Export conversations from supported AI-chat websites to local Markdown or plain-
 
 ### Release notes
 
-Version 2.0.1 fixes the toolbar popup collapsing to its header and footer in Chromium browsers. All 2.0 export, verification, ZIP, widget and privacy features remain unchanged.
+Version 2.0.2 moves the in-chat button outside the composer, adds per-service hide and restore, and scans before Download or Copy from both entry points. Source links exposed by the chat page are retained in Markdown and text. Unverified results require confirmation and are visibly marked; oversized ZIPs fail safely instead of producing corrupt archives.
 
 ### Reviewer notes
 
 1. Open a conversation on ChatGPT, Claude, Gemini, Copilot or Perplexity. The extension does not implement or bypass the service login; reviewers may use their own test account.
 2. Reload the chat page once after installing the update. The Chat Exporter icon should appear automatically near the composer; if an anchor is unavailable, it appears as a floating button.
-3. Open the in-chat panel or toolbar popup. Quick export reports Loaded and shows the messages currently present in the page.
-4. Select Verify full conversation to exercise progress, cancellation and Complete/Partial reporting.
-5. Select Markdown or Text, then Download or Copy. Partial downloads require confirmation.
-6. Settings can disable the widget per service; all five service toggles are enabled by default.
+3. Open the in-chat panel or toolbar popup. Quick preview reports Loaded and shows the messages currently present in the page.
+4. Select Download or Copy to start a full scan automatically. Verify full conversation also exposes progress, cancellation and Complete/Partial reporting.
+5. Select Markdown or Text. Any result that cannot be verified as complete requires confirmation and is marked in the file and ZIP manifest.
+6. Hide the widget from its panel or toolbar popup; restore it from the toolbar popup. All five service toggles are enabled by default.
 
 The package makes no extension-originated network requests, contains no analytics or remote code, and does not store conversation content or conversation URLs.
 
@@ -133,9 +135,9 @@ Chat Exporter by Tom Raz
 
 Chat Exporter יוצר עותק מקומי, נקי וקריא של שיחת AI בלי העתקה והדבקה חוזרות.
 
-אפשר להשתמש בפעולת Chat Exporter ישירות בתוך צ׳אט AI נתמך, או לפתוח את חלון התוסף הרגיל כגיבוי מלא. בוחרים הודעות משתמש, תגובות AI, מטא־דאטה וכתובת שיחה, ואז מייצאים ל־Markdown, לטקסט פשוט או ללוח.
+אפשר להשתמש בפעולת Chat Exporter ישירות בתוך צ׳אט AI נתמך, או לפתוח את חלון התוסף הרגיל כגיבוי מלא. אפשר להסתיר את הווידג׳ט ולהחזיר אותו דרך חלון התוסף. בוחרים הודעות משתמש, תגובות AI, מטא־דאטה וכתובת שיחה, ואז מייצאים ל־Markdown, לטקסט פשוט או ללוח.
 
-כאשר השלמות חשובה, מפעילים סריקה של השיחה המלאה. התוסף מציג Loaded, Complete או Partial ואינו טוען בשקט שכל ההודעות נאספו. ייצוא חלקי דורש אישור מפורש ומסומן בבירור.
+הורדה או העתקה מכל אחד משני הממשקים מפעילה סריקה מלאה אם טרם בוצעה. התוסף מציג Loaded, Complete או Partial ואינו טוען בשקט שכל ההודעות נאספו. ייצוא חלקי דורש אישור מפורש ומסומן בבירור. קישורי מקור נכללים כאשר כתובותיהם מופיעות בדף הצ׳אט.
 
 שיחות ארוכות נתמכות. כאשר התוכן שנבחר גדול מ־10MiB ב־UTF-8, התוסף יוצר ZIP יחיד עם חלקים ממוספרים. הפיצול מתבצע רק בין הודעות ולעולם לא באמצע הודעה. ה־ZIP כולל manifest עם ספירות, טווחי הודעות, גדלים, הגדרות ו־SHA-256 לכל חלק.
 
@@ -149,7 +151,7 @@ Chat Exporter יוצר עותק מקומי, נקי וקריא של שיחת AI �
 
 ### הערות לגרסה
 
-גרסה 2.0.1 מתקנת מצב שבו חלון התוסף מסרגל הכלים הצטמצם לכותרת ולשורת הפרטיות בלבד בדפדפני Chromium. כל יכולות הייצוא, האימות, ה־ZIP, הווידג׳ט והפרטיות של 2.0 נשארו ללא שינוי.
+גרסה 2.0.2 מעבירה את כפתור הווידג׳ט אל מחוץ לתיבת ההקלדה, מוסיפה אפשרות להסתירו ולהחזירו לכל שירות, ומתחילה סריקה מלאה לפני הורדה או העתקה משני הממשקים. קישורי מקור הגלויים בדף נשמרים ב־Markdown ובטקסט. ייצוא שלא אומת מחייב אישור ומסומן בבירור; ZIP גדול מדי נכשל בבטחה.
 
 ## Store-specific selections
 
@@ -189,9 +191,9 @@ Chat Exporter יוצר עותק מקומי, נקי וקריא של שיחת AI �
 
 ## Final submission sequence
 
-1. Run `npm run check` and confirm `Release readiness PASS — Chat Exporter 2.0.1`.
-2. Compare the three printed SHA-256 values with `dist/SHA256SUMS-2.0.1.txt`.
+1. Run `npm run check` and confirm `Release readiness PASS — Chat Exporter 2.0.2`.
+2. Compare the three printed SHA-256 values with `dist/SHA256SUMS-2.0.2.txt`.
 3. Upload only the browser-specific ZIP listed at the top of this document.
 4. Paste the listing, privacy, permission and reviewer text from this document.
 5. Upload the matching screenshots and tiles.
-6. Stop before the final Publish/Submit button if any dashboard field contradicts this document or reports a version other than 2.0.1.
+6. Stop before the final Publish/Submit button if any dashboard field contradicts this document or reports a version other than 2.0.2.

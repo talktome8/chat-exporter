@@ -2,7 +2,8 @@
   "use strict";
 
   const NO_PROGRESS_LIMIT = 12;
-  const STABLE_PASSES_REQUIRED = 3;
+  // Quiet time at both boundaries gives lazy-loaded history time to arrive.
+  const STABLE_PASSES_REQUIRED = 12;
   const STEP_DELAY_MS = 260;
   let extractionMode = "quick";
   const nodeIdentities = new WeakMap();
@@ -106,6 +107,7 @@
       for (const name of ["data-message-id", "data-turn-id", "data-testid", "id"]) {
         const value = current.getAttribute?.(name);
         if (!value || /^(?:(?:user|assistant|model|human)[-_ ]?)?(?:message|turn|query|response|answer)$/i.test(value)) continue;
+        if (depth > 0 && (name === "id" || name === "data-testid") && !/(?:turn|message|query|response|answer)/i.test(value)) continue;
         return `${name}:${value}`;
       }
     }
@@ -164,9 +166,11 @@
       }
       if (tag === "ul" || tag === "ol") return `\n${inner()}\n`;
       if (tag === "a") {
-        const label = inner().trim();
+        const label = inner().trim() || (node.getAttribute("aria-label") || node.getAttribute("title") || "").trim();
         const href = safeHref(node.getAttribute("href") || "");
-        return href && label ? `[${label}](${href})` : label;
+        if (!href) return label;
+        const fallback = new URL(href).hostname || href;
+        return `[${label || fallback}](${href})`;
       }
       if (tag === "img") {
         const alt = (node.getAttribute("alt") || "").trim();
@@ -187,7 +191,7 @@
   function tableToMarkdown(table) {
     const rows = Array.from(table.querySelectorAll("tr"));
     if (!rows.length) return "";
-    const normalized = rows.map((row) => Array.from(row.querySelectorAll("th, td")).map((cell) => (cell.textContent || "").trim().replace(/\|/g, "\\|")));
+    const normalized = rows.map((row) => Array.from(row.querySelectorAll("th, td")).map((cell) => toMarkdown(cell).replace(/\n+/g, "<br>").replace(/\|/g, "\\|")));
     const width = Math.max(...normalized.map((row) => row.length));
     if (!width) return "";
     const lines = normalized.map((row) => `| ${row.concat(Array(Math.max(0, width - row.length)).fill("")).join(" | ")} |`);
@@ -196,16 +200,15 @@
   }
 
   function findScrollContainer(messages) {
-    const candidates = new Set([document.scrollingElement || document.documentElement]);
     for (const message of messages.slice(0, 4)) {
       let current = message.element?.parentElement;
       while (current && current !== document.body) {
         const style = getComputedStyle(current);
-        if (/(auto|scroll)/.test(style.overflowY) && current.scrollHeight > current.clientHeight + 24) candidates.add(current);
+        if (/(auto|scroll)/.test(style.overflowY) && scrollRange(current) > 24) return current;
         current = current.parentElement;
       }
     }
-    return Array.from(candidates).sort((a, b) => scrollRange(b) - scrollRange(a))[0];
+    return document.scrollingElement || document.documentElement;
   }
 
   function scrollRange(container) {
@@ -240,8 +243,12 @@
   function mergeMessageWindows(existing, incoming) {
     if (!existing.length) return incoming.map(stripElement);
     if (!incoming.length) return existing.slice();
+    const overlap = windowOverlap(existing, incoming);
+    return existing.concat(incoming.slice(overlap).map(stripElement));
+  }
+
+  function windowOverlap(existing, incoming) {
     const max = Math.min(existing.length, incoming.length);
-    let overlap = 0;
     for (let size = max; size > 0; size -= 1) {
       let matches = true;
       for (let index = 0; index < size; index += 1) {
@@ -251,22 +258,36 @@
       const hasAuthoritativeIdentity = pairs.some(([left, right]) => authoritativeTurnId(left) && authoritativeTurnId(left) === authoritativeTurnId(right));
       const hasExactNodeIdentity = pairs.some(([left, right]) => left.turnId?.startsWith("node:") && left.turnId === right.turnId);
       if (matches && (size >= 2 || hasAuthoritativeIdentity || hasExactNodeIdentity || existing.length === incoming.length)) {
-        overlap = size;
-        break;
+        return size;
       }
     }
-    return existing.concat(incoming.slice(overlap).map(stripElement));
+    return 0;
+  }
+
+  function overlapHasIdentity(existing, incoming, size) {
+    for (let index = 0; index < size; index += 1) {
+      const left = existing[existing.length - size + index];
+      const right = incoming[index];
+      const stable = authoritativeTurnId(left);
+      if (stable && stable === authoritativeTurnId(right)) return true;
+      if (left.turnId?.startsWith("node:") && left.turnId === right.turnId) return true;
+    }
+    return false;
   }
 
   function snapshotKey(messages, container) {
     const first = messages[0]?.text.slice(0, 160) || "";
-    return `${messages.length}|${first}|${container.scrollHeight}|${Math.round(getScrollTop(container))}`;
+    const last = messages.at(-1)?.text || "";
+    return `${messages.length}|${first}|${last.length}:${last.slice(-160)}|${container.scrollHeight}|${Math.round(getScrollTop(container))}`;
+  }
+
+  function conversationBusy(messages) {
+    return messages.some(({ element }) => element?.matches?.('[data-is-streaming="true"], [aria-busy="true"]') ||
+      element?.querySelector?.('[data-is-streaming="true"], [aria-busy="true"]'));
   }
 
   async function loadAndExtract(adapter) {
     let initial = extractWithAdapter(adapter);
-    if (initial.length < 2) return { messages: initial, completeness: "loaded", warnings: [] };
-
     const container = findScrollContainer(initial);
     const range = scrollRange(container);
     if (extractionMode === "quick") {
@@ -276,8 +297,6 @@
         warnings: ["quick"]
       };
     }
-    if (range < 32) return { messages: initial.map(stripElement), completeness: "complete", warnings: [] };
-
     const savedBottomDistance = range - getScrollTop(container);
     let stablePasses = 0;
     let previousKey = "";
@@ -292,7 +311,7 @@
       const key = snapshotKey(current, container);
       stablePasses = key === previousKey ? stablePasses + 1 : 0;
       previousKey = key;
-      if (getScrollTop(container) <= 1 && stablePasses >= STABLE_PASSES_REQUIRED) {
+      if (getScrollTop(container) <= 1 && stablePasses >= STABLE_PASSES_REQUIRED && !conversationBusy(current)) {
         reachedTop = true;
         break;
       }
@@ -301,32 +320,49 @@
 
     let ordered = [];
     let reachedBottom = false;
+    let mergeVerified = true;
     let noProgressPasses = 0;
+    let stableBottomPasses = 0;
+    let previousBottomKey = "";
     setScrollTop(container, 0);
     await wait(STEP_DELAY_MS);
 
     for (let step = 0; ; step += 1) {
       if (cancelled()) throw new Error("cancelled");
       const current = extractWithAdapter(adapter);
-      const before = ordered.length;
-      ordered = mergeMessageWindows(ordered, current);
-      reportProgress("collecting", ordered, step + 1);
-      noProgressPasses = ordered.length === before ? noProgressPasses + 1 : 0;
-
       const max = scrollRange(container);
       const top = getScrollTop(container);
+      const key = snapshotKey(current, container);
+      const unchanged = key === previousBottomKey;
+      if (!unchanged) {
+        if (ordered.length > 0 && current.length > 0) {
+          const overlap = windowOverlap(ordered, current);
+          if (overlap === 0 || !overlapHasIdentity(ordered, current, overlap)) mergeVerified = false;
+        }
+        ordered = mergeMessageWindows(ordered, current);
+      }
+      reportProgress("collecting", ordered, step + 1);
+      noProgressPasses = unchanged ? noProgressPasses + 1 : 0;
+      previousBottomKey = key;
       if (top >= max - 2) {
-        reachedBottom = true;
-        break;
+        stableBottomPasses = noProgressPasses;
+        if (stableBottomPasses >= STABLE_PASSES_REQUIRED && !conversationBusy(current)) {
+          reachedBottom = true;
+          break;
+        }
+      } else {
+        stableBottomPasses = 0;
       }
       if (noProgressPasses >= NO_PROGRESS_LIMIT) break;
-      setScrollTop(container, Math.min(max, top + Math.max(240, container.clientHeight * 0.72)));
+      setScrollTop(container, Math.min(max, top + Math.max(120, container.clientHeight * 0.5)));
       await wait(STEP_DELAY_MS);
     }
 
     const restoredTop = Math.max(0, scrollRange(container) - savedBottomDistance);
     setScrollTop(container, restoredTop);
-    const complete = reachedTop && reachedBottom;
+    const initialTail = initial.at(-1);
+    if (initialTail && !ordered.some((message) => sameTurn(message, initialTail))) mergeVerified = false;
+    const complete = reachedTop && reachedBottom && mergeVerified && ordered.length > 0;
     return {
       messages: ordered.length >= initial.length ? ordered : initial.map(stripElement),
       completeness: complete ? "complete" : "partial",

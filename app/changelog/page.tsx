@@ -14,6 +14,8 @@ export default function ChangelogPage() {
         <p className="section-kicker">Release history</p>
         <h1>Changelog</h1>
         <section>
+          <h2>2.0.2 — Safer full exports and widget control</h2>
+          <p>Full scans now start before export from either entry point. Incomplete results are clearly marked; source links are retained, and the in-chat widget can be hidden or restored.</p>
           <h2>2.0.1 — Popup hotfix</h2>
           <ul>
             <li>Fixed the toolbar popup collapsing to header and footer only in Chromium browsers.</li>

@@ -37,6 +37,17 @@ test("opens export first, promotes the widget once, and defaults every site on",
   assert.match(window.document.getElementById("platform-icon").getAttribute("src"), /gemini\.png$/);
   assert.equal(window.document.getElementById("widget-tip").hidden, false);
   assert.equal(window.document.getElementById("warning").hidden, false);
+  const widgetToggle = window.document.getElementById("widget-toggle-button");
+  assert.equal(widgetToggle.hidden, false);
+  assert.equal(widgetToggle.textContent, "Hide widget");
+  widgetToggle.click();
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  assert.ok(saved.some((value) => value.settingsV2?.enabledSites?.gemini === false));
+  assert.equal(widgetToggle.textContent, "Show widget");
+  widgetToggle.click();
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  assert.ok(saved.some((value) => value.settingsV2?.enabledSites?.gemini === true));
+  assert.equal(widgetToggle.textContent, "Hide widget");
   window.document.getElementById("widget-tip-dismiss").click();
   window.document.getElementById("warning-dismiss").click();
   await new Promise((resolve) => setTimeout(resolve, 0));

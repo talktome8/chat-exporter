@@ -2,6 +2,13 @@
 
 All notable changes to Chat Exporter are documented here.
 
+## 2.0.2 — Safer full exports and widget control 2026-09-27
+
+- Move the in-chat button outside the message composer and let users hide or restore it per service.
+- Start a full scan before Download or Copy from either the widget or toolbar popup; clearly mark and confirm any unverified export.
+- Preserve research-source links in Markdown and plain text, including icon-only links with accessible labels.
+- Wait for lazy-loaded history at both boundaries, conservatively report uncertain window merges as partial, and reject ZIPs that exceed the ZIP32 format limit instead of creating corrupt files.
+
 ## 2.0.1 — Popup hotfix 2026-08-31
 
 - Fixed the toolbar popup collapsing to header and footer only in Chromium browsers.

@@ -5,7 +5,7 @@
 [![Chrome Web Store](https://img.shields.io/badge/Chrome-Available-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/chat-exporter-by-tom-raz/ljgpghdicijmjojfnhmpefjpipfakoen)
 [![Microsoft Edge Add-ons](https://img.shields.io/badge/Edge-Available-0078D7?logo=microsoftedge&logoColor=white)](https://microsoftedge.microsoft.com/addons/detail/chat-exporter-by-tom-raz/nmmpfdnapkfklcbfgcmkahcjcclophhk)
 [![Firefox Add-ons](https://img.shields.io/badge/Firefox-Available-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/he/firefox/addon/chat-exporter-by-tom-raz/)
-[![Version](https://img.shields.io/badge/version-2.0.1-1769E0)](https://github.com/talktome8/chat-exporter/releases)
+[![Version](https://img.shields.io/badge/version-2.0.2-1769E0)](https://github.com/talktome8/chat-exporter/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-087A4F.svg)](LICENSE)
 
 | Install | Browser |
@@ -18,13 +18,13 @@
 
 ## What it does
 
-Open a supported AI conversation and use the automatic in-chat quick action or the toolbar popup. Choose the content and format, then download or copy the result. Chat Exporter can export messages already loaded on the page or scan a full conversation when completeness matters.
+Open a supported AI conversation and use the automatic in-chat quick action or the toolbar popup. Choose the content and format, then download or copy the result. Both entry points scan the conversation before exporting; if completeness cannot be verified, a partial export requires confirmation and is visibly marked.
 
 Everything is processed on the device. The extension has no account, analytics, server, remote executable code, advertising, or donation prompts.
 
 ## Support at a glance
 
-| Area | v2.0.1 support |
+| Area | v2.0.2 support |
 | --- | --- |
 | Supported platforms | ChatGPT, Claude, Gemini, Microsoft Copilot, Perplexity |
 | Export formats | Markdown (`.md`), plain text (`.txt`), copy to clipboard |
@@ -35,9 +35,9 @@ Everything is processed on the device. The extension has no account, analytics, 
 
 - Choose user messages, AI responses, or both.
 - Include optional title, model, date, and conversation URL metadata.
-- Export immediately from the messages already loaded on the page.
-- Use **Check full conversation** when you need the extension to load earlier messages and report a complete, partial, or loaded result.
-- Preserve readable Markdown, including code blocks, lists, links, and tables where they are available in the page.
+- Download or copy from either the in-chat widget or toolbar popup; both start a full scan when needed.
+- Hide the widget for a service and restore it from the toolbar popup.
+- Preserve readable Markdown, including code blocks, lists, source links and tables where they are available in the page.
 - Package exports above 10 MiB into one ZIP with numbered parts, counts and SHA-256 verification.
 - Preserve intentionally repeated prompts while collapsing duplicates caused by overlapping page selectors.
 
@@ -65,7 +65,7 @@ To load the extension locally, use `dist/extension-builds/chrome` or `dist/exten
 
 ## Release assets
 
-Store-specific 2.0.1 ZIPs are produced under `dist/`. `npm run release:verify` confirms the version inside every archive and prints its SHA-256 checksum.
+Store-specific 2.0.2 ZIPs are produced under `dist/`. `npm run release:verify` confirms the version inside every archive and prints its SHA-256 checksum.
 
 ## Support and contributions
 

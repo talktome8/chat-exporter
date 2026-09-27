@@ -61,6 +61,20 @@ test("requires explicit confirmation before packaging a partial extraction", asy
   const pack = await context.ChatExporterArchive.createExportPackage({ ...partial, confirmPartial: true }, { maxBytes: 20 });
   assert.equal(pack.manifest.completeness, "partial");
   assert.equal(pack.manifest.partialReason, "start_not_verified");
+  assert.match(pack.filename, /-partial-/);
+  const zip = new AdmZip(Buffer.from(await pack.blob.arrayBuffer()));
+  assert.match(zip.readAsText(pack.manifest.parts[0].name), /^> \*\*PARTIAL EXPORT/);
+});
+
+test("blocks unverified quick downloads unless explicitly approved", async () => {
+  const loaded = options([{ role: "user", text: "Visible only" }], {
+    extraction: { platform: "ChatGPT", adapter: "chatgpt", title: "Visible", completeness: "loaded", messages: [{ role: "user", text: "Visible only" }] },
+    includeMeta: false
+  });
+  await assert.rejects(() => context.ChatExporterArchive.createExportPackage(loaded), /partial_confirmation_required/);
+  const pack = await context.ChatExporterArchive.createExportPackage({ ...loaded, confirmPartial: true });
+  assert.match(pack.filename, /-unverified-/);
+  assert.match(await pack.blob.text(), /UNVERIFIED EXPORT/);
 });
 
 test("uses the caller's canonical conversation title for the download name", async () => {

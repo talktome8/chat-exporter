@@ -19,7 +19,8 @@
       ...options,
       extraction: { ...extraction, messages: [message] },
       includeMeta: false,
-      includeUrl: false
+      includeUrl: false,
+      includeStatusHeader: false
     });
   }
 
@@ -28,21 +29,23 @@
     return global.ChatExporterFormat.buildContent({
       ...options,
       extraction,
-      metadataOnly: true
+      metadataOnly: true,
+      includeStatusHeader: false
     });
   }
 
-  function continuationHeader(index, total, format) {
+  function continuationHeader(index, total, format, completeness, language) {
+    const status = completeness === "complete" ? "" : language === "he" ? " — ייצוא חלקי / לא מאומת" : " — PARTIAL / UNVERIFIED";
     return format === "txt"
-      ? `Chat Exporter — continuation ${index}/${total}\n${"=".repeat(48)}\n\n`
-      : `# Chat Exporter — continuation ${index}/${total}\n\n---\n\n`;
+      ? `Chat Exporter — continuation ${index}/${total}${status}\n${"=".repeat(48)}\n\n`
+      : `# Chat Exporter — continuation ${index}/${total}${status}\n\n---\n\n`;
   }
 
   function splitConversation(extraction, options, maxBytes = DEFAULT_PART_BYTES) {
     if (!options.includeUser && !options.includeAssistant) throw new Error("empty_selection");
     const messages = filteredMessages(extraction, options);
-    const metadata = renderMetadata(extraction, options);
-    const continuationReserve = byteLength(continuationHeader(999999, 999999, options.format));
+    const metadata = global.ChatExporterFormat.statusHeader(extraction, options.format, options.language) + renderMetadata(extraction, options);
+    const continuationReserve = byteLength(continuationHeader(999999, 999999, options.format, extraction.completeness, options.language));
     const parts = [];
     let content = metadata;
     let start = 0;
@@ -65,7 +68,7 @@
     if (!parts.length) parts.push({ content: "", start: 0, end: -1, count: 0 });
     if (parts.length > 1) {
       for (let index = 1; index < parts.length; index += 1) {
-        parts[index].content = continuationHeader(index + 1, parts.length, options.format) + parts[index].content;
+        parts[index].content = continuationHeader(index + 1, parts.length, options.format, extraction.completeness, options.language) + parts[index].content;
       }
     }
     return { messages, parts };
@@ -105,6 +108,7 @@
   }
 
   function makeZip(entries, modifiedAt = new Date()) {
+    if (entries.length > 65535) throw new Error("zip_limit_exceeded");
     const localParts = [];
     const centralParts = [];
     let offset = 0;
@@ -113,6 +117,7 @@
     for (const entry of entries) {
       const name = encoder.encode(entry.name);
       const data = entry.bytes;
+      if (data.length > 0xffffffff || offset + 30 + name.length + data.length > 0xffffffff) throw new Error("zip_limit_exceeded");
       const crc = crc32(data);
       const local = new Uint8Array(30 + name.length);
       const localView = new DataView(local.buffer);
@@ -134,6 +139,7 @@
     }
 
     const centralSize = centralParts.reduce((sum, part) => sum + part.length, 0);
+    if (centralSize > 0xffffffff || offset + centralSize > 0xffffffff) throw new Error("zip_limit_exceeded");
     const end = new Uint8Array(22);
     const endView = new DataView(end.buffer);
     write32(endView, 0, 0x06054b50); write16(endView, 4, 0); write16(endView, 6, 0);
@@ -145,9 +151,10 @@
   async function createExportPackage(options, config = {}) {
     const extraction = options.extraction;
     if (!extraction) throw new Error("missing_extraction");
-    if (extraction.completeness === "partial" && !options.confirmPartial) throw new Error("partial_confirmation_required");
+    if (extraction.completeness !== "complete" && !options.confirmPartial) throw new Error("partial_confirmation_required");
     const maxBytes = config.maxBytes || DEFAULT_PART_BYTES;
-    const base = global.ChatExporterFormat.safeFilename(options.filenameTitle || extraction.filenameTitle || extraction.title);
+    const base = global.ChatExporterFormat.safeFilename(options.filenameTitle || extraction.filenameTitle || extraction.title) +
+      (extraction.completeness === "complete" ? "" : extraction.completeness === "partial" ? "-partial" : "-unverified");
     const extension = options.format === "txt" ? "txt" : "md";
     const date = options.date || new Date();
     const dateSlug = [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");

@@ -12,6 +12,7 @@
     cancel: document.getElementById("cancel-button"),
     retry: document.getElementById("retry-button"),
     scan: document.getElementById("scan-button"),
+    widgetToggle: document.getElementById("widget-toggle-button"),
     download: document.getElementById("download-button"),
     copy: document.getElementById("copy-button"),
     settingsButton: document.getElementById("settings-button"),
@@ -285,7 +286,10 @@
     elements.assistantCount.textContent = String(messages.filter((message) => message.role === "assistant").length);
 
     const warningKeys = [];
-    if (result.warnings?.includes("partial")) warningKeys.push("partialWarning");
+    if (result.warnings?.includes("partial")) {
+      warningKeys.push("partialWarning");
+      if (["start_not_verified", "end_not_verified", "merge_not_verified"].includes(result.partialReason)) warningKeys.push(result.partialReason);
+    }
     if (result.warnings?.includes("quick") && !settings.dismissedQuickWarning) warningKeys.push("quickWarning");
     if (result.warnings?.includes("beta")) warningKeys.push("betaWarning");
     if (result.warnings?.includes("fallback")) warningKeys.push("fallbackWarning");
@@ -296,6 +300,14 @@
     elements.scan.textContent = result.scanMode === "quick" && completeness !== "complete"
       ? translate("checkFull")
       : translate("scanAgain");
+    elements.download.textContent = result.scanMode === "quick" && completeness !== "complete"
+      ? translate("verifyDownload") : translate("download");
+    elements.widgetToggle.hidden = !adapter;
+    if (adapter) {
+      const enabled = settings.enabledSites[adapter.id] !== false;
+      elements.widgetToggle.textContent = translate(enabled ? "hideWidget" : "showWidget");
+      elements.widgetToggle.setAttribute("aria-pressed", String(!enabled));
+    }
   }
 
   function selectedFormat() {
@@ -335,7 +347,11 @@
 
   async function downloadExport() {
     try {
-      const confirmPartial = extraction?.completeness !== "partial" || confirmUser(translate("partialConfirm"));
+      if (!extraction || extraction.completeness !== "complete") {
+        await scanConversation("full");
+        if (!extraction) return;
+      }
+      const confirmPartial = extraction.completeness === "complete" || confirmUser(translate("partialConfirm"));
       if (!confirmPartial) return;
       const pack = await ChatExporterArchive.createExportPackage({ ...exportOptions(), confirmPartial });
       const url = URL.createObjectURL(pack.blob);
@@ -349,13 +365,17 @@
       setTimeout(() => URL.revokeObjectURL(url), 5000);
       showToast("downloaded");
     } catch (error) {
-      showToast(error?.message === "empty_selection" ? "emptySelection" : "genericError");
+      showToast(error?.message === "empty_selection" ? "emptySelection" : error?.message === "zip_limit_exceeded" ? "zipLimit" : "genericError");
     }
   }
 
   async function copyExport() {
     try {
-      if (extraction?.completeness === "partial" && !confirmUser(translate("partialConfirm"))) return;
+      if (!extraction || extraction.completeness !== "complete") {
+        await scanConversation("full");
+        if (!extraction) return;
+      }
+      if (extraction.completeness !== "complete" && !confirmUser(translate("partialConfirm"))) return;
       await navigator.clipboard.writeText(buildContent());
       showToast("copied");
     } catch (error) {
@@ -386,6 +406,28 @@
   elements.scan.addEventListener("click", () => {
     const mode = extraction?.scanMode === "quick" && extraction?.completeness !== "complete" ? "full" : (extraction?.scanMode || "quick");
     scanConversation(mode);
+  });
+  elements.widgetToggle.addEventListener("click", async () => {
+    const adapter = ChatExporterPlatforms.platforms.find((platform) => platform.id === extraction?.adapter);
+    if (!adapter || !activeTab?.id) return;
+    const enabled = settings.enabledSites[adapter.id] === false;
+    settings.enabledSites[adapter.id] = enabled;
+    elements.widgetToggle.disabled = true;
+    try {
+      await saveSettings();
+      await chrome.runtime.sendMessage({ type: "syncWidgetRegistrations" });
+      if (enabled) await chrome.scripting.executeScript({
+        target: { tabId: activeTab.id },
+        files: ["src/platforms.js", "src/extractor.js", "src/format.js", "src/archive.js", "content/widget.js"]
+      });
+      if (extraction) renderResult(extraction);
+    } catch {
+      settings.enabledSites[adapter.id] = !enabled;
+      await saveSettings();
+      showToast("genericError");
+    } finally {
+      elements.widgetToggle.disabled = false;
+    }
   });
   elements.download.addEventListener("click", downloadExport);
   elements.copy.addEventListener("click", copyExport);

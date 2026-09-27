@@ -53,5 +53,20 @@ test("metadata counts only messages selected for export", () => {
 test("rejects an empty role selection and sanitizes filenames", () => {
   assert.throws(() => buildContent({ extraction, includeUser: false, includeAssistant: false, includeMeta: false, includeUrl: false, currentUrl: "", format: "md", language: "en" }), /empty_selection/);
   assert.equal(safeFilename('Launch: review / "final"?'), "Launch-review-final");
-  assert.equal(stripMarkdown("**Bold** and [link](https://example.com)"), "Bold and link");
+  assert.equal(stripMarkdown("**Bold** and [link](https://example.com)"), "Bold and link (https://example.com)");
+});
+
+test("keeps cited research URLs in Markdown and plain text", () => {
+  const cited = { ...extraction, messages: [{ role: "assistant", text: "See [study](https://example.org/research/42) and [source](https://sample.org/paper)." }] };
+  const base = { extraction: cited, includeUser: false, includeAssistant: true, includeMeta: false, includeUrl: false, currentUrl: "", language: "en" };
+  assert.match(buildContent({ ...base, format: "md" }), /\[study\]\(https:\/\/example\.org\/research\/42\)/);
+  const plain = buildContent({ ...base, format: "txt" });
+  assert.match(plain, /study \(https:\/\/example\.org\/research\/42\)/);
+  assert.match(plain, /source \(https:\/\/sample\.org\/paper\)/);
+});
+
+test("labels unverified output even when metadata is disabled", () => {
+  const partial = { ...extraction, completeness: "partial", messages: [{ role: "user", text: "Only visible turn" }] };
+  const content = buildContent({ extraction: partial, includeUser: true, includeAssistant: false, includeMeta: false, includeUrl: false, currentUrl: "", format: "txt", language: "en" });
+  assert.match(content, /^PARTIAL EXPORT/);
 });

@@ -5,7 +5,7 @@ import path from "node:path";
 import AdmZip from "adm-zip";
 
 const root = process.cwd();
-const expectedVersion = "2.0.1";
+const expectedVersion = "2.0.2";
 const browsers = ["chrome", "edge", "firefox"];
 
 async function json(relative) {
