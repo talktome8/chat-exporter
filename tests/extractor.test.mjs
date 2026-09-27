@@ -45,6 +45,26 @@ test("preserves code and tables while removing unsafe link protocols", async () 
   assert.match(result.messages[1].text, /\| Gate \| Status \|/);
 });
 
+test("extracts current ChatGPT search-unit markup without duplicate speaker headings", async () => {
+  const html = '<!doctype html><title>Current ChatGPT</title><main>' +
+    '<div data-chatgpt-search-unit-key="fallback-turn-0:0:user" data-chatgpt-search-message-ids="user-1"><div>Same question</div><button>Copy</button></div>' +
+    '<div data-chatgpt-search-unit-key="fallback-turn-0:2:assistant" data-chatgpt-search-message-ids="assistant-1 assistant-1"><h4 class="sr-only">ChatGPT said:</h4><div><p>First answer</p><a href="https://example.org/source">Source</a></div></div>' +
+    '<div data-chatgpt-search-unit-key="fallback-turn-1:0:user" data-chatgpt-search-message-ids="user-2"><div>Same question</div></div>' +
+    '<div data-chatgpt-search-unit-key="fallback-turn-1:2:assistant" data-chatgpt-search-message-ids="assistant-2 assistant-2"><h4 class="sr-only">ChatGPT said:</h4><div><p>Second answer</p></div></div>' +
+    '</main>';
+  const window = new Window({ url: "https://chatgpt.com/c/current" });
+  window.document.write(html); window.document.close();
+  window.__CHAT_EXPORTER_MODE__ = "quick"; window.__CHAT_EXPORTER_RUN_ON_LOAD__ = true;
+  window.eval(platforms); const result = await window.eval(extractor);
+  assert.equal(result.ok, true);
+  assert.deepEqual(Array.from(result.messages, (message) => message.role), ["user", "assistant", "user", "assistant"]);
+  assert.deepEqual(Array.from(result.messages, (message) => message.turnId), ["data-chatgpt-search-message-ids:user-1", "data-chatgpt-search-message-ids:assistant-1", "data-chatgpt-search-message-ids:user-2", "data-chatgpt-search-message-ids:assistant-2"]);
+  assert.deepEqual(Array.from(result.messages, (message) => message.text.includes("Same question")), [true, false, true, false]);
+  assert.match(result.messages[1].text, /\[Source\]\(https:\/\/example\.org\/source\)/);
+  assert.doesNotMatch(result.messages[1].text, /ChatGPT said/);
+  window.close();
+});
+
 test("includes research links that are shown as citation icons", async () => {
   const window = new Window({ url: "https://chatgpt.com/c/sources" });
   window.document.write('<!doctype html><title>Research - ChatGPT</title><div data-message-author-role="user">Find a study</div><div data-message-author-role="assistant">Read the paper <a href="https://example.org/paper/7" aria-label="Research source"><svg></svg></a><a href="javascript:alert(1)">unsafe</a><table><tr><th>Source</th></tr><tr><td><a href="https://example.org/table-source">Study</a></td></tr></table></div>');
@@ -146,6 +166,18 @@ test("removes Gemini speaker labels from exported message text", async () => {
   window.close();
 });
 
+test("ignores current Gemini screen-reader headings that duplicate visible messages", async () => {
+  const html = '<!doctype html><title>Simple Math QA Test - Google Gemini</title>' +
+    '<user-query><h5 class="cdk-visually-hidden screen-reader-user-query-label">You said QA test: What is 2 + 2?</h5><span class="user-query-container"><p>QA test: What is 2 + 2?</p></span></user-query>' +
+    '<model-response><h6 class="cdk-visually-hidden screen-reader-model-response-label">Gemini said</h6><div><p>2 + 2 equals 4.</p></div></model-response>';
+  const window = new Window({ url: "https://gemini.google.com/app/current" });
+  window.document.write(html); window.document.close();
+  window.__CHAT_EXPORTER_MODE__ = "quick"; window.__CHAT_EXPORTER_RUN_ON_LOAD__ = true;
+  window.eval(platforms); const result = await window.eval(extractor);
+  assert.deepEqual(Array.from(result.messages, (message) => message.text), ["QA test: What is 2 + 2?", "2 + 2 equals 4."]);
+  window.close();
+});
+
 test("uses a stable ancestor id for services that identify the full turn", async () => {
   const html = '<!doctype html><title>Test</title><div id="turn-123"><user-query><p>Hello</p></user-query><model-response><p>Hi</p></model-response></div>';
   const window = new Window({ url: "https://gemini.google.com/app/test" });
@@ -203,6 +235,22 @@ test("extracts repeated turns from the current Perplexity structure", async () =
   window.document.write(html); window.document.close(); window.__CHAT_EXPORTER_MODE__ = "quick"; window.__CHAT_EXPORTER_RUN_ON_LOAD__ = true;
   window.eval(platforms); const result = await window.eval(extractor);
   assert.deepEqual(Array.from(result.messages, (message) => String(message.text)), ["Repeat me", "First answer", "Repeat me", "Second answer"]);
+  window.close();
+});
+
+test("separates current Perplexity user bubbles from answer renderers", async () => {
+  const html = '<!doctype html><title>QA - Perplexity</title><main>' +
+    '<div class="group/user-bubble"><div data-renderer="lm"><p>Same question</p></div></div>' +
+    '<div data-renderer="lm" class="prose"><p>First answer</p></div>' +
+    '<div class="group/user-bubble"><div data-renderer="lm"><p>Same question</p></div></div>' +
+    '<div data-renderer="lm" class="prose"><p>Second answer</p></div>' +
+    '</main>';
+  const window = new Window({ url: "https://www.perplexity.ai/search/current" });
+  window.document.write(html); window.document.close();
+  window.__CHAT_EXPORTER_MODE__ = "quick"; window.__CHAT_EXPORTER_RUN_ON_LOAD__ = true;
+  window.eval(platforms); const result = await window.eval(extractor);
+  assert.deepEqual(Array.from(result.messages, (message) => message.role), ["user", "assistant", "user", "assistant"]);
+  assert.deepEqual(Array.from(result.messages, (message) => message.text), ["Same question", "First answer", "Same question", "Second answer"]);
   window.close();
 });
 

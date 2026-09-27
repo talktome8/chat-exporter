@@ -81,7 +81,10 @@
 
   function extractWithAdapter(adapter) {
     const userElements = querySelectors(adapter.user, adapter.deep);
-    const assistantElements = querySelectors(adapter.assistant, adapter.deep);
+    // Some sites reuse the same renderer for both roles; an explicit user
+    // match takes precedence over a broad assistant selector.
+    const assistantElements = querySelectors(adapter.assistant, adapter.deep)
+      .filter((element) => !userElements.some((user) => user === element || user.contains(element)));
     const tagged = [
       ...userElements.map((element) => ({ role: "user", element })),
       ...assistantElements.map((element) => ({ role: "assistant", element }))
@@ -104,8 +107,9 @@
   function stableTurnId(element) {
     let current = element;
     for (let depth = 0; current && depth < 5; depth += 1, current = current.parentElement) {
-      for (const name of ["data-message-id", "data-turn-id", "data-testid", "id"]) {
-        const value = current.getAttribute?.(name);
+      for (const name of ["data-message-id", "data-chatgpt-search-message-ids", "data-turn-id", "data-testid", "id"]) {
+        const rawValue = current.getAttribute?.(name);
+        const value = name === "data-chatgpt-search-message-ids" ? rawValue?.trim().split(/\s+/)[0] : rawValue;
         if (!value || /^(?:(?:user|assistant|model|human)[-_ ]?)?(?:message|turn|query|response|answer)$/i.test(value)) continue;
         if (depth > 0 && (name === "id" || name === "data-testid") && !/(?:turn|message|query|response|answer)/i.test(value)) continue;
         return `${name}:${value}`;
@@ -143,6 +147,7 @@
       const tag = node.tagName.toLowerCase();
       if (["script", "style", "svg", "button", "nav", "header", "footer", "textarea", "input"].includes(tag)) return "";
       if (node.getAttribute("aria-hidden") === "true") return "";
+      if (/^h[1-6]$/.test(tag) && (node.classList.contains("sr-only") || node.classList.contains("cdk-visually-hidden"))) return "";
       if (node.shadowRoot) return walk(node.shadowRoot);
 
       const inner = () => Array.from(node.childNodes).map((child) => walk(child)).join("");

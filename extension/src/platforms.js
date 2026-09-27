@@ -5,7 +5,8 @@
     {
       id: "chatgpt", name: "ChatGPT", hosts: ["chatgpt.com", "chat.openai.com"], status: "supported",
       icon: "platforms/chatgpt.png", iconDark: "platforms/chatgpt-dark.png", accent: "#10a37f",
-      user: ['[data-message-author-role="user"]'], assistant: ['[data-message-author-role="assistant"]'],
+      user: ['[data-message-author-role="user"]', '[data-chatgpt-search-unit-key$=":user"]'],
+      assistant: ['[data-message-author-role="assistant"]', '[data-chatgpt-search-unit-key$=":assistant"]'],
       modelAttributes: [{ selector: '[data-message-author-role="assistant"][data-message-model-slug]', attribute: "data-message-model-slug" }],
       model: ['button[data-testid*="model"]', '[aria-label*="model" i]'],
       composer: ['form[data-type="unified-composer"]', 'form:has(textarea)', '#prompt-textarea']
@@ -37,7 +38,7 @@
     {
       id: "perplexity", name: "Perplexity", hosts: ["perplexity.ai", "www.perplexity.ai"], status: "supported",
       icon: "platforms/perplexity.png", accent: "#20808d",
-      user: ['[class*="group/query"]', '[data-testid="user-query"]', '[data-scope="web"] .break-words', '[class*="UserMessage"]'],
+      user: ['[class*="group/user-bubble"] [data-renderer="lm"]', '[class*="group/query"]', '[data-testid="user-query"]', '[data-scope="web"] .break-words', '[class*="UserMessage"]'],
       assistant: ['[data-renderer="lm"]', '[data-testid="answer"]', '[data-testid*="assistant"]', 'main .prose'],
       model: ['[data-testid*="model"]', 'button[aria-label*="model" i]'],
       composer: ['[contenteditable="true"][role="textbox"]', 'form:has(textarea)', '[data-testid*="composer"]', 'textarea']
