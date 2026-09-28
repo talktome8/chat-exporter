@@ -100,7 +100,7 @@
 
     return tagged
       .filter(({ element }, index, list) => !list.some((other, otherIndex) => otherIndex !== index && other.element.contains(element)))
-      .map(({ role, element }) => ({ role, text: normalizeMessageText(adapter, role, toMarkdown(element)), element, turnId: stableTurnId(element) }))
+      .map(({ role, element }) => ({ role, text: normalizeMessageText(adapter, role, toMarkdown(element, adapter, role)), element, turnId: stableTurnId(element) }))
       .filter((message) => message.text.length > 0);
   }
 
@@ -134,7 +134,7 @@
     }
   }
 
-  function toMarkdown(element) {
+  function toMarkdown(element, adapter = null, role = null) {
     const root = element.shadowRoot || element;
 
     function walk(node, listIndex = null) {
@@ -145,6 +145,19 @@
       }
 
       const tag = node.tagName.toLowerCase();
+      if (node.hidden || node.hasAttribute("inert")) return "";
+      if (node !== root) {
+        // Avoid forcing layout for every descendant during long-chat scans.
+        // Inline-hidden duplicates are common in responsive chat markup.
+        if (node.hasAttribute("style") || node.classList.contains("hidden") || node.classList.contains("sr-only")) {
+          const style = getComputedStyle(node);
+          if (style.display === "none" || style.visibility === "hidden") return "";
+        }
+        // Claude keeps its collapsible thinking/status UI inside the same
+        // assistant turn as the final answer. Export the answer, not that UI.
+        if (adapter?.id === "claude" && role === "assistant" &&
+          node.matches('[data-cds="TurnStatus"], [data-testid="TurnStatus"], [data-testid*="thinking" i], [class*="thinking" i], [aria-label*="thinking" i]')) return "";
+      }
       if (node.hasAttribute("data-message-attribution")) return "";
       // ChatGPT's anonymous transcript puts the user text in a button.
       // Other controls remain excluded from the exported conversation.

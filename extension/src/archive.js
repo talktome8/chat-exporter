@@ -48,19 +48,23 @@
     const continuationReserve = byteLength(continuationHeader(999999, 999999, options.format, extraction.completeness, options.language));
     const parts = [];
     let content = metadata;
+    let contentBytes = byteLength(metadata);
     let start = 0;
     let count = 0;
 
     for (let index = 0; index < messages.length; index += 1) {
       const next = renderMessage(extraction, messages[index], options);
+      const nextBytes = byteLength(next);
       const reserve = parts.length > 0 ? continuationReserve : 0;
-      if (count > 0 && byteLength(content) + byteLength(next) + reserve > maxBytes) {
+      if (count > 0 && contentBytes + nextBytes + reserve > maxBytes) {
         parts.push({ content, start, end: start + count - 1, count });
         content = "";
+        contentBytes = 0;
         start = index;
         count = 0;
       }
       content += next;
+      contentBytes += nextBytes;
       count += 1;
     }
 

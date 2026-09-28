@@ -39,6 +39,23 @@ for (const [name, url, platform] of cases) {
   });
 }
 
+test("Claude export omits thinking UI and hidden duplicate text but keeps the answer", async () => {
+  const html = '<!doctype html><title>QA - Claude</title><main>' +
+    '<section data-testid="human-turn"><p>Give a source</p></section>' +
+    '<section data-testid="assistant-turn">' +
+    '<div data-cds="TurnStatus" data-testid="TurnStatus" data-step-key="thinking-0"><span>Weighing the response</span><span class="sr-only">Weighing the response</span></div>' +
+    '<div style="display:none">Weighing the response</div>' +
+    '<div class="prose"><p>Final answer: <a href="https://example.com/source">Source</a>.</p></div>' +
+    '</section></main>';
+  const window = new Window({ url: "https://claude.ai/chat/qa" });
+  window.document.write(html); window.document.close();
+  window.__CHAT_EXPORTER_RUN_ON_LOAD__ = true;
+  window.eval(platforms); const result = await window.eval(extractor);
+  assert.equal(result.messages.length, 2);
+  assert.equal(result.messages[1].text, "Final answer: [Source](https://example.com/source).");
+  window.close();
+});
+
 test("preserves code and tables while removing unsafe link protocols", async () => {
   const result = await extractFixture("chatgpt", "https://chatgpt.com/c/test");
   assert.match(result.messages[1].text, /```js/);
