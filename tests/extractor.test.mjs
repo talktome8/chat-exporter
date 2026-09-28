@@ -42,7 +42,7 @@ for (const [name, url, platform] of cases) {
 test("Claude export omits thinking UI and hidden duplicate text but keeps the answer", async () => {
   const html = '<!doctype html><title>QA - Claude</title><main>' +
     '<section data-testid="human-turn"><p>Give a source</p></section>' +
-    '<section data-testid="assistant-turn">' +
+    '<section data-testid="assistant-message" data-is-streaming="false">' +
     '<div data-cds="TurnStatus" data-testid="TurnStatus" data-step-key="thinking-0"><span>Weighing the response</span><span class="sr-only">Weighing the response</span></div>' +
     '<div style="display:none">Weighing the response</div>' +
     '<div class="prose"><p>Final answer: <a href="https://example.com/source">Source</a>.</p></div>' +
